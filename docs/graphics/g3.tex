@@ -1,0 +1,25 @@
+\documentclass{standalone}
+
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.8}
+
+\begin{document}
+
+\usetikzlibrary {graphs}
+\tikz [nodes={draw, circle}]{
+  \node (x_1) at (0,0) {$x_1$};
+  \node (x_2) at (0,-1) {$x_2$};
+  \node (x_3) at (0,-2) {$x_3$};
+  \node (y_1) at (2,0) {$y_1$};
+  \node (y_2) at (2,-1) {$y_2$};
+  \node (y_3) at (2,-2) {$y_3$};
+
+\filldraw[nearly transparent, red] (0,-1) ellipse (1.25cm and 2.5cm);
+
+\filldraw[nearly transparent, blue] (2,-1) ellipse (1.25cm and 2.5cm);
+
+  \graph { (x_1) -> {(y_1), (y_2), (y_3)}, (x_2) -> {(y_1), (y_2), (y_3)}, (x_3) -> {(y_1), (y_2), (y_3)}  };
+
+}
+
+\end{document}

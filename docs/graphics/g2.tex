@@ -1,0 +1,18 @@
+\documentclass{standalone}
+
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.8}
+
+\begin{document}
+
+\usetikzlibrary {graphs}
+\tikz [nodes={draw, circle, fill=green!40}]{
+  \node (a) at (0,0) {$A$};
+  \node (b) at (2,0.5) {$B$};
+  \node (c) at (1,-1) {$C$};
+  \node (d) at (2,-1) {$D$};
+
+  \graph { (c) -> {(a), (b), (d)}, (d) -> (b) };
+}
+
+\end{document}
