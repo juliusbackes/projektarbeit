@@ -1,0 +1,18 @@
+\documentclass{standalone}
+
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.8}
+
+\begin{document}
+
+\usetikzlibrary {graphs}
+\tikz [nodes={draw, circle, fill=blue!70}, text=white]{
+  \node (a) at (0,0) {$A$};
+  \node (b) at (1,1) {$B$};
+  \node (c) at (1,-1) {$C$};
+  \node (d) at (2,0) {$D$};
+
+  \graph { (a) -- {(b), (c)} -!- (d) };
+}
+
+\end{document}

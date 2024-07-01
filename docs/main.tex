@@ -1,0 +1,43 @@
+\documentclass[a4paper,12pt, final]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[pages=some]{background}
+\usepackage{textpos}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{titlesec}
+\usepackage{standalone}
+\usepackage{amsthm}
+
+\pgfplotsset{compat=1.18}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+
+\addto{\captionsenglish}{%
+  \renewcommand*{\contentsname}{Inhalt}
+  \renewcommand*{\listfigurename}{Abbildungen}
+  \renewcommand*{\listtablename}{Tabellen}
+  \renewcommand*{\figurename}{Abb.}
+  \renewcommand*{\tablename}{Tab.}
+}
+
+\title{Projektarbeit}
+\author{Julius Backes}
+\date{May 2024}
+
+\begin{document}
+\usetikzlibrary {arrows.meta,graphs,graphdrawing} \usegdlibrary {layered}
+\input{titlepage.tex}
+\newpage
+\tableofcontents
+\input{chapters/intro.tex}
+\newpage
+\input{chapters/basics.tex}
+
+\end{document}
