@@ -1,19 +1,25 @@
+% Definition und Grundbegriffe (Graphen, Knoten, Kanten, etc.)
+% Wichtige Konzepte (z.B. Planarität, Zusammenhang, Zyklen)
+
+
 \section{Grundlagen der Graphentheorie}
-In diesem Kapitel führen wir grundlegende Konzepte der Graphentheorie ein. Diese sind essenziell, um ein fundiertes Verständnis der Funktionsweise der finalen Anwendung zu entwickeln.
+In diesem Kapitel werden grundlegende Konzepte der Graphentheorie eingeführt. Diese sind essenziell, um ein tiefes Verständnis von der Funktionsweise der finalen Anwendung zu entwickeln.
 
 \subsection{Grundbegriffe}
-Ein Graph in der Graphentheorie weist signifikante Unterschiede zu Graphen in der Analysis auf. Ein graphentheoretischer Graph besteht aus einer Sammlung von Knoten (eng. vertices), die je nach Art des Graphs durch Kanten (eng. edges) miteinander verbunden sein können.
+Ein Graph aus der Graphentheorie unterscheidet sich signifikant von einem "typischen" Graphen, wie man ihn aus der Schulmathematik oder aus der Analysis kennt.\\\\
+Ein graphentheoretischer Graph besteht aus einer Sammlung von Knoten (eng. vertices), die je nach Graph durch Kanten (eng. edges) miteinander verbunden sind.
 \begin{figure}[h]
     \centering
     \input{graphics/g1}
     \caption{Ein einfacher ungerichteter Graph}
+    \label{g1}
 \end{figure}
 \subsubsection{Was ist ein Graph?}
 Ein Graph $G$ wird als ein Paar $G=(V_G,E_G)$ definiert, wobei \(V_G\) eine Menge von Knoten darstellt, z.B. \(\{1, 8, 7\}\) oder \(\{A, B, C\}\), und \(E_G\) eine Menge von Kanten ist, also Verbindungen zwischen je zwei Knoten. Für die Kantenmenge gilt:
 $$E_G = \{\{x, y\} \colon \; x,y \in V \wedge x \neq y \}$$
 Zur einfacheren Darstellung von Graphen verwenden wir folgende Notation:
-$$\{\{a, b\}, \{c, d\}\} \equiv \{ab, cd\}$$
-Demnach wird der Graph in Abbildung 1 mit \(G=(V,E)\) beschrieben, wobei \(V=\{A,B,C,D\}\) und \(E=\{AB,AC\}\) sind. 
+$$\{\{a, b\}, \{c, d\}\} \Leftrightarrow \{ab, cd\}$$
+Demnach wird der Graph in Abbildung 1 \ref{g1} mit \(G=(V,E)\) beschrieben, wobei \(V_G=\{A,B,C,D\}\) und \(E_G=\{AB,AC\}\) sind. 
 \newpage
 Bis jetzt haben wir uns nur den ungerichteten Graphen angesehen. Bei einem gerichteten Graphen werden statt Mengen geordnete Paare für die Darstellung von Kanten genutzt. 
 $$E_G = \{(x, y) \colon \; x,y \in V \wedge x \neq y \}$$
