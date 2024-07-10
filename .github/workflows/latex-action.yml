@@ -13,7 +13,7 @@ jobs:
           working_directory: docs
           latexmk_use_lualatex: true
       - name: Upload PDF file
-        uses: actions/m@v4
+        uses: actions/upload-artifact@v4
         with:
           name: PDF
           path: docs/main.pdf
