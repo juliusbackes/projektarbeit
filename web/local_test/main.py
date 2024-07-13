@@ -1,46 +1,22 @@
-class Graph: 
-    def __init__(self) -> None:
-        self.graph = {}
-
-    def __str__(self) -> str:
-        result = ""
-        for v in self.graph:
-            result += f"{v}: {self.graph[v]}\n"
-        return result
-
-    def add_vertex(self, v: str) -> None:
-        if v in self.graph:
-            raise ValueError("Vertex already in graph")
-        
-        self.graph[v] = []
-
-    def remove_vertex(self, v: str) -> None:
-        if v not in self.graph:
-            raise ValueError("Vertex not found in graph")
-        
-        del self.graph[v]
-
-    def add_edge(self, a: str, b: str) -> None:
-        if a not in self.graph or b not in self.graph:
-            raise ValueError(f"One or two vertices were not found in the graph | a: {a}, b: {b}")
-        
-        self.graph[a].append(b)
-        self.graph[b].append(a)
-
-    def remove_edge(self, a: str, b: str) -> None:
-        if a not in self.graph or b not in self.graph:
-            raise ValueError(f"One or two vertices were not found in the graph | a: {a}, b: {b}")
-        
-        self.graph[a].remove(b)
-        self.graph[b].remove(a)
-
-    def calc_chromatic_num(self):
-        return 42
+from graph import Graph
 
 g = Graph()
 
-g.add_vertex("A")
-g.add_vertex("B")
-g.add_edge("A", "B")
+g.add_vertex("x_1")
+g.add_vertex("x_2")
+g.add_vertex("x_3")
+g.add_vertex("x_4")
+g.add_vertex("x_5")
+g.add_vertex("x_6")
 
-print(g.calc_chromatic_num())
+g.add_edge("x_1", "x_4")
+g.add_edge("x_2", "x_3")
+g.add_edge("x_3", "x_6")
+g.add_edge("x_3", "x_4")
+g.add_edge("x_4", "x_5")
+
+
+c = g.calc_chromatic_num()
+
+print(c)
+
