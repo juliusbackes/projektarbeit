@@ -1,4 +1,4 @@
-from graph import Graph
+from graph import Graph, Vertex
 
 g = Graph()
 
@@ -17,6 +17,9 @@ g.add_edge("x_4", "x_5")
 
 
 c = g.calc_chromatic_num()
+
+
+v1 = Vertex(1, x=2)
 
 print(c)
 
