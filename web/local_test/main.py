@@ -21,5 +21,5 @@ c = g.calc_chromatic_num()
 
 v1 = Vertex(1, x=2)
 
-print(c)
+print(v1)
 
