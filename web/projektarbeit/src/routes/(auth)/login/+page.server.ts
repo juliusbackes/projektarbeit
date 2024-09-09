@@ -18,7 +18,7 @@ export const actions = {
                 status: 400,
             }
         } else {
-          redirect(303, '/private')
+          redirect(303, '/app')
         }
     },
 } satisfies Actions;

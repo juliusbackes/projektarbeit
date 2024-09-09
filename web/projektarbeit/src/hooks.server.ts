@@ -1,6 +1,9 @@
 import { createServerClient } from '@supabase/ssr'
 import { type Handle, redirect } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
+import type { Database } from '$lib/types'
+import { createClient } from '@supabase/supabase-js'
+
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 
@@ -10,7 +13,8 @@ const supabase: Handle = async ({ event, resolve }) => {
    *
    * The Supabase client gets the Auth token from the request cookies.
    */
-  event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+
+  event.locals.supabase = createServerClient<Database>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
     cookies: {
       getAll: () => event.cookies.getAll(),
       /**
@@ -67,12 +71,12 @@ const authGuard: Handle = async ({ event, resolve }) => {
   event.locals.session = session
   event.locals.user = user
 
-  if (!event.locals.session && event.url.pathname.startsWith('/private')) {
-    redirect(303, '/auth')
+  if (!event.locals.session && event.url.pathname.startsWith('/app')) {
+    redirect(303, '/login')
   }
 
-  if (event.locals.session && event.url.pathname === '/auth') {
-    redirect(303, '/private')
+  if (event.locals.session && (event.url.pathname === '/login' || event.url.pathname === '/register')) {
+    redirect(303, '/app')
   }
 
   return resolve(event)

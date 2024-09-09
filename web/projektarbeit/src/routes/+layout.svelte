@@ -20,7 +20,9 @@
 
 </script>
 
-{@render children()}
+<div class="font-sf-display">
+	{@render children()}
+</div>
 
 
 
