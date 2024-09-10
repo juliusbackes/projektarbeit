@@ -1,7 +1,7 @@
 # Gliederung
 
 ### 1. **Einleitung** (1 Seite)
-   - [ ] **Problemstellung**: Erläuterung der Herausforderungen bei der Klausurenplanung an Schulen.
+   - [x] **Problemstellung**: Erläuterung der Herausforderungen bei der Klausurenplanung an Schulen.
    - [ ] **Motivation**: Warum ist eine effiziente Klausurenplanung wichtig? Auswirkungen auf Schüler, Lehrer und die Verwaltung.
    - [ ] **Ziel der Arbeit**: Vorstellung des Ziels der Arbeit – die Entwicklung einer Web-[ ] App zur Optimierung der Klausurenplanung mithilfe von Graphentheorie.
    (- [ ] **Aufbau der Arbeit**: Kurzer Überblick über die Struktur der Arbeit.)
