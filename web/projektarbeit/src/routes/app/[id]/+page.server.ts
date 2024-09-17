@@ -1,4 +1,5 @@
-import type { PageServerLoad } from './$types'
+import { redirect } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types'
 
 export const load: PageServerLoad = async ({ locals: { supabase, user }, params }) => {
     const { data, error } = await supabase
@@ -18,9 +19,53 @@ export const load: PageServerLoad = async ({ locals: { supabase, user }, params 
         return {
             status: 400,
         };
-    }
-
-    console.log(data)
+    };
 
     return { project: data ?? [] };
 };
+
+export const actions: Actions = {
+    updateProject: async ({ request, locals, params }) => {
+        const formData = await request.formData();
+        const name = formData.get('name') as string;
+        const description = formData.get('description') as string;
+
+        const { data, error } = await locals.supabase
+            .from('projects')
+            .update({
+                name: name,
+                description: description,
+            })
+            .eq('id', params?.id)
+            .select('*')
+            .single();
+
+        if (error) {
+            console.error(error);
+            return {
+                status: 400,
+            };
+        }
+
+        return { project: data ?? [] };
+    },
+    deleteProject: async ({ request, locals, params }) => {
+        const name = (await request.formData()).get('name') as string;
+
+        
+
+        const { data, error } = await locals.supabase
+            .from('projects')
+            .delete()
+            .eq('id', params?.id)
+
+        if (error) {
+            console.error(error);
+            return {
+                status: 400,
+            };
+        }
+
+        throw redirect(303, '/app');
+    },
+} satisfies Actions;

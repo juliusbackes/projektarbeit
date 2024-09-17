@@ -25,10 +25,15 @@ export const actions = {
                 }
             }
         });
+
+        if (error?.status === 422) {
+            return {
+                message: 'Diese E-Mail-Adresse ist bereits registriert',    
+            }
+        }
         
         if (error) {
-          console.error(error)
-          redirect(303, '/auth/error')
+            return error;
         } else {
           redirect(303, '/app')
         }
