@@ -10,7 +10,7 @@
     let createProjectDialog = $state();
 </script>
 
-<section class="p-8">
+
 
     {#if data?.projects?.length === 0}
         <div class="w-full h-screen flex flex-col gap-3 items-center justify-center">
@@ -54,7 +54,7 @@
         <h1 class="font-semibold text-2xl md:text-5xl" >Meine Projekte</h1>
         <AlertDialog.Root bind:this={createProjectDialog}>
             <AlertDialog.Trigger
-              class="text-sm font-medium hover:scale-110 text-emerald-700 border-2 border-gray-200 rounded-xl py-1 px-3 flex items-center gap-1 hover:border-emerald-700 transition-all duration-700"
+              class="font-medium text-emerald-700 border-2 border-gray-200 rounded-xl py-1 px-3 flex items-center gap-1 hover:border-emerald-700 transition-all duration-700 bg-white"
             >
             {@render plusIcon()}
             Projekt erstellen
@@ -85,9 +85,8 @@
             </AlertDialog.Portal>
           </AlertDialog.Root>
     </div>
-    <hr class="my-6 w-full bg-emerald-700">
   
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-6">
       <div class="flex flex-wrap gap-6">
           {#each data.projects ?? [] as item}
               {@render projectItem(item)}
@@ -95,10 +94,9 @@
       </div>
     </div>
     {/if} 
-</section>
 
 {#snippet projectItem(item: ProjectItem)}
-    <a class="p-4 rounded-xl md:h-40 w-full md:w-96 border-2 border-emerald-700/50 flex flex-col justify-between gap-2 shadow-xl hover:bg-emerald-700/10 transition-all duration-300 cursor-pointer hover:scale-110"  href={`/app/${item.id}`}>
+    <a class="p-4 bg-white rounded-xl md:h-40 w-full md:w-96 border-2 border-emerald-700/50 flex flex-col justify-between gap-2 shadow-xl hover:bg-emerald-700/10 transition-all duration-300 cursor-pointer hover:scale-110"  href={`/app/${item.id}`}>
         <div>
             <h2 class="font-semibold text-xl md:text-2xl">{item.name}</h2>
             <p class="text-gray-500">{item.description}</p>

@@ -20,6 +20,10 @@
 
 </script>
 
+<svelte:head>
+	<title>Projektarbeit</title>
+</svelte:head>
+
 <div class="font-sf-display">
 	{@render children()}
 </div>

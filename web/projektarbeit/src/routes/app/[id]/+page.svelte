@@ -6,7 +6,6 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<section class="p-8">
 	{#if data.status === 403}
 		<div class="flex h-screen w-full flex-col items-center justify-center gap-3">
 			<h1 class="text-2xl font-semibold text-emerald-700 md:text-5xl">
@@ -15,20 +14,16 @@
 			<a href="/app" class="rounded border-2 border-gray-200">Zurück zu meinen Projekten</a>
 		</div>
 	{:else}
-		<div class="flex items-center justify-between px-3">
-			<div class="flex items-center justify-center gap-3">
-				<a
+		<div class="flex justify-between">
+			<a
 					href="/app"
-					class="flex size-10 items-center justify-center rounded border-2 border-gray-200 text-emerald-700 transition-all duration-300 hover:scale-110"
+					class="flex bg-white size-10 items-center justify-center rounded border-2 border-gray-200 text-emerald-700 transition-all duration-300 hover:border-emerald-700"
 				>
 					{@render homeIcon()}
-				</a>
-				<h1 class="text-2xl font-semibold text-emerald-700 md:text-5xl">{data?.project?.name}</h1>
-			</div>
-			<p class="mx-auto text-lg text-gray-500">{data?.project?.description}</p>
+			</a>
 			<AlertDialog.Root>
 				<AlertDialog.Trigger
-					class="flex items-center gap-1 rounded-xl border-2 border-gray-200 px-3 py-1 text-sm font-medium text-emerald-700 transition-all duration-700 hover:scale-110 hover:border-emerald-700"
+					class="flex bg-white items-center gap-1 rounded-xl border-2 border-gray-200 px-3 py-1 text-sm font-medium text-emerald-700 transition-all duration-700 hover:border-emerald-700"
 				>
 					{@render settingsIcon()}
 					Einstellungen
@@ -97,25 +92,19 @@
 				</AlertDialog.Portal>
 			</AlertDialog.Root>
 		</div>
-		<hr class="my-6 w-full bg-emerald-700" />
+		<hr class="my-6 w-full text-emerald-700" />
+		<div class="flex justify-between items-center">
+			<h1 class="text-3xl font-semibold tracking-tight">{data?.project?.name}</h1>
+			<p>{data?.project?.description}</p>
+		</div>
+
 	{/if}
-</section>
 
 {#snippet homeIcon()}
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		fill="none"
-		viewBox="0 0 24 24"
-		stroke-width="1.5"
-		stroke="currentColor"
-		class="size-6"
-	>
-		<path
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-		/>
-	</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+	<path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+	<path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+  </svg>  
 {/snippet}
 
 {#snippet settingsIcon()}
