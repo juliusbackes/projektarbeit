@@ -23,7 +23,7 @@
 			</a>
 			<AlertDialog.Root>
 				<AlertDialog.Trigger
-					class="flex bg-white items-center gap-1 rounded-xl border-2 border-gray-200 px-3 py-1 text-sm font-medium text-emerald-700 transition-all duration-700 hover:border-emerald-700"
+					class="flex bg-white items-center gap-1 rounded-lg border-2 border-gray-200 px-3 py-1 text-sm font-medium text-emerald-700 transition-all duration-700 hover:border-emerald-700"
 				>
 					{@render settingsIcon()}
 					Einstellungen
@@ -98,6 +98,24 @@
 			<p>{data?.project?.description}</p>
 		</div>
 
+		{#if data?.project?.file_added}
+			FILE 	ist da
+		{/if}
+
+		<div class=" mt-6 w-full bg-white p-10 border border-gray-300 rounded-xl">
+
+			{#if !data?.project?.file_added}
+				<form action="?/upload" method="POST" class="flex flex-col items-center gap-3 justify-center">
+					{@render docIcon()}
+					<p class="text-lg">Klicken Sie hier, um Ihre Datei hochzuladen</p>
+					<input type="file" name="file" accept=".numbers,.xlsx,xls" class="w-full rounded-lg border-2 border-gray-200 p-2 mt-3" required aria-required="true" />
+					<p class="text-gray-500">Akzeptierte Dateitypen: .numbers, .xlsx, .xls</p>
+					<p class="text-gray-500">Max. Dateigröße 50MB</p>
+					<p class="text-gray-500">Nach dem Hochladen kann die Datei nicht mehr geändert werden.</p>
+				</form>
+			{/if}
+		</div>
+
 	{/if}
 
 {#snippet homeIcon()}
@@ -123,4 +141,10 @@
 		/>
 		<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 	</svg>
+{/snippet}
+
+{#snippet docIcon()}
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-24 text-emerald-700">
+	<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+</svg>  
 {/snippet}

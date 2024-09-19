@@ -13,7 +13,7 @@
 
 
     {#if data?.projects?.length === 0}
-        <div class="w-full h-screen flex flex-col gap-3 items-center justify-center">
+        <div class="w-full h-full flex flex-col gap-3 items-center justify-center">
             <h1 class="text-2xl md:text-5xl text-emerald-700 font-semibold">Du hast noch keine Projekte erstellt</h1>
             <AlertDialog.Root bind:this={createProjectDialog}>
               <AlertDialog.Trigger
