@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import { invalidate } from '$app/navigation';
 	import '../app.css';
+	import { Toaster, setToastState } from '$lib/components';
 
 	let { children, data }: { children: Snippet, data: PageData } = $props();
 
@@ -19,6 +20,8 @@
 	});
 
 </script>
+
+<!-- <Toaster /> -->
 
 <svelte:head>
 	<title>Projektarbeit</title>

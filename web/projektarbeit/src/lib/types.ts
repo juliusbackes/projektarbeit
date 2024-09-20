@@ -1,3 +1,13 @@
+export type Toast = {
+  id: string;
+  type: string;
+  message: string;
+};
+
+
+
+/** SUPABASE TYPES */
+
 export type Json =
   | string
   | number
