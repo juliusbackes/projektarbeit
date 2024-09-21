@@ -1,3 +1,5 @@
+export type TODO = any;
+
 export type Toast = {
   id: string;
   type: string;

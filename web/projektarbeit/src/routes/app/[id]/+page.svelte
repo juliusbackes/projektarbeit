@@ -112,6 +112,7 @@
 					<p class="text-gray-500">Akzeptierte Dateitypen: .numbers, .xlsx, .xls</p>
 					<p class="text-gray-500">Max. Dateigröße 50MB</p>
 					<p class="text-gray-500">Nach dem Hochladen kann die Datei nicht mehr geändert werden.</p>
+					<button class="mt-3 w-full rounded-xl bg-emerald-700 px-3 py-2 font-medium text-white transition-all duration-300 hover:bg-emerald-900">Hochladen</button>
 				</form>
 			{/if}
 		</div>

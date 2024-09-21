@@ -2,6 +2,48 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
+import readXlsxFile from 'read-excel-file'
+import type { TODO } from '$lib/types';
+
+const convertColumnToObject = (column: any[]) => {
+    return column.reduce((acc, item, index) => {
+        if (index === 0) {
+            acc[item] = [];
+        } else {
+            acc[column[0]].push(item);
+        }
+        return acc;
+    }, {});
+};
+
+const removeNullElements = (arr: any[][]): any[][] => {
+    return arr
+        .filter(x => x)
+        .map((el: any) => Array.isArray(el) ? removeNullElements(el) : el);
+};
+
+export const convertXLSXtoJSON = async (file: File): Promise<TODO> => {
+    const data = (await readXlsxFile(file));
+    data.shift();
+    
+    const columns_raw = transpose(data);
+    columns_raw.shift();
+    
+    const columns = removeNullElements(columns_raw);
+
+    let result = {};
+
+    for (let i = 0; i < columns.length; i++) {
+        const res_col = convertColumnToObject(columns[i]);
+        result = { ...result, ...res_col };
+    };
+
+    return result;
+};
+
+const transpose = (matrix: any) => {
+    return matrix[0].map((_: any, colIndex: any) => matrix.map((row: any) => row[colIndex]));
+};
 
 export const BASE_URL = "https://pa.juliusbackes.com";
  
