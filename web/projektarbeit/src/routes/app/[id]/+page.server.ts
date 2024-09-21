@@ -25,36 +25,6 @@ export const load: PageServerLoad = async ({ locals: { supabase, user }, params 
 };
 
 export const actions: Actions = {
-    upload: async ({ request, locals, params }) => {
-        const formData = await request.formData();
-        const file = formData.get('file') as File;
-
-        const { data, error } = await locals.supabase
-            .storage
-            .from('projects')
-            .upload(`${params.id}/${file}`, file);
-
-        if (error) {
-            console.error(error);
-            return {
-                status: 400,
-            };
-        };
-
-        const { data: updateData, error: updateError } = await locals.supabase.from('projects').update({
-            file_added: true,
-        })
-
-        if (updateError) {
-            console.error(updateError);
-            return {
-                status: 400,
-            };
-        };
-
-        return { file: data, project: updateData };
-    },
-
     updateProject: async ({ request, locals, params }) => {
         const formData = await request.formData();
         const name = formData.get('name') as string;
@@ -94,12 +64,12 @@ export const actions: Actions = {
             .delete()
             .eq('id', params?.id)
 
-        // if (error) {
-        //     console.error(error);
-        //     return {
-        //         status: 400,
-        //     };
-        // }
+        if (error) {
+            console.error(error);
+            return {
+                status: 400,
+            };
+        }
 
         throw redirect(303, '/app');
     },
