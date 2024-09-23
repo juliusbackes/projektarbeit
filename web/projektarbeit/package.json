@@ -34,14 +34,17 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@internationalized/date": "^3.5.5",
 		"@supabase/ssr": "^0.5.1",
 		"@supabase/supabase-js": "^2.45.3",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
-		"bits-ui": "^0.21.13",
+		"bits-ui": "^0.21.15",
 		"clsx": "^2.1.1",
+		"lucide-svelte": "^0.445.0",
 		"mini-svg-data-uri": "^1.4.4",
 		"read-excel-file": "^5.8.5",
 		"svelte-motion": "^0.12.2",
-		"tailwind-merge": "^2.5.2"
+		"tailwind-merge": "^2.5.2",
+		"tailwind-variants": "^0.2.1"
 	}
 }

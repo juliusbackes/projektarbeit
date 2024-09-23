@@ -9,12 +9,12 @@
     const checkForUpperCase = (str: string) => str === str.toUpperCase(); 
 </script>
 
-{#if data?.project?.file_added}
+{#if 1 <= data?.project?.step}
     
         <h1 class="text-xl font-semibold ">Diese Kurse wurden erkannt</h1>
 
 
-        <div class="mt-3">
+        <div class="mt-6">
             <table id="detected-courses" >
                 <thead class="">
                     <tr class="">
@@ -49,6 +49,7 @@
                     {/each}
                 </tbody>
             </table>
+            <button class="mt-6 w-full bg-emerald-700 rounded-xl text-white py-2 hover:bg-emerald-900 transition-all duration-500">Weiter</button>
         </div>
     
 {/if}

@@ -23,7 +23,7 @@
 			.from('projects')
 			.update({
 				graph_data_raw: columns,
-				file_added: true,
+				step: 1,
 			})
 			.eq('id', data?.project?.id)
 			.select()
@@ -43,11 +43,14 @@
 </script>
 	
 
-{#if data?.project?.file_added}
-FILE 	ist da
+{#if data?.project?.step > 0}
+<div class="flex flex-col items-center gap-3 justify-center">
+	{@render docIcon()}
+	Du hast deine Datei bereits hochgeladen
+</div>
 {/if}
 
-{#if !data?.project?.file_added}
+{#if data?.project?.step === 0}
 	<form  class="flex flex-col items-center gap-3 justify-center">
 		{@render docIcon()}
 		<p class="text-lg">Klicken Sie hier, um Ihre Datei hochzuladen</p>

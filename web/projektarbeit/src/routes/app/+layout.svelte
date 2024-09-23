@@ -33,7 +33,7 @@
       </DropdownMenu.Root>
 </nav>
 
-<section class="bg-gray-200/50 p-8">
+<section class="bg-gray-200/50 p-8 min-h-screen">
     <div class="md:max-w-[1200px] mx-auto mt-3">
         {@render children()}
     </div>

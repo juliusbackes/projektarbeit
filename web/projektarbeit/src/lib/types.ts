@@ -26,24 +26,30 @@ export type Database = {
           created_at: string
           description: string | null
           file_added: boolean | null
+          graph_data_raw: Json | null
           id: number
           name: string | null
+          step: number | null
           user_id: string | null
         }
         Insert: {
           created_at?: string
           description?: string | null
           file_added?: boolean | null
+          graph_data_raw?: Json | null
           id?: number
           name?: string | null
+          step?: number | null
           user_id?: string | null
         }
         Update: {
           created_at?: string
           description?: string | null
           file_added?: boolean | null
+          graph_data_raw?: Json | null
           id?: number
           name?: string | null
+          step?: number | null
           user_id?: string | null
         }
         Relationships: [
