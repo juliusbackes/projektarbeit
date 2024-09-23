@@ -7,7 +7,8 @@
 \usepackage{graphicx}
 \usepackage[pages=some]{background}
 \usepackage{textpos}
-\usepackage{tikz}
+% \usepackage{tikz}
+% \usetikzlibrary {arrows.meta,graphs,graphdrawing} \usegdlibrary {layered}
 \usepackage{pgfplots}
 \usepackage{titlesec}
 \usepackage{standalone}
@@ -15,7 +16,7 @@
 \usepackage[%  
     colorlinks=true,
     pdfborder={0 0 0},
-    linkcolor=red
+    linkcolor=black
 ]{hyperref}
 
 \pgfplotsset{compat=1.18}
@@ -38,8 +39,8 @@
 
 
 \begin{document}
-\usetikzlibrary {arrows.meta,graphs,graphdrawing} \usegdlibrary {layered}
-\input{titlepage.tex}
+
+% \input{titlepage.tex}
 \newpage
 \tableofcontents
 \input{chapters/01_intro.tex}
