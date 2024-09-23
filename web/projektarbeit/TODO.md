@@ -8,9 +8,10 @@
 - [ ] Add add error handling
 
 ## Project Page
-- [ ] Refactor Actions (-> $lib)
-- [ ] Add correct File Upload like in testData dir
-- [ ] Add "Erkannte Kurse" Section
+- [x] Refactor Actions (-> $lib)
+- [x] Add correct File Upload like in testData dir
+- [ ] Add Step Component
+- [x] Add "Erkannte Kurse" Section
     - [ ] Add LK Selection Option
     - [ ] Add Delete Option
     - [ ] Add Edit Option

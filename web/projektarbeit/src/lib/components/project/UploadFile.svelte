@@ -47,25 +47,23 @@
 FILE 	ist da
 {/if}
 
-<div class=" mt-6 w-full bg-white p-10 border border-gray-300 rounded-xl">
-	{#if !data?.project?.file_added}
-		<form  class="flex flex-col items-center gap-3 justify-center">
-			{@render docIcon()}
-			<p class="text-lg">Klicken Sie hier, um Ihre Datei hochzuladen</p>
-			<input bind:files={files}  type="file" name="file" accept=".xlsx" class="w-full rounded-lg border-2 border-gray-200 p-2 mt-3" required aria-required="true" />
-			<p class="text-gray-500">Akzeptierter Dateityp: .xlsx</p>
-			<p class="text-gray-500">Max. Dateigröße 50MB</p>
-			<p class="text-gray-500">Nach dem Hochladen kann die Datei nicht mehr geändert werden.</p>
-			<button 
-				class="mt-3 w-full rounded-xl bg-emerald-700 px-3 py-2 font-medium text-white transition-all duration-300 hover:bg-emerald-900"  
-				disabled={files ? false : true}
-				onclick={(e) => handleUpload(e)}
-			>
-				Hochladen
-			</button>
-		</form>
-	{/if}
-</div>
+{#if !data?.project?.file_added}
+	<form  class="flex flex-col items-center gap-3 justify-center">
+		{@render docIcon()}
+		<p class="text-lg">Klicken Sie hier, um Ihre Datei hochzuladen</p>
+		<input bind:files={files}  type="file" name="file" accept=".xlsx" class="w-full rounded-lg border-2 border-gray-200 p-2 mt-3" required aria-required="true" />
+		<p class="text-gray-500">Akzeptierter Dateityp: .xlsx</p>
+		<p class="text-gray-500">Max. Dateigröße 50MB</p>
+		<p class="text-gray-500">Nach dem Hochladen kann die Datei nicht mehr geändert werden.</p>
+		<button 
+			class="mt-3 w-full rounded-xl bg-emerald-700 px-3 py-2 font-medium text-white transition-all duration-300 hover:bg-emerald-900"  
+			disabled={files ? false : true}
+			onclick={(e) => handleUpload(e)}
+		>
+			Hochladen
+		</button>
+	</form>
+{/if}
 
 {#snippet docIcon()}
 	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-24 text-emerald-700">
