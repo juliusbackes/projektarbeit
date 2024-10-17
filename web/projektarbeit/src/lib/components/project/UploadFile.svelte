@@ -38,6 +38,10 @@
 
 		console.log(updateData);
 		data = { ...data, project: updateData };
+
+		if (updateData) {
+			window.location.reload();
+		}
 	}
 
 </script>
@@ -46,7 +50,7 @@
 {#if data?.project?.step > 0}
 <div class="flex flex-col items-center gap-3 justify-center">
 	{@render docIcon()}
-	Du hast deine Datei bereits hochgeladen
+	Sie haben Ihre Datei bereits hochgeladen.
 </div>
 {/if}
 

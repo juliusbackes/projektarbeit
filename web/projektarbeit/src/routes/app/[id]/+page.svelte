@@ -5,23 +5,26 @@
 
 	let { data }: { data: PageData } = $props();
 
-	console.log(data?.project?.step)
 </script>
 
-	<ProjectAuthGuard status={data.status}>	
-		<ProjectNav {data} />
-		<ProjectTitle {data} />
+<ProjectAuthGuard status={data.status}>	
+	<ProjectNav {data} />
+	<ProjectTitle {data} />
 
-		<Step step={0} currentStep={data?.project?.step ?? 0}>
-			<UploadFile {data} />
-		</Step>
+	<Step step={0} currentStep={data?.project?.step ?? 0}>
+		<UploadFile {data} />
+	</Step>
 
-		<Step step={1} currentStep={data?.project?.step ?? 0}>
-			<DetectedCourses {data}/>
-		</Step>
+	<Step step={1} currentStep={data?.project?.step ?? 0}>
+		<DetectedCourses {data}/>
+	</Step>
 
-		<Step step={2} currentStep={2}>
-			<SelectDates />
-		</Step>
-	</ProjectAuthGuard>
+	<Step step={2} currentStep={data?.project?.step ?? 0}>
+		<SelectDates {data} />
+	</Step>
+
+	<Step step={3} currentStep={data?.project?.step ?? 0}>
+		<h1>Klausurphase</h1>
+	</Step>
+</ProjectAuthGuard>
 

@@ -8,16 +8,15 @@
 <div class="flex justify-between">
 			<a
 					href="/app"
-					class="flex bg-white size-10 items-center justify-center rounded border-2 border-gray-200 text-emerald-700 transition-all duration-300 hover:border-emerald-700"
+					class="p-3 text-emerald-700 hover:bg-gray-200/70 rounded-xl transition-all duration-700"
 				>
 					{@render homeIcon()}
 			</a>
 			<AlertDialog.Root>
 				<AlertDialog.Trigger
-					class="flex bg-white items-center gap-1 rounded-lg border-2 border-gray-200 px-3 py-1 text-sm font-medium text-emerald-700 transition-all duration-700 hover:border-emerald-700"
+					class="p-3 text-emerald-700 hover:bg-gray-200/70 rounded-xl transition-all duration-700"
 				>
 					{@render settingsIcon()}
-					Einstellungen
 				</AlertDialog.Trigger>
 				<AlertDialog.Portal>
 					<AlertDialog.Overlay
