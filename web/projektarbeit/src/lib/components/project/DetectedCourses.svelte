@@ -54,7 +54,11 @@
 {#if 1 <= data?.project?.step}
     
         <h1 class="text-xl font-semibold ">Diese Kurse wurden erkannt</h1>
+        {#if submitted || data?.project?.graph_data_evaluated}
+            <p class="text-gray-500">Sie haben bereits die Kurse ausgewählt.</p>
+        {:else}
         <p class="text-gray-500">Überprüfen Sie die erkannten Kurse und passen Sie sie bei Bedarf an.</p>
+        {/if}
 
         <div class="mt-6">
             <table id="detected-courses" class="w-full rounded-lg">
@@ -83,15 +87,15 @@
                     {#each courses as course (course)}
                     <tr id={`row-${course}`} class="hover:bg-gray-200">
                         <td class="p-4">{course}</td>
-                        <td><input type="checkbox" class="w-4 h-4" checked={checkForUpperCase(course) || data?.project?.graph_data_evaluated?.[course]['2x']}  /></td>
+                        <td><input type="checkbox" class="w-4 h-4" checked={checkForUpperCase(course) || data?.project?.graph_data_evaluated?.[course]['2x']} disabled={submitted || data?.project?.graph_data_evaluated} /></td>
                     </tr>
                     {/each}
                 </tbody>
             </table>
             <Button 
-                class="w-full bg-emerald-700 hover:bg-emerald-900 transition-all duration-500 mt-3" 
+                class="w-full bg-emerald-700 hover:bg-emerald-900 transition-all duration-500 mt-3 disabled:bg-gray-400" 
                 onclick={handleContinue}
-                disabled={submitted}
+                disabled={submitted || data?.project?.graph_data_evaluated}
             >
                 Weiter
             </Button>

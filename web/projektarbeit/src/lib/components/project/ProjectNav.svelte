@@ -1,22 +1,22 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { AlertDialog, Popover } from 'bits-ui';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
 
 	let { data }: { data: any } = $props();
 </script>
 
 <div class="flex justify-between">
-			<a
-					href="/app"
-					class="p-3 text-emerald-700 hover:bg-gray-200/70 rounded-xl transition-all duration-700"
-				>
-					{@render homeIcon()}
-			</a>
+			<Button href="/app" class="text-emerald-700 hover:text-emerald-900 transition-all duration-300 bg-transparent" variant="outline" size="icon">
+				{@render HomeIcon()}
+			</Button>
 			<AlertDialog.Root>
-				<AlertDialog.Trigger
-					class="p-3 text-emerald-700 hover:bg-gray-200/70 rounded-xl transition-all duration-700"
-				>
-					{@render settingsIcon()}
+				<AlertDialog.Trigger>
+					<Button  class="text-emerald-700 hover:text-emerald-900 transition-all duration-300 bg-transparent" variant="outline" size="icon">
+						{@render SettingsIcon()}
+					</Button>
 				</AlertDialog.Trigger>
 				<AlertDialog.Portal>
 					<AlertDialog.Overlay
@@ -25,52 +25,55 @@
 						class="duration-900 fixed inset-0 z-50 bg-black/50 backdrop-blur transition-all"
 					/>
 					<AlertDialog.Content
-						class="fixed left-[50%] top-[50%] z-50 grid w-full max-w-[94%] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border-2 border-gray-200 bg-white p-7 outline-none sm:max-w-lg md:w-full"
+						class="fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border-2 border-gray-200 bg-white p-7 outline-none sm:max-w-lg md:w-full max-w-none"
 					>
 						<section class="p-3">
-							<h1 class="text-2xl font-semibold tracking-tight text-emerald-700">Einstellungen</h1>
-							<form action="?/updateProject" method="POST">
-								<input
-									type="text"
-									name="name"
-									placeholder="Projektname"
-									class="mt-4 w-full rounded-lg border border-gray-200 p-2"
-									required
-									aria-required="true"
-									value={data?.project?.name}
-								/>
-								<input
-									type="text"
-									name="description"
-									placeholder="Projektbeschreibung (Optional)"
-									class="mt-4 w-full rounded-lg border-2 border-gray-200 p-2 ring-0"
-									value={data?.project?.description}
-								/>
-								<div class="mt-3 flex w-full items-center justify-between gap-3">
-									<AlertDialog.Cancel
-										class="w-full scale-95 rounded-xl border-2 border-emerald-700 px-[11px] py-[7px] font-medium text-emerald-700 transition-all duration-300 hover:scale-105"
-									>
-										Abbrechen
-									</AlertDialog.Cancel>
-									<button
-										onclick={() => console.log('delete')}
-										class="w-full rounded-xl bg-emerald-700 px-3 py-2 font-medium text-white transition-all duration-300 hover:scale-110"
-										>Speichern</button
-									>
+							<div class="flex justify-between items-center">
+								<h1 class="text-3xl font-semibold text-emerald-700">Einstellungen</h1>
+								<AlertDialog.Cancel>
+									{@render CloseIcon()}
+								</AlertDialog.Cancel>
+							</div>
+							<hr class="my-6 w-full" />
+							<form action="?/updateProject" method="POST" class="flex flex-col gap-3">
+								<div class="grid gap-4 py-4">
+									<div class="grid grid-cols-4 items-center gap-4">
+									  <Label for="name" class="text-right">Name</Label>
+									  <Input 
+									  id="name" 
+									  name="name"
+									  value={data?.project?.name}
+									  placeholder="Projektname"
+									  required
+									  aria-required="true"
+									  class="col-span-3 focus-visible:ring-emerald-700" 
+									  />
+									</div>
+									<div class="grid grid-cols-4 items-center gap-4">
+									  <Label for="description" class="text-right">Beschreibung</Label>
+									  <Input 
+									  id="description" 
+									  name="description"
+									  value={data?.project?.description}
+									  placeholder="Projektbeschreibung"
+									  required
+									  aria-required="true"
+									  class="col-span-3 focus-visible:ring-emerald-700" 
+									  />
+									</div>
 								</div>
+								<Button class="bg-emerald-700 hover:bg-emerald-900 transition-all duration-300 w-full" type="submit">Speichern</Button>
 							</form>
+							<hr class="my-6 w-full" />
                             <Popover.Root>
-                                <Popover.Trigger class="mt-12 w-full rounded-xl bg-red-700 py-2 text-white transition-all duration-300 hover:scale-110">
-                                    Projekt löschen
+                                <Popover.Trigger class="w-full">
+									<Button variant="destructive" class="w-full">Projekt löschen</Button>
                                 </Popover.Trigger>
                                 <Popover.Content  class="z-30 w-full max-w-[500px] rounded-lg border border-gray-200 bg-white p-4 shadow-lg mt-12">
                                     <form action="?/deleteProject" method="POST">
                                         <p>Schreibe <span class="font-semibold">"{data?.project?.name}"</span>, um das Projekt zu löschen.</p>
-                                        <input type="text" name="name"  class="w-full rounded-lg border-2 border-gray-200 p-2 mt-3" required aria-required="true"  />
-                                        <button
-                                            class="mt-3 w-full rounded-xl bg-red-700 px-3 py-2 font-medium text-white transition-all duration-300 hover:scale-110"
-                                            >Löschen</button
-                                        >
+										<Input type="text" name="name" required aria-required="true" class="focus-visible:ring-emerald-700 my-3" />
+										<Button variant="destructive" class="w-full" type="submit">Projekt löschen</Button>
                                     </form>
                                     <Popover.Close />
                                     <Popover.Arrow />
@@ -84,14 +87,13 @@
 		</div>
 	<hr class="my-6 w-full text-emerald-700" />
 
-{#snippet homeIcon()}
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-		<path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-		<path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+{#snippet HomeIcon()}
+	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+		<path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
 	</svg>  
 {/snippet}
 
-{#snippet settingsIcon()}
+{#snippet SettingsIcon()}
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		fill="none"
@@ -109,3 +111,10 @@
 	</svg>
 {/snippet}
 
+
+
+{#snippet CloseIcon()}
+	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+		<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+	</svg>  
+{/snippet}

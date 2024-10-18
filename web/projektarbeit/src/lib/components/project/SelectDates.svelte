@@ -8,11 +8,7 @@
     import { CalendarDate } from "@internationalized/date";
     import type { TODO } from "$lib/types";
 
-    interface Props {
-        data: {
-            project: TODO;
-        };
-    }
+    type Props = TODO;
 
     const { data }: Props = $props();
 
