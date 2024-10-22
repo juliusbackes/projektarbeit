@@ -35,7 +35,7 @@ export const actions = {
             if (error.status === 400) {
                 return {
                     status: 400,
-                    message: 'Ungültiger Benutzername oder Passwort',
+                    message: 'Ungültige E-Mail oder Passwort',
                 };
             };
 

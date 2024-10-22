@@ -7,5 +7,6 @@ import UploadFile from './project/UploadFile.svelte';
 import DetectedCourses from './project/DetectedCourses.svelte';
 import Step from './project/Step.svelte';
 import SelectDates from './project/SelectDates.svelte';
+import ProjectSettings from './project/ProjectSettings.svelte';
 
-export { Toaster, setToastState, getToastState, ProjectAuthGuard, ProjectNav, ProjectTitle, UploadFile, DetectedCourses, Step, SelectDates };
+export { Toaster, setToastState, getToastState, ProjectAuthGuard, ProjectNav, ProjectTitle, UploadFile, DetectedCourses, Step, SelectDates, ProjectSettings };

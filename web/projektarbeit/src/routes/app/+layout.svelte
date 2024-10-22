@@ -19,10 +19,6 @@
         <DropdownMenu.Content
             class="w-56 top-3 rounded-xl border border-emerald-700/50 bg-white p-4 shadow-lg"
             transition={flyAndScale}>
-            <a class="font-medium flex gap-3 w-full h-full p-3 cursor-pointer hover:bg-gray-600/10 transition-all duration-300 rounded-lg" href="/settings">
-                {@render settingsIconNav()}
-                Einstellungen
-            </a>
             <form action="/logout" method="POST">
                 <button class="font-medium flex gap-3 w-full h-full p-3 cursor-pointer hover:bg-gray-600/10 transition-all duration-300 rounded-lg text-red-500" type="submit"> 
                     {@render signOut()}
