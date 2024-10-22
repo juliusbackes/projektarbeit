@@ -4,53 +4,41 @@
 	import { Label } from "$lib/components/ui/label";
 	import { Alert, AlertDescription, AlertTitle } from "$lib/components/ui/alert";
     import * as Card from "$lib/components/ui/card";
-	import { CircleAlert, ArrowLeft } from "lucide-svelte";;
+	import { CircleAlert, ArrowLeft } from "lucide-svelte";
+    import { BASE_URL } from "$lib/utils";
+    import { dev } from "$app/environment";
+    import { spBrowserClient } from "$lib";
 
 	let email = $state("");
 	let isSubmitting = $state(false);
-	let error = $state("");
 
-	function handleSubmit(e: SubmitEvent) {
+	async function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
 		isSubmitting = true;
-		error = "";
+        console.log(email)
 
-		if (!email) {
-			error = "Please enter your email address.";
-			isSubmitting = false;
-			return;
-		}
+        const { error } = await spBrowserClient.auth.resetPasswordForEmail(email, {
+            redirectTo: `${dev ? 'http://localhost:5173' : BASE_URL}/callback`
+        });
 
-		// Simulating API call
-		setTimeout(() => {
-			isSubmitting = false;
-			email = "";
-		}, 1500);
+        console.log(error)
 	}
 </script>
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <Card.Root class="w-full max-w-sm">
         <Card.Content>
             <div>
-                <!-- <img class="mx-auto h-12 w-auto" src="/images/logo.png" alt="Logo" /> -->
                 <h2 class="mt-6 text-center text-3xl font-extrabold">Passwort zurücksetzen</h2>
                 <p class="mt-2 text-center text-sm text-gray-600">Gebe deine E-Mail Adresse ein und wir senden dir einen Link um dein Passwort zurückzusetzen.</p>
             </div>
             <form class="mt-8 space-y-6" onsubmit={e => handleSubmit(e)}>
-                {#if error}
-                <Alert variant="destructive">
-                    <CircleAlert class="h-4 w-4" />
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                </Alert>
-                {/if}
                 <div>
                     <Label for="email" class="sr-only">Email-Adresse</Label>
-                    <Input id="email" type="email" placeholder="max.mustermann@beispiel.com" required bind:value={email} />
+                    <Input id="email" type="email" placeholder="max.mustermann@beispiel.com" required bind:value={email}/>
                 </div>
                 <div>
                     <Button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-600 focus:bg-gray-600 text-white" disabled={isSubmitting}>
-                        {isSubmitting ? "Sendet..." : "Link senden"}
+                        {isSubmitting ? "Gesendet..." : "Link senden"}
                     </Button>
                 </div>
             </form>

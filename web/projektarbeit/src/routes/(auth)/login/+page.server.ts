@@ -6,11 +6,20 @@ import { BASE_URL } from '$lib/utils';
 
 export const actions = {
     login: async ({ request, locals: { supabase }, url }) => {
-        
         const provider = url.searchParams.get('provider') as Provider;
 
+
         if (provider) {
-            const { data, error } = await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: `${dev ? 'http://localhost:5173' : BASE_URL}/app` } });
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider,
+                options: {
+                    redirectTo: `${dev ? 'http://localhost:5173' : BASE_URL}/callback`,
+                    queryParams: {
+                        access_type: 'offline',
+                        prompt: 'consent',
+                    },
+                }
+            });
             
             if (error) {
                 console.error(error)

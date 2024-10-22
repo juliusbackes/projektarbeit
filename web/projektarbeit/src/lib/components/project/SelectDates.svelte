@@ -82,7 +82,7 @@
         </div>
         <Button 
             class="w-full mt-3 bg-emerald-700 text-white hover:bg-emerald-900"
-            disabled={(value.start === start && value.end === end || !value.start || !value.end)}
+            disabled={(value.start === start && value.end === end || !value.start || !value.end || (value.start.day === value.end.day && value.start.month === value.end.month && value.start.year === value.end.year))}
             on:click={handleContinue}
         >
             Weiter

@@ -4,11 +4,10 @@
 - [x] Add Basic UI
 - [x] Add basic func.
 - [x] Add reset Page
-- [ ] if email in login field pass it to reset page
-- [ ] Add Email Verification
+- [x] Add Email Verification
 - [ ] Add reset password link
-- [ ] Add Login with Google
-- [ ] Add add error handling (toast)
+- [x] Add Login with Google
+- [d] Add add error handling
 
 ## Project Page
 - [x] Refactor Actions (-> $lib)

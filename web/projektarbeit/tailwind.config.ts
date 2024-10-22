@@ -11,6 +11,9 @@ const config: Config = {
 			padding: "2rem",
 			screens: {
 				"2xl": "1400px"
+			},
+			height: {
+				nav: "calc(100dvh - 80px)"
 			}
 		},
 		extend: {

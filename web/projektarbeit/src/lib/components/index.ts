@@ -8,5 +8,8 @@ import DetectedCourses from './project/DetectedCourses.svelte';
 import Step from './project/Step.svelte';
 import SelectDates from './project/SelectDates.svelte';
 import ProjectSettings from './project/ProjectSettings.svelte';
+import NoProjects from './project/NoProjects.svelte';
+import CreateProject from './project/CreateProject.svelte';
+import MultiStepForm from './project/MultiStepForm/MultiStepForm.svelte';
 
-export { Toaster, setToastState, getToastState, ProjectAuthGuard, ProjectNav, ProjectTitle, UploadFile, DetectedCourses, Step, SelectDates, ProjectSettings };
+export { Toaster, setToastState, getToastState, ProjectAuthGuard, ProjectNav, ProjectTitle, UploadFile, DetectedCourses, Step, SelectDates, ProjectSettings, NoProjects, CreateProject, MultiStepForm };

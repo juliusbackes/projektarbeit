@@ -1,89 +1,27 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition';
-    import { AlertDialog } from 'bits-ui';
     import type { PageData } from './$types';
+    import { NoProjects, CreateProject } from '$lib/components';
+    import { Button } from '$lib/components/ui/button';
+
 
     type ProjectItem = any;
  
     let { data }: { data: PageData } = $props();
 
-    let createProjectDialog = $state();
 </script>
 
-
-
-    {#if data?.projects?.length === 0}
-        <div class="w-full h-full flex flex-col gap-3 items-center justify-center">
-            <h1 class="text-2xl md:text-5xl text-emerald-700 font-semibold">Du hast noch keine Projekte erstellt</h1>
-            <AlertDialog.Root bind:this={createProjectDialog}>
-              <AlertDialog.Trigger
-                class="text-sm font-medium hover:scale-110 text-emerald-700 border-2 border-gray-200 rounded-xl py-1 px-3 flex items-center gap-1 hover:border-emerald-700 transition-all duration-700"
-              >
-              {@render plusIcon()}
-              Projekt erstellen
-              </AlertDialog.Trigger>
-              <AlertDialog.Portal>
-                <AlertDialog.Overlay
-                  transition={fade}
-                  transitionConfig={{ duration: 150 }}
-                  class="fixed inset-0 z-50 backdrop-blur transition-all duration-900 bg-black/50"
-                />
-                <AlertDialog.Content
-                  class="border-2 border-gray-200 fixed left-[50%] top-[50%] z-50 grid w-full max-w-[94%] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl bg-white p-7 outline-none sm:max-w-lg md:w-full"
-                >
-              <section class="p-3">
-                  <h1 class="text-2xl font-semibold tracking-tight text-emerald-700">Projekt erstellen</h1>
-                  <form action="?/createProject" method="POST">
-                      <input type="text" name="name" placeholder="Projektname" class="w-full p-2 mt-4 border-2 border-gray-200 rounded-lg " required aria-required="true"/>
-                      <input type="text" name="description" placeholder="Projektbeschreibung (Optional)" class="w-full p-2 mt-4 border-2 border-gray-200 rounded-lg ring-0" />
-                      <div class="mt-3 flex w-full items-center justify-between gap-3">
-                          <AlertDialog.Cancel class="border-2 py-[7px] font-medium scale-95 px-[11px] rounded-xl border-emerald-700 text-emerald-700 w-full hover:scale-105 transition-all duration-300">
-                              Abbrechen
-                          </AlertDialog.Cancel>
-                          <button type="submit" class="py-2 font-medium px-3 rounded-xl text-white w-full bg-emerald-700 hover:scale-110 transition-all duration-300">Weiter</button>
-                      </div>
-                  </form>
-              </section>
-                </AlertDialog.Content>
-              </AlertDialog.Portal>
-            </AlertDialog.Root>
-        </div>
-    {:else}
+{#if data?.projects?.length === 0}
+  <NoProjects />  
+{:else}
 
     <div class="flex items-center justify-between px-3">
         <h1 class="font-semibold text-2xl md:text-5xl" >Meine Projekte</h1>
-        <AlertDialog.Root bind:this={createProjectDialog}>
-            <AlertDialog.Trigger
-              class="font-medium text-emerald-700 border-2 border-gray-200 rounded-xl py-1 px-3 flex items-center gap-1 hover:border-emerald-700 transition-all duration-700 bg-white"
-            >
-            {@render plusIcon()}
-            Projekt erstellen
-            </AlertDialog.Trigger>
-            <AlertDialog.Portal>
-              <AlertDialog.Overlay
-                transition={fade}
-                transitionConfig={{ duration: 150 }}
-                class="fixed inset-0 z-50 backdrop-blur transition-all duration-900 bg-black/50"
-              />
-              <AlertDialog.Content
-                class="border-2 border-gray-200 fixed left-[50%] top-[50%] z-50 grid w-full max-w-[94%] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl bg-white p-7 outline-none sm:max-w-lg md:w-full"
-              >
-            <section class="p-3">
-                <h1 class="text-2xl font-semibold tracking-tight text-emerald-700">Projekt erstellen</h1>
-                <form action="?/createProject" method="POST">
-                    <input type="text" name="name" placeholder="Projektname" class="w-full p-2 mt-4 border-2 border-gray-200 rounded-lg " required aria-required="true"/>
-                    <input type="text" name="description" placeholder="Projektbeschreibung (Optional)" class="w-full p-2 mt-4 border-2 border-gray-200 rounded-lg ring-0" />
-                    <div class="mt-3 flex w-full items-center justify-between gap-3">
-                        <AlertDialog.Cancel class="border-2 py-[7px] font-medium scale-95 px-[11px] rounded-xl border-emerald-700 text-emerald-700 w-full hover:scale-105 transition-all duration-300">
-                            Abbrechen
-                        </AlertDialog.Cancel>
-                        <button type="submit" class="py-2 font-medium px-3 rounded-xl text-white w-full bg-emerald-700 hover:scale-110 transition-all duration-300">Weiter</button>
-                    </div>
-                </form>
-            </section>
-              </AlertDialog.Content>
-            </AlertDialog.Portal>
-          </AlertDialog.Root>
+        <CreateProject>
+            <Button class="bg-transparent flex gap-2 border-2 text-emerald-700 hover:text-emerald-900 transition-all duration-300" variant="outline">
+                {@render plusIcon()}
+                Projekt erstellen
+            </Button>
+        </CreateProject>
     </div>
   
     <div class="flex justify-center mt-6">

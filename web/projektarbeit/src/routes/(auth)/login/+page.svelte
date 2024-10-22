@@ -43,10 +43,12 @@
                 <p class="text-gray-400">oder</p>
                 <hr class="w-full  mx-3">
             </div>
-            <Button  class="w-full bg-[#4285F4] hover:bg-[#4285F4]/90 text-white" disabled={true}>
-                {@render GoogleIcon()}
-                Mit Google anmelden
-            </Button>
+            <form action="?/login&provider=google" method="POST">
+                <Button  class="w-full bg-[#4285F4] hover:bg-[#4285F4]/90 text-white" type="submit">
+                    {@render GoogleIcon()}
+                    Mit Google anmelden
+                </Button>
+            </form>
         </Card.Content>
         <Card.Footer class="flex justify-center">
             <p class="text-sm text-muted-foreground">Noch kein Konto? <a href="/register" class="text-blue-500 hover:underline">Registrieren</a></p>
