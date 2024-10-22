@@ -6,7 +6,6 @@ import { BASE_URL } from '$lib/utils';
 
 export const actions = {
     signup: async ({ request, locals: { supabase }, url }) => {
-
         const provider = url.searchParams.get('provider') as Provider;
 
         if (provider) {
@@ -30,11 +29,13 @@ export const actions = {
         const password = formData.get('password') as string;
         const re_password = formData.get('re_password') as string;
 
-        if (password !== re_password) {
-            throw redirect(303, '/auth/error');
+
+        if (password !== re_password) return {
+            status: 400,
+            message: 'Passwörter stimmen nicht überein',
         };
     
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
             options: {
@@ -46,11 +47,14 @@ export const actions = {
             }
         });
 
-        if (error?.status === 422) {
-            return {
-                message: 'Diese E-Mail-Adresse ist bereits registriert',    
-            }
+        if (error?.status === 422) return {
+            status: 422,
+            message: 'Diese E-Mail-Adresse ist bereits registriert',    
         }
+
+        if (data?.user?.confirmed_at) redirect(303, '/app');
+
+        redirect(303, '/confirm/wait');
         
         if (error) {
             return error;

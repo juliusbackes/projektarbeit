@@ -46,7 +46,7 @@
                 {/if}
                 <div>
                     <Label for="email" class="sr-only">Email-Adresse</Label>
-                    <Input id="email" type="email" placeholder="max.mustermann@example.com" required bind:value={email} />
+                    <Input id="email" type="email" placeholder="max.mustermann@beispiel.com" required bind:value={email} />
                 </div>
                 <div>
                     <Button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-600 focus:bg-gray-600 text-white" disabled={isSubmitting}>

@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
     import type { ActionData } from './$types';
 
     let { form }: { form: ActionData } = $props();
@@ -42,8 +42,69 @@
             </div>
         </div>
     </div>
-</main>
+</main> -->
+<script lang="ts">
+	import * as Card from "$lib/components/ui/card";
+	import { Input } from "$lib/components/ui/input";
+	import { Label } from "$lib/components/ui/label";
+	import { Button } from "$lib/components/ui/button";
+	import { Alert, AlertDescription, AlertTitle } from "$lib/components/ui/alert";
+    import type { ActionData } from "./$types";
 
-<div
-  class="absolute -z-10 inset-0 h-full w-full bg-white bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
-></div>
+
+    let { form }: { form: ActionData } = $props();
+</script>
+
+<div class="flex items-center justify-center min-h-screen">
+	<Card.Root class="w-full max-w-sm">
+		<Card.Header>
+			<Card.Title class="text-2xl">Registrierung</Card.Title>
+			<Card.Description>Erstelle ein neues Konto</Card.Description>
+		</Card.Header>
+		<Card.Content>
+            {#if form}
+                <Alert variant="destructive" class="w-full flex flex-col justify-center items-center mb-4">
+                    <AlertTitle>Fehler</AlertTitle>
+                    <AlertDescription>{form.message}</AlertDescription>
+                </Alert>
+            {/if}
+			<form method="POST" action="?/signup">
+				<div class="grid w-full items-center gap-4">
+                    <div class="flex flex-col space-y-1.5">
+						<Label for="first_name">Vorname</Label>
+						<Input name="first_name" type="text" placeholder="Max" />
+					</div>
+                    <div class="flex flex-col space-y-1.5">
+						<Label for="last_name">Nachname</Label>
+						<Input name="last_name" type="text" placeholder="Mustermann" />
+					</div>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="email">E-Mail</Label>
+						<Input name="email" type="email" placeholder="max.mustermann@beispiel.de" />
+					</div>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="password">Passwort</Label>
+						<Input name="password" type="password" placeholder="••••••••" />
+					</div>
+					<div class="flex flex-col space-y-1.5">
+						<Label for="re_password">Passwort bestätigen</Label>
+						<Input name="re_password" type="password" placeholder="••••••••"/>
+					</div>
+				</div>
+
+				<Button type="submit" class="w-full mt-4 bg-emerald-700 hover:bg-emerald-600 focus:bg-gray-600 text-white">
+                    Registrieren
+				</Button>
+			</form>
+		</Card.Content>
+		<Card.Footer class="flex justify-center pt-3">
+			<p class="text-sm text-muted-foreground">
+				Bereits ein Konto? <a href="/login" class="text-blue-500 hover:underline">Anmelden</a>
+			</p>
+		</Card.Footer>
+	</Card.Root>
+
+    <div
+        class="absolute -z-10 inset-0 h-full w-full bg-white bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
+    ></div>
+</div>

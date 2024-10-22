@@ -14,7 +14,7 @@
     
     <Card.Root class="w-full max-w-sm">
         <Card.Header>
-          <Card.Title class="text-2xl">Anmelden</Card.Title>
+          <Card.Title class="text-2xl">Anmeldung</Card.Title>
           <Card.Description>Willkommen zurück!</Card.Description>
         </Card.Header>
         <Card.Content class="grid gap-4">
@@ -27,7 +27,7 @@
             <form action="?/login" method="POST" class="grid gap-4">
                 <div class="grid gap-2">
                     <Label for="email">Email</Label>
-                    <Input name="email" type="email" placeholder="max.mustermann@example.com" required />
+                    <Input name="email" type="email" placeholder="max.mustermann@beispiel.com" required />
                 </div>
                 <div class="grid gap-2">
                     <div class="flex justify-between items-center text-sm">
@@ -49,7 +49,7 @@
             </Button>
         </Card.Content>
         <Card.Footer class="flex justify-center">
-            <p class="text-sm">Noch kein Konto? <a href="/register" class="text-blue-500 hover:underline">Registrieren</a></p>
+            <p class="text-sm text-muted-foreground">Noch kein Konto? <a href="/register" class="text-blue-500 hover:underline">Registrieren</a></p>
         </Card.Footer>
     </Card.Root>
 
