@@ -1,5 +1,5 @@
 \documentclass[a4paper,12pt, final]{article}
-\usepackage{graphicx} % Required for inserting images
+\usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
@@ -15,7 +15,7 @@
 \usepackage[%  
     colorlinks=true,
     pdfborder={0 0 0},
-    linkcolor=red
+    linkcolor=black
 ]{hyperref}
 
 \pgfplotsset{compat=1.18}
@@ -36,9 +36,19 @@
 \author{Julius Backes | Tom Kurzke}
 \date{Dezember 2024}
 
+\geometry{
+ a4paper,
+ left=3cm,
+ right=2cm,
+ top=3cm,
+ bottom=2cm
+ }
 
 \begin{document}
-\usetikzlibrary {arrows.meta,graphs,graphdrawing} \usegdlibrary {layered}
+
+\usetikzlibrary {arrows.meta,graphs,graphdrawing} 
+\usegdlibrary {layered}
+
 \input{titlepage.tex}
 \newpage
 \tableofcontents
