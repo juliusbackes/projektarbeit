@@ -1,5 +1,5 @@
 \documentclass[a4paper,12pt, final]{article}
-\usepackage{graphicx} % Required for inserting images
+\usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
@@ -7,8 +7,7 @@
 \usepackage{graphicx}
 \usepackage[pages=some]{background}
 \usepackage{textpos}
-% \usepackage{tikz}
-% \usetikzlibrary {arrows.meta,graphs,graphdrawing} \usegdlibrary {layered}
+\usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{titlesec}
 \usepackage{standalone}
@@ -37,10 +36,20 @@
 \author{Julius Backes | Tom Kurzke}
 \date{Dezember 2024}
 
+\geometry{
+ a4paper,
+ left=3cm,
+ right=2cm,
+ top=3cm,
+ bottom=2cm
+ }
 
 \begin{document}
 
-% \input{titlepage.tex}
+\usetikzlibrary {arrows.meta,graphs,graphdrawing} 
+\usegdlibrary {layered}
+
+\input{titlepage.tex}
 \newpage
 \tableofcontents
 \input{chapters/01_intro.tex}
