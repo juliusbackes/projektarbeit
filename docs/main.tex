@@ -1,13 +1,13 @@
 \documentclass[a4paper,12pt, final]{article}
 \usepackage{graphicx}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english]{babel}
+\usepackage[]{fancyhdr}
+\usepackage[ngerman]{babel}
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage[pages=some]{background}
 \usepackage{textpos}
 \usepackage{tikz}
+\usepackage{hyphenat}
 \usepackage{pgfplots}
 \usepackage{titlesec}
 \usepackage{standalone}
@@ -23,6 +23,11 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 
+% \pagestyle{fancy}
+% \fancyhead[RO,LE]{\textbf{The performance of new graduates}}
+% \fancyhfoffset[L]{3cm}
+% \fancyhfoffset[R]{2cm}
+\fancyfoot{\thepage}
 
 \addto{\captionsenglish}{%
   \renewcommand*{\contentsname}{Inhalt}
