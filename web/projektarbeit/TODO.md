@@ -30,13 +30,19 @@
 
 
 
+ChatGPT:
+ChatGPT
+Ja, du arbeitest an einem Projekt in Mathematik und Informatik, bei dem du eine Web-App für die automatisierte Prüfungsterminplanung für Schüler entwickelst. Die App verwendet Graphentheorie, um Terminkonflikte zu vermeiden und die Anzahl der Prüfungen pro Woche zu optimieren. Sie berücksichtigt Regeln wie maximal drei Prüfungen pro Woche und besondere Bedingungen für Leistungskurse.
 
 
 
 
+kalender zu deutscg
 
+Schedulo
 
-
+add heading to latex project
+move page number to right 
 
 
 
