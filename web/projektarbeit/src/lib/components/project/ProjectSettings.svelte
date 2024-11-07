@@ -9,10 +9,8 @@
 </script>
 
 			<AlertDialog.Root>
-				<AlertDialog.Trigger>
-					<Button  class="text-emerald-700 hover:text-emerald-900 transition-all duration-300 bg-transparent" variant="outline" size="icon">
-						{@render SettingsIcon()}
-					</Button>
+				<AlertDialog.Trigger class="ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-input hover:bg-accent border h-10 w-10 text-emerald-700 hover:text-emerald-900 transition-all duration-300 bg-transparent">
+					{@render SettingsIcon()}
 				</AlertDialog.Trigger>
 				<AlertDialog.Portal>
 					<AlertDialog.Overlay

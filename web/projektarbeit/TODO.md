@@ -15,42 +15,25 @@
 - [x] Add "Erkannte Kurse" Section
 - [x] Add Start/End Date Selection
 - [ ] Refactor Project Page To Multi Step Form
+- [ ] make calendar german
 
 ## Design & CI
-- [ ] Make Logo CI Green
-- [ ] Tom Logo?
-- [ ] Name?
-- [ ] Add Logo to Navbar
-
+- [x] Make Logo CI Green
+- [x] Tom Logo
+- [x] Name  Schedulo
+- [x] Add Logo to Navbar
+- [ ] Add Name to Navbar
 
 ## Uncategorized
 - [ ] Remove weird hydration mismatch on ProjectNav
 
-
-
-
-
-ChatGPT:
-ChatGPT
-Ja, du arbeitest an einem Projekt in Mathematik und Informatik, bei dem du eine Web-App für die automatisierte Prüfungsterminplanung für Schüler entwickelst. Die App verwendet Graphentheorie, um Terminkonflikte zu vermeiden und die Anzahl der Prüfungen pro Woche zu optimieren. Sie berücksichtigt Regeln wie maximal drei Prüfungen pro Woche und besondere Bedingungen für Leistungskurse.
-
-
-
-
-kalender zu deutscg
-
-Schedulo
-
-add heading to latex project
-move page number to right 
-
-
-
-
-
-
-
+LaTeX Project: 
+- [ ] add heading to latex project
+- [ ] move page number to right 
 
 ## Ausblick
 - [ ] Add Drag and Drop
 - [ ] Support .numbers and .xls
+
+ggf. Zusammenfassung:
+Ja, du arbeitest an einem Projekt in Mathematik und Informatik, bei dem du eine Web-App für die automatisierte Prüfungsterminplanung für Schüler entwickelst. Die App verwendet Graphentheorie, um Terminkonflikte zu vermeiden und die Anzahl der Prüfungen pro Woche zu optimieren. Sie berücksichtigt Regeln wie maximal drei Prüfungen pro Woche und besondere Bedingungen für Leistungskurse.

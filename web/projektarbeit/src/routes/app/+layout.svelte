@@ -2,12 +2,17 @@
     import type { Snippet } from "svelte";
     import { DropdownMenu } from "bits-ui";
     import { flyAndScale } from "$lib/utils";
+    import { Logo } from "$lib/icons";
 
     let { children }: { children: Snippet } = $props();
 </script>
 
-<nav class="w-full h-20  flex items-center justify-between px-3 md:px-10 border-b border-emerald-700/50">
-    <img src="/dummy_logo.png" alt="Logo" class="size-32 object-contain" />
+<nav class="w-full h-20  flex items-center justify-between px-3 md:px-16 border-b border-emerald-700/50">
+
+    <div class="flex items-center gap-4">
+        <Logo />
+        <p class="text-3xl font-bold text-emerald-700">Schedulo</p>
+    </div>
 
     <DropdownMenu.Root>
         <DropdownMenu.Trigger>
