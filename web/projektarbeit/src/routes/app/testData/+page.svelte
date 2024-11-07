@@ -1,7 +1,7 @@
 <script lang="ts">
     import { convertXLSXtoJSON } from '$lib/utils';
 
-    let files: FileList;
+    let files: FileList = $state();
 
     const handleFile = async () => {
         const file = files[0];

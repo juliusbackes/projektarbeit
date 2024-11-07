@@ -1,28 +1,36 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { invalidate } from '$app/navigation';
 	import type { EventHandler } from 'svelte/elements';
 
 	import type { PageData } from './$types';
 
-	export let data: PageData;
-	$: ({ notes, supabase, user } = data);
+	interface Props {
+		data: PageData;
+	}
 
-	let handleSubmit: EventHandler<SubmitEvent, HTMLFormElement>;
-	$: handleSubmit = async (evt) => {
-		evt.preventDefault();
-		if (!evt.target) return;
+	let { data }: Props = $props();
+	let { notes, supabase, user } = $derived(data);
 
-		const form = evt.target as HTMLFormElement;
+	let handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = $state();
+	run(() => {
+		handleSubmit = async (evt) => {
+			evt.preventDefault();
+			if (!evt.target) return;
 
-		const note = (new FormData(form).get('note') ?? '') as string;
-		if (!note) return;
+			const form = evt.target as HTMLFormElement;
 
-		const { error } = await supabase.from('notes').insert({ note });
-		if (error) console.error(error);
+			const note = (new FormData(form).get('note') ?? '') as string;
+			if (!note) return;
 
-		invalidate('supabase:db:notes');
-		form.reset();
-	};
+			const { error } = await supabase.from('notes').insert({ note });
+			if (error) console.error(error);
+
+			invalidate('supabase:db:notes');
+			form.reset();
+		};
+	});
 </script>
 
 <h1>Private page for user: {user?.email}</h1>
@@ -32,7 +40,7 @@
 		<li>{note.note}</li>
 	{/each}
 </ul>
-<form on:submit={handleSubmit}>
+<form onsubmit={handleSubmit}>
 	<label>
 		Add a note
 		<input name="note" type="text" />

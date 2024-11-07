@@ -1,21 +1,22 @@
 <script>
-	export let data;
-	$: ({ supabase } = data);
+	/** @type {{data: any, children?: import('svelte').Snippet}} */
+	let { data, children } = $props();
+	let { supabase } = $derived(data);
 
-	$: logout = async () => {
+	let logout = $derived(async () => {
 		const { error } = await supabase.auth.signOut();
 		if (error) {
 			console.error(error);
 		}
-	};
+	});
 </script>
 
 <header>
 	<nav>
 		<a href="/">Home</a>
 	</nav>
-	<button on:click={logout}>Logout</button>
+	<button onclick={logout}>Logout</button>
 </header>
 <main>
-	<slot />
+	{@render children?.()}
 </main>
