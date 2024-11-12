@@ -58,6 +58,8 @@ LaTeX Project:
     - [ ] bind files
 - [ ] Add Project Properties to Project Settings
 - [ ] Start Klausurenplan erstellen 3
+- [ ] Add Degree of Saturation to Math Part
+- [ ] Add Subgraph to Math Part
 
 
 
