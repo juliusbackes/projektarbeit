@@ -35,5 +35,31 @@ LaTeX Project:
 - [ ] Add Drag and Drop
 - [ ] Support .numbers and .xls
 
+
+
+- [ ] Add Juri suggestions
+- [ ] Add Anteil wie viel jeder schreibt
+- [ ] Add Soll ziel statt wird ziel
+
+
+
+
+# NEW
+
+- [ ] Add Juri suggestions
+- [ ] Add Anteil wie viel jeder schreibt
+- [ ] Add Soll ziel statt wird ziel
+- [ ] Edit kommt wirklich ein Klausurenplan heraus
+- [ ] Add Erklärungsatz to V{v_x, v_y}: in E(G): c(v_x) != c(v_y)
+- [ ] Add Header to LaTeX Project
+- [ ] Move Page Number to right LaTeX Project
+- [ ] research right algo for Klausurenplan
+- [ ] switch to MultiStepForm
+    - [ ] bind files
+- [ ] Add Project Properties to Project Settings
+- [ ] Start Klausurenplan erstellen 3
+
+
+
 ggf. Zusammenfassung:
 Ja, du arbeitest an einem Projekt in Mathematik und Informatik, bei dem du eine Web-App für die automatisierte Prüfungsterminplanung für Schüler entwickelst. Die App verwendet Graphentheorie, um Terminkonflikte zu vermeiden und die Anzahl der Prüfungen pro Woche zu optimieren. Sie berücksichtigt Regeln wie maximal drei Prüfungen pro Woche und besondere Bedingungen für Leistungskurse.

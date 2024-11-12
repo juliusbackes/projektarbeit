@@ -10,12 +10,8 @@
 <ProjectAuthGuard status={data.status}>	
 	<ProjectNav {data} />
 	<ProjectTitle {data} />
-<!-- 
-	<div class="flex flex-col gap-3">
-		<p>1. Kurs-Datei (Sie <span class="underline">muss</span> dem Format entsprechen)</p>
-	</div>
 
-	<MultiStepForm /> -->
+	<!-- <MultiStepForm {data} /> -->
 
 	<Step step={0} currentStep={data?.project?.step ?? 0}>
 		<UploadFile {data} />

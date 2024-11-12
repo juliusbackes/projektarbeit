@@ -100,34 +100,4 @@ export class Graph {
     color(vertex: string, color: string | number): void {
         this.coloring.set(vertex, color);
     };
-
-    calculateChromaticNumber(): number {
-        const sortedGraph = this.sortGraph();
-        const availableColors = new Map<string, number[]>(
-            Array.from(sortedGraph.keys()).map(vertex => [vertex, Array.from({ length: sortedGraph.size }, (_, i) => i + 1)])
-        );
-
-        for (const [vertex, neighbors] of sortedGraph) {
-            const color = Math.min(...(availableColors.get(vertex) || []));
-            this.color(vertex, color);
-
-            neighbors.forEach(neighbor => {
-                const neighborColors = availableColors.get(neighbor) || [];
-                const index = neighborColors.indexOf(color);
-                if (index !== -1) {
-                    neighborColors.splice(index, 1);
-                }
-            });
-        }
-
-        const usedColors = new Set(this.coloring.values());
-        return usedColors.size;
-    }
-
-    private sortGraph(): Map<string, string[]> {
-        return new Map(
-            Array.from(this.graph.entries())
-                .sort((a, b) => b[1].length - a[1].length)
-        );
-    }
 }

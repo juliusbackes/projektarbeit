@@ -76,7 +76,7 @@
                 <DropdownMenu.Content
                     class="top-3 rounded-xl border border-emerald-700/50 bg-white p-4 shadow-lg"
                     transition={flyAndScale}>
-                    <RangeCalendar bind:value class="rounded-md border" />
+                    <RangeCalendar bind:value class="rounded-md border" locale="de"/>
                 </DropdownMenu.Content>
             </DropdownMenu.Root>
         </div>
