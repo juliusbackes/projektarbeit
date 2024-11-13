@@ -60,6 +60,7 @@ LaTeX Project:
 - [ ] Start Klausurenplan erstellen 3
 - [ ] Add Degree of Saturation to Math Part
 - [ ] Add Subgraph to Math Part
+- [ ] Add weekday functionality to Graph Class
 
 
 
