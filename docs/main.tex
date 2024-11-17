@@ -1,27 +1,26 @@
 \documentclass[a4paper,12pt, final]{article}
-\usepackage{graphicx} % Required for inserting images
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage[]{fancyhdr}
+\usepackage[ngerman]{babel}
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage[pages=some]{background}
 \usepackage{textpos}
 \usepackage{tikz}
+\usepackage{hyphenat}
 \usepackage{pgfplots}
+\usepackage{amsmath}
 \usepackage{titlesec}
 \usepackage{standalone}
+\usepackage{url}
 \usepackage{amsthm}
-\usepackage[%  
-    colorlinks=true,
-    pdfborder={0 0 0},
-    linkcolor=red
-]{hyperref}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{singlelinecheck=false, justification=centering, font=small}
+\usepackage[backend=biber, style=apa]{biblatex}
+\addbibresource{sources.bib}
 
 \pgfplotsset{compat=1.18}
-
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}
 
 
 \addto{\captionsenglish}{%
@@ -36,15 +35,28 @@
 \author{Julius Backes | Tom Kurzke}
 \date{Dezember 2024}
 
+\geometry{
+ a4paper,
+ left=3cm,
+ right=2cm,
+ top=3cm,
+ bottom=2cm
+ }
 
 \begin{document}
-\usetikzlibrary {arrows.meta,graphs,graphdrawing} \usegdlibrary {layered}
+
+\usetikzlibrary {arrows.meta,graphs,graphdrawing} 
+\usegdlibrary {layered}
+
 \input{titlepage.tex}
+
 \newpage
+
 \tableofcontents
+
 \input{chapters/01_intro.tex}
 \input{chapters/02_basics.tex}
-\input{chapters/03_chapter.tex}
+\input{chapters/03_problem.tex}
 \input{chapters/04_entwicklung.tex}
 \input{chapters/05_mathe_analyse.tex}
 \input{chapters/06_validierung.tex}

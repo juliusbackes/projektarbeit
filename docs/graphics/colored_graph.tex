@@ -1,0 +1,33 @@
+\documentclass{standalone}
+\standaloneconfig{border={-2cm -1.2cm 0 -1.9cm}}
+
+\usepackage{tikz, pgfplots}
+\usepackage{amsmath}
+
+\pgfplotsset{compat=1.8}
+
+\begin{document}
+
+\usetikzlibrary {graphs}
+\tikz [nodes={draw, circle}, text=white]{
+  \node[fill=blue!70] (a) at (-1,2) {$A$};
+  \node[fill=red!70] (b) at (1,1) {$B$};
+  \node[fill=blue!70] (c) at (2,2) {$C$};
+  \node[fill=yellow!70, text=black] (d) at (3,1) {$D$};
+  \node[fill=red!70] (e) at (2,-0.5) {$E$};
+  \node[fill=yellow!70, text=black] (f) at (-1,0) {$F$};
+
+  \graph { (a) -- {(b) -- {(c), (f)}, (f) -- (e) -- {(d) -- (c), (c)}} };
+
+  \node[anchor=north east, text=black, draw=none] at (current bounding box.north east) [xshift=8cm, yshift=1cm] {
+  \footnotesize
+    $\begin{aligned}
+        V(G)    & = \{A,B,C,D,E,F\}\\
+        E(G)    & = \{AB,BC,CD,CE,DE,EF,FA,FB\}\\
+        C       & = \{\tikz\draw[fill=blue!70] (0,0) circle (.5ex); , \tikz\draw[fill=red!70] (0,0) circle (.5ex); , \tikz\draw[fill=yellow!70] (0,0) circle (.5ex);\}
+    \end{aligned}$
+        
+  };
+}
+
+\end{document}

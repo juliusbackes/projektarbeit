@@ -1,58 +1,67 @@
-% Definition und Grundbegriffe (Graphen, Knoten, Kanten, etc.)
-% Wichtige Konzepte (z.B. Planarität, Zusammenhang, Zyklen)
-
 \newpage
 \section{Grundlagen der Graphentheorie}
+Im vorliegenden Kapitel werden grundlegende Konzepte der Graphentheorie eingeführt. 
+Diese sind essenziell, um ein tiefes Verständnis von der Funktionsweise der finalen Anwendung zu entwickeln.\\\\
+Die Graphentheorie stellt einen Teilbereich der Mathematik dar, der sich mit der Untersuchung von Graphen befasst. 
+Die Graphentheorie stellt eine wesentliche Grundlage zur Erstellung und Analyse mathematischer Modelle dar und findet darüber hinaus Anwendung bei der Lösung von Optimierungsproblemen.
 \subsection{Grundbegriffe}
-\subsection{Färbungsprobleme}
-\subsection{Komplexität und Lösungsstrategien}
+Ein Graph aus der Graphentheorie unterscheidet sich signifikant von einem "typischen" Graphen, wie man aus der Schulmathematik und aus der Analysis kennt.\\\\
+Ein graphentheoretischer Graph $G$ besteht aus einer Menge von Knoten (engl. vertices), die durch Kanten (engl. edges) miteinander verbunden sein können. 
+Diese Knoten können gar nicht oder mehrfach mit anderen Knoten verbunden sein. 
+Wenn ein Knoten mit sich selbst verbunden ist, spricht man von einer Schleife. \\\\
+Ein Graph $G$ wird formal als ein Paar $G = (V(G), E(G))$ definiert, wobei \(V(G)\) die Menge der Knoten darstellt, beispielsweise \(\{1, 8, 7\}\) oder \(\{A, B, C\}\), und \(E_G\) die Menge der Kanten ist, also Verbindungen zwischen jeweils zwei Knoten.
+Für die Kantenmenge \(E(G)\) gilt: 
+\begin{equation*}
+    E(G) = \{\{v_x, v_y\} \colon \; v_x, v_y \in V(G) \wedge v_x \neq v_y\}
+\end{equation*}
+Die Einschränkung $v_x \neq v_y$ ist optional.
+Dadurch wird festgelegt das es keine Schleifen in dem Graphen geben darf \parencite[2]{Diestel2017-bj}.
+In dieser Arbeit werden Schleifen nicht genutzt. Zwei Knoten $a$ und $b$ nennt man benachbart bzw. adjazent (engl. adjacent) wenn $\{a,b\} \in E(G)$ gilt. 
+Um die Darstellung zu vereinfachen, definieren wir $E(G) = \{\{A,B\},\{A,C\}\}$ als $E_G = \{AB, AC\}$ \parencite[3]{Diestel2017-bj}.
+\begin{figure}[H]
+    \centering
+    \input{graphics/g1}
+    \caption[caption]{Ein einfacher ungerichteter Graph $G$ \\ mit $V(G)=\{A,B,C,D\}$ und $E(G)=\{{AB, AC}\}$ }
+    \label{g1}
+\end{figure}
+Die Anzahl der Kanten an einem Knoten $v$ wird durch den Grad des Knotens beschrieben. 
+Ein Knoten, der mit $n$-vielen Knoten verbunden ist, hat den Grad $n$. Es gilt
+$$\deg(v) = |E(v)|$$
+Die Knoten werden in schwach verzweigte und stark verzweigte Knoten unterteilt. 
+Ein Knoten mit z.B. acht verbundenen Knoten ist stärker verzweigt als ein Knoten mit zwei verbundenen Knoten \parencite[5]{Diestel2017-bj}.\\\\
+Graphen lassen sich in zwei Arten unterscheiden: gerichtete Graphen und ungerichtete Graphen. Ein ungerichteter Graph zeichnet sich dadurch aus, dass die Kanten zwischen den Knoten keine Richtung aufweisen (vgl. Abb. 1). Im Unterschied dazu besteht die Kantemenge $E(G)$ eines gerichteten Graphen aus einer Menge von geordneten Paaren anstelle einer Menge von Mengen mit Knoten. Sie wird mit
+\begin{equation*}
+    E(G) = \{(v_x, v_y) \colon v_x,v_y \in V(G) \wedge v_x \neq v_y\}
+\end{equation*}
+definiert. Die Kanten eines gerichteten Graphen werden i. d. R. mit einem Pfeil dargestellt \parencite[30]{Diestel2017-bj}.
+\begin{figure}[h]
+    \centering
+    \input{graphics/g2}
+    \caption[caption]{Ein einfacher gerichteter Graph\\ mit $V(G)=\{A,B,C,D\}$ und $E(G)=\{CA,CB,CD,DB\}$}
+\end{figure}
+\subsection{Graphenfärbung}
+Die Knotenfärbung, auch als Graph Coloring bezeichnet, stellt eine Methode zur Färbung von Knoten in einem Graphen $G$ dar. 
+Es wird demnach gefordert, dass keine zwei adjazenten Knoten die gleiche Farbe aufweisen.
+Die Farben werden i. d. R. als Buchstaben oder Zahlen dargestellt, wobei sie Gruppen oder Zuständen zugeordnet werden.
+Das Ziel der Färbung besteht in der Bestimmung der kleinstmöglichen Anzahl an Farben.
+Diese Anzahl wird als chromatische Zahl des Graphen bezeichnet.
+Des Weiteren findet die Färbung Anwendung in der Stundenplanerstellung sowie der Färbung von Karten, beispielsweise dem sogenannten Vier-Farben-Satz.
+Ein weiteres Anwendungsgebiet stellt die Klausurenplanerstellung dar, wie sie auch in dieser Arbeit erfolgt.
+Mathematisch wird das Graph Coloring als Abbildung $c$ von der Menge $V(G)$ als Knoten auf eine Menge $C$ als Farben für einen Graphen $G$ definiert \parencite[121]{Diestel2017-bj}.
+\begin{equation*}
+c(v): V(G) \rightarrow C 
+\end{equation*}
+\begin{equation*}
+\forall \{v_x,v_y\} \in E(G) \colon \; c(v_x) \overset{!}{\neq} c(v_y)
+\end{equation*}
+\vspace{-2.7cm}
+\begin{figure}[H]
+    \centering
+    \input{docs/graphics/colored_graph}
+    \vspace{-2cm}
+    \caption{Gefärbter Graph $G$}
+\end{figure}
 
 
-% \section{Grundlagen der Graphentheorie}
-% In diesem Kapitel werden grundlegende Konzepte der Graphentheorie eingeführt. Diese sind essenziell, um ein tiefes Verständnis von der Funktionsweise der finalen Anwendung zu entwickeln.
-
-% \subsection{Grundbegriffe}
-% Ein Graph aus der Graphentheorie unterscheidet sich signifikant von einem "typischen" Graphen, wie man ihn aus der Schulmathematik oder aus der Analysis kennt.\\\\
-% Ein graphentheoretischer Graph besteht aus einer Sammlung von Knoten (eng. vertices), die je nach Graph durch Kanten (eng. edges) miteinander verbunden sind.
-% \begin{figure}[h]
-%     \centering
-%     \input{graphics/g1}
-%     \caption{Ein einfacher ungerichteter Graph}
-%     \label{g1}
-% \end{figure}
-% \subsubsection{Was ist ein Graph?}
-% Ein Graph $G$ wird als ein Paar $G=(V_G,E_G)$ definiert, wobei \(V_G\) eine Menge von Knoten darstellt, z.B. \(\{1, 8, 7\}\) oder \(\{A, B, C\}\), und \(E_G\) eine Menge von Kanten ist, also Verbindungen zwischen je zwei Knoten. Für die Kantenmenge gilt:
-% $$E_G = \{\{x, y\} \colon \; x,y \in V \wedge x \neq y \}$$
-% Zur einfacheren Darstellung von Graphen verwenden wir folgende Notation:
-% $$\{\{a, b\}, \{c, d\}\} \Leftrightarrow \{ab, cd\}$$
-% Demnach wird der Graph in Abbildung 1 \ref{g1} mit \(G=(V,E)\) beschrieben, wobei \(V_G=\{A,B,C,D\}\) und \(E_G=\{AB,AC\}\) sind. 
-% \newpage
-% Bis jetzt haben wir uns nur den ungerichteten Graphen angesehen. Bei einem gerichteten Graphen werden statt Mengen geordnete Paare für die Darstellung von Kanten genutzt. 
-% $$E_G = \{(x, y) \colon \; x,y \in V \wedge x \neq y \}$$
-% \begin{figure}[h]
-%     \centering
-%     \input{graphics/g2}
-%     \caption{Ein einfacher gerichteter Graph}
-% \end{figure}
-% Für das Beispiel in Abb. 2 würde sich dann $G=(V_G, E_G)$ mit $V_G=\{A,B,C,D\}$ und $E_G=\{(C,A), (C,B), (C,D), (D,B)\}$ ergeben. Im Folgenden werden nur noch ungerichtete Graphen von Nöten sein, da gerichtete Graphen nicht nötig für die Anwendung dieser Arbeit sind. 
-% \begin{definition}
-%     Sei $G=(V_G, E_G)$ ein Graph und $a, b \in V_G$, so nennt man $a$ und $b$ angrenzend gdw. $\{a,b\} \in E_G$ gilt.
-% \end{definition}
-% \begin{definition}
-%     Der \textbf{Grad} eines Graphen $G$, ist die Anzahl seiner Knoten. 
-%     $$\deg(G)=|V_G|$$
-% \end{definition}
-% \begin{definition}
-%     Die \textbf{Größe} eines Graphen $G$, ist die Anzahl seiner Kanten; sie ergibt sich aus $|E_G|$.
-% \end{definition}
-% \begin{definition}
-%     Als einen \textbf{Empty-Graph} bezeichnet man einen Graphen $G$ mit $V_G \neq \{\} \wedge E_G=\{\}$.\\
-% \end{definition}
-% \begin{definition}
-%      Als einen \textbf{Null-Graph} bezeichnet man einen Graphen $G$ mit $V_G=\{\} \wedge E_G=\{\}$.
-% \end{definition}
-% Einen Graphen $X$ mit $V_X = \{\} \; \wedge \; E_X =\{\}$ kann es nicht geben, da $\{a,b\} \in V_X$ gelten muss.
-% \newpage
-% \subsubsection{Teilgraphen}
-% Ein Teilgraph ist ein Graph $T$ eines Graphen $G$ bei dem folgendes gilt:
-% $$V_T \subseteq V_G \wedge E_T \subseteq E_G \Rightarrow T \subseteq G$$
+% \;\; ,\text{wobei}\; \forall \{a,b\} \in E(G) \colon \; c(a) \overset{!}{\neq} c(b)
+% \subsection{Komplexität und Lösungsstrategien}
