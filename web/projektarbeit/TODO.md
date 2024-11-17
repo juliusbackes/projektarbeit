@@ -37,7 +37,7 @@ LaTeX Project:
 
 
 
-- [ ] Add Juri suggestions
+- [ ] Add Juri suggestions PDF
 - [ ] Add Anteil wie viel jeder schreibt
 - [ ] Add Soll ziel statt wird ziel
 
@@ -61,6 +61,10 @@ LaTeX Project:
 - [ ] Add Degree of Saturation to Math Part
 - [ ] Add Subgraph to Math Part
 - [ ] Add weekday functionality to Graph Class
+- [ ] Add Custom DB Query for Projects
+
+# New Project Page
+
 
 
 

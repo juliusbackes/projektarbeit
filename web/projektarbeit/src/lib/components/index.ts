@@ -11,5 +11,9 @@ import ProjectSettings from './project/ProjectSettings.svelte';
 import NoProjects from './project/NoProjects.svelte';
 import CreateProject from './project/CreateProject.svelte';
 import MultiStepForm from './project/MultiStepForm/MultiStepForm.svelte';
+import Sidebar from './project/Sidebar/Sidebar.svelte';
+import SidebarMain from './project/Sidebar/SidebarMain.svelte';
+import ProjectSwitcher from './project/Sidebar/ProjectSwitcher.svelte';
+import SidebarUser from './project/Sidebar/SidebarUser.svelte';
 
-export { Toaster, setToastState, getToastState, ProjectAuthGuard, ProjectNav, ProjectTitle, UploadFile, DetectedCourses, Step, SelectDates, ProjectSettings, NoProjects, CreateProject, MultiStepForm };
+export { Toaster, setToastState, getToastState, ProjectAuthGuard, ProjectNav, ProjectTitle, UploadFile, DetectedCourses, Step, SelectDates, ProjectSettings, NoProjects, CreateProject, MultiStepForm, Sidebar, SidebarMain, ProjectSwitcher, SidebarUser };
