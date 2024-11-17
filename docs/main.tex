@@ -9,25 +9,19 @@
 \usepackage{tikz}
 \usepackage{hyphenat}
 \usepackage{pgfplots}
+\usepackage{amsmath}
 \usepackage{titlesec}
 \usepackage{standalone}
+\usepackage{url}
 \usepackage{amsthm}
-\usepackage[%  
-    colorlinks=true,
-    pdfborder={0 0 0},
-    linkcolor=black
-]{hyperref}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{singlelinecheck=false, justification=centering, font=small}
+\usepackage[backend=biber, style=apa]{biblatex}
+\addbibresource{sources.bib}
 
 \pgfplotsset{compat=1.18}
 
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}
-
-% \pagestyle{fancy}
-% \fancyhead[RO,LE]{\textbf{The performance of new graduates}}
-% \fancyhfoffset[L]{3cm}
-% \fancyhfoffset[R]{2cm}
-\fancyfoot{\thepage}
 
 \addto{\captionsenglish}{%
   \renewcommand*{\contentsname}{Inhalt}
@@ -55,11 +49,14 @@
 \usegdlibrary {layered}
 
 \input{titlepage.tex}
+
 \newpage
+
 \tableofcontents
+
 \input{chapters/01_intro.tex}
 \input{chapters/02_basics.tex}
-\input{chapters/03_chapter.tex}
+\input{chapters/03_problem.tex}
 \input{chapters/04_entwicklung.tex}
 \input{chapters/05_mathe_analyse.tex}
 \input{chapters/06_validierung.tex}
