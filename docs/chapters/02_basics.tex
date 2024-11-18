@@ -34,34 +34,55 @@ Graphen lassen sich in zwei Arten unterscheiden: gerichtete Graphen und ungerich
     E(G) = \{(v_x, v_y) \colon v_x,v_y \in V(G) \wedge v_x \neq v_y\}
 \end{equation*}
 definiert. Die Kanten eines gerichteten Graphen werden i. d. R. mit einem Pfeil dargestellt \parencite[30]{Diestel2017-bj}.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \input{graphics/g2}
     \caption[caption]{Ein einfacher gerichteter Graph\\ mit $V(G)=\{A,B,C,D\}$ und $E(G)=\{CA,CB,CD,DB\}$}
 \end{figure}
+\noindent Sei $N_G(v)$ die Menge aller adjazenten Knoten eines Knoten $v$ in einem Graphen $G$, auch Nachbarn (eng. neighbours) von $v$ genannt. \parencite[5]{Diestel2017-bj}
+\begin{equation*}
+    N_G(v) \subseteq V(G)
+\end{equation*}
+\begin{equation*}
+    N_G(v)=\{w \in V(G) \colon \{v,w\} \subseteq E(G)  \}
+\end{equation*}
+
 \subsection{Graphenfärbung}
 Die Knotenfärbung, auch als Graph Coloring bezeichnet, stellt eine Methode zur Färbung von Knoten in einem Graphen $G$ dar. 
 Es wird demnach gefordert, dass keine zwei adjazenten Knoten die gleiche Farbe aufweisen.
 Die Farben werden i. d. R. als Buchstaben oder Zahlen dargestellt, wobei sie Gruppen oder Zuständen zugeordnet werden.
 Das Ziel der Färbung besteht in der Bestimmung der kleinstmöglichen Anzahl an Farben.
-Diese Anzahl wird als chromatische Zahl des Graphen bezeichnet.
+Diese Anzahl wird als chromatische Zahl des Graphen bezeichnet.\\\\
 Des Weiteren findet die Färbung Anwendung in der Stundenplanerstellung sowie der Färbung von Karten, beispielsweise dem sogenannten Vier-Farben-Satz.
-Ein weiteres Anwendungsgebiet stellt die Klausurenplanerstellung dar, wie sie auch in dieser Arbeit erfolgt.
-Mathematisch wird das Graph Coloring als Abbildung $c$ von der Menge $V(G)$ als Knoten auf eine Menge $C$ als Farben für einen Graphen $G$ definiert \parencite[121]{Diestel2017-bj}.
+Ein weiteres Anwendungsgebiet stellt die Klausurenplanerstellung dar, wie sie auch in dieser Arbeit erfolgt.\\\\
+\newpage
+\noindent Mathematisch wird das Graph Coloring als Abbildung $c$ von der Menge $V(G)$ als Knoten auf eine Menge $C(G)$ als Farben für einen Graphen $G$ definiert \parencite[121]{Diestel2017-bj}.
 \begin{equation*}
-c(v): V(G) \rightarrow C 
+c(v): V(G) \rightarrow C(G)
 \end{equation*}
-\begin{equation*}
+\begin{equation}
 \forall \{v_x,v_y\} \in E(G) \colon \; c(v_x) \overset{!}{\neq} c(v_y)
-\end{equation*}
-\vspace{-2.7cm}
+\end{equation}
+Mit (1) wird gewährleistet, das zwei adjazente Knoten nicht mit derselben Farbe gefärbt werden.
+\vspace{-2.25cm}
 \begin{figure}[H]
     \centering
     \input{docs/graphics/colored_graph}
     \vspace{-2cm}
     \caption{Gefärbter Graph $G$}
 \end{figure}
-
-
-% \;\; ,\text{wobei}\; \forall \{a,b\} \in E(G) \colon \; c(a) \overset{!}{\neq} c(b)
-% \subsection{Komplexität und Lösungsstrategien}
+\noindent Ein wichtiges Konzept in der Graphenfärbung ist der \textbf{Sättigungsgrad} (eng. degree of saturation). 
+Für einen gegebenen Knoten $v$ beschreibt der Sättigungsgrad $\text{sat}(v)$ die Anzahl der verschiedenen Farben, die in der Menge der Nachbarn vorkommen. Formal gilt: 
+\parencite[39]{lewis2021guide}
+\begin{equation*}
+    \text{sat}(v)=|\{C_G(w)\colon w \in N_G(v) \; \wedge \; w \notin U(G)\}|
+\end{equation*}
+wobei $C_G(w)$ die Farbe des Knotens $w$ angibt und $U(G)$ die Menge der ungefärbten Knoten. Für $U(G)$ gilt:
+\begin{equation*}
+    U(G)\coloneqq \{v \in V(G) \colon \;C_G(v) = \varnothing\}
+\end{equation*}
+Die Funktionen zur Bestimmung des maximalen Sättigungsgrads und des maximalen Knotengrads können wie folgt definiert werden:
+\begin{align*}
+    \max \text{sat}(v) &= \max(\{\text{sat}(v)\colon \; v \in V(G) \setminus U(G)\})\\
+    \max \deg(v) &= \max(\{\deg(v) \colon \; v \in V(G)\})
+\end{align*}
