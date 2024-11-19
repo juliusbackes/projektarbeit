@@ -23,8 +23,10 @@ jobs:
           root_file: docs/main.tex
           latexmk_use_lualatex: true
           args: "-lualatex -file-line-error -interaction=nonstopmode"
-    - name: Clean up auxiliary files
-      run: latexmk -c
+
+      - name: Clean up auxiliary files
+        run: latexmk -c
+
       - name: Push PDF to GitHub
         run: |
           git config --global user.name "github-actions[bot]"
