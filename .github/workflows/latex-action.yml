@@ -26,6 +26,16 @@ jobs:
 
       - name: Push PDF to GitHub
         run: |
+          rm main.aux
+          rm main.bbl
+          rm main.bcf
+          rm main.blg
+          rm main.fdb_latexmk
+          rm main.fls
+          rm main.log
+          rm main.pdf
+          rm main.run.xml
+          rm main.toc
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/main.pdf
