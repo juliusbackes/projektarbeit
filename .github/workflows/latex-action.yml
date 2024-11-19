@@ -15,10 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-full biber
-
-      - name: Clean up old files
-        run: latexmk -C
+          sudo apt-get install -y biber
 
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
