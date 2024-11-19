@@ -1,11 +1,17 @@
 /**
  * @class Graph class
- * @description The Graph class is a simple implementation of a graph using an adjacency list.
+ * @description The Graph class for the "projektarbeit" is a simple implementation of a graph using an adjacency list.
  */
 export class Graph {
 	graph: Map<string, string[]> = new Map();
 	coloring: Map<string, number> = new Map();
-	colors: Set<number> = new Set();
+	colors: Set<number> = new Set(); // Set of dates representing the colors (format: Unix timestamp in milliseconds)
+	colorToWeekday: Map<number, number> = new Map(); // Map of colors to weekdays (0 = Monday, 6 = Sunday)
+	vertexToWeekdays: Map<string, number[]> = new Map(); // Map of vertices to weekdays (0 = Monday, 6 = Sunday)
+	
+	getAllVertices(): string[] {
+		return Array.from(this.graph.keys());
+	}
 
 	addVertex(v: string): void {
 		if (this.graph.has(v)) {
@@ -127,6 +133,21 @@ export class Graph {
 		});
 		
 		const availableColors = this.colors.difference(neighborColors);
+
+		for (let i = 0; i < availableColors.size; i++) {
+			const color = availableColors.values().next().value;
+			const colorWeekday = this.colorToWeekday.get(color);
+			const vertexWeekdays = this.vertexToWeekdays.get(vertex);
+
+			if (colorWeekday === undefined || vertexWeekdays === undefined) {
+				throw new Error("Color or vertex weekdays not found");
+			}
+
+
+			if (!vertexWeekdays.includes(colorWeekday)) {
+				availableColors.delete(color);
+			}
+		}
 
 		const lowestColor = Math.min(...availableColors);
 
