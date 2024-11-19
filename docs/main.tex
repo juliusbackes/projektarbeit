@@ -47,8 +47,14 @@
  bottom=2cm
  }
 
-\begin{document}
+% Header and Footer settings 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO]{\nouppercase{\leftmark\hfill}}
+\fancyfoot[R]{\thepage}
 
+\begin{document}
+\pagestyle{fancy}
 \usetikzlibrary {arrows.meta,graphs,graphdrawing} 
 \usegdlibrary {layered}
 
@@ -66,5 +72,4 @@
 \input{docs/chapters/06_validierung}
 \input{docs/chapters/07_summary}
 \input{docs/chapters/08_sources}
-
 \end{document}
