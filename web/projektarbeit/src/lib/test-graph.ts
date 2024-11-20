@@ -42,3 +42,4 @@ graph.vertexToWeekdays.set("GEO", [0]);
 graph.vertexToWeekdays.set("SPA", [1]);
 
 console.log(graph.getColoring());
+console.log(graph.graph)

@@ -2,11 +2,15 @@
 	import { Sidebar as AppSidebar } from "$lib/components";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import { CalendarRange, GitGraph } from "lucide-svelte";
+    import { Separator } from "$lib/components/ui/separator/index";
     import type { LayoutData } from "./$types";
+	import type { Snippet } from "svelte";
+    import * as Breadcrumb from "$lib/components/ui/breadcrumb/index";
+    import { page } from "$app/stores";
 
-    let { data }: { data: LayoutData } = $props();
+    let { data, children }: { data: LayoutData, children: Snippet } = $props();
 
-	const links = {
+	const links = $derived({
 		general: [
 			{
 				"title": "Klausurenplan",
@@ -25,8 +29,8 @@
 				"url": `/next-app/${data.sidebarData?.routeId}/settings/general`,
         	},
 			{
-				"title": "Datei",
-				"url": `/next-app/${data.sidebarData?.routeId}/settings/file`,
+				"title": "Kursliste",
+				"url": `/next-app/${data.sidebarData?.routeId}/settings/course-list`,
 			},
 			{
 				"title": "Kurse",
@@ -37,9 +41,33 @@
 				"url": `/next-app/${data.sidebarData?.routeId}/settings/timeperiod`,
 			}
 		]
-	};
+	});
 
-	const sidebarData = { ...data.sidebarData, links: links };
+	const sidebarData = $derived({ ...data.sidebarData, links });
+
+    // Map URL segments to German translations
+    const urlToGerman = {
+        "next-app": "Projekte",
+        "settings": "Einstellungen",
+        "general": "Allgemein",
+        "course-list": "Kursliste",
+        "courses": "Kurse",
+        "timeperiod": "Zeitraum",
+        "schedule": "Klausurenplan",
+        "graph": "Graph"
+    };
+
+    // Get breadcrumb items from URL
+    let pathSegments = $derived($page.url.pathname.split('/').filter(segment => segment));
+    
+    // Create breadcrumb items with accumulated paths
+    let breadcrumbItems = $derived(pathSegments.map((segment, index) => {
+        const path = '/' + pathSegments.slice(0, index + 1).join('/');
+        const label = segment === data.sidebarData?.routeId 
+            ? data.sidebarData?.currentProject?.name 
+            : urlToGerman[segment as keyof typeof urlToGerman] || segment;
+        return { path, label };
+    }));
 </script>
 
 <Sidebar.Provider>
@@ -50,15 +78,25 @@
 		>
 			<div class="flex items-center gap-2 px-4">
 				<Sidebar.Trigger class="-ml-1" />
+				<Separator orientation="vertical" class="mr-2 h-4" />
+				<Breadcrumb.Root>
+					<Breadcrumb.List>
+						{#each breadcrumbItems as { path, label }, index}
+							{#if index > 0}
+								<Breadcrumb.Separator class="hidden md:block" />
+							{/if}
+							<Breadcrumb.Item class="hidden md:block">
+								{#if index === breadcrumbItems.length - 1}
+									<Breadcrumb.Page>{label}</Breadcrumb.Page>
+								{:else}
+									<Breadcrumb.Link href={path}>{label}</Breadcrumb.Link>
+								{/if}
+							</Breadcrumb.Item>
+						{/each}
+					</Breadcrumb.List>
+				</Breadcrumb.Root>
 			</div>
 		</header>
-		<div class="flex flex-1 flex-col gap-4 p-4 pt-0">
-			<div class="grid auto-rows-min gap-4 md:grid-cols-3">
-				<div class="bg-muted/50 aspect-video rounded-xl"></div>
-				<div class="bg-muted/50 aspect-video rounded-xl"></div>
-				<div class="bg-muted/50 aspect-video rounded-xl"></div>
-			</div>
-			<div class="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min"></div>
-		</div>
+		<div class="p-6">{@render children()}</div>
 	</Sidebar.Inset>
 </Sidebar.Provider>
