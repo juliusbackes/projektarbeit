@@ -8,6 +8,7 @@
 				default: "bg-background text-foreground",
 				destructive:
 					"border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+				info: "border-blue-500 text-blue-500 dark:border-blue-500 [&>svg]:text-blue-500",
 			},
 		},
 		defaultVariants: {

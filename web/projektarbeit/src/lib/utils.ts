@@ -1,6 +1,6 @@
 import readXlsxFile from 'read-excel-file'
 import type { TODO } from '$lib/types';
-
+import type { CalendarDate } from '@internationalized/date';
 const convertColumnToObject = (column: any[]) => {
     return column.reduce((acc, item, index) => {
         if (index === 0) {
@@ -16,6 +16,16 @@ const removeNullElements = (arr: any[][]): any[][] => {
     return arr
         .filter(x => x)
         .map((el: any) => Array.isArray(el) ? removeNullElements(el) : el);
+};
+
+/**
+     * Converts a date object to a German date string format (DD.MM.YYYY)
+     * @param {CalendarDate} date - The date object to convert
+     * @returns {string} The formatted date string
+     */
+export const toGermanDateString = (date: CalendarDate): string => {
+	if (!date) return '';
+	return `${date.day.toString().padStart(2, '0')}.${date.month.toString().padStart(2, '0')}.${date.year}`;
 };
 
 export const convertXLSXtoJSON = async (file: File): Promise<TODO> => {
