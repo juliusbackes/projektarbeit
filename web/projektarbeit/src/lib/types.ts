@@ -78,8 +78,8 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string | null
-          exam_end_date?: string | null
-          exam_start_date?: string | null
+          exam_end_date?: string | Date | null
+          exam_start_date?: string | Date | null
           graph_data_evaluated?: Json | null
           graph_data_raw?: Json | null
           has_defined_exam_period?: boolean | null

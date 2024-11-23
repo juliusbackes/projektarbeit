@@ -1,6 +1,10 @@
 import readXlsxFile from 'read-excel-file'
 import type { TODO } from '$lib/types';
 import type { CalendarDate } from '@internationalized/date';
+
+export const checkForUpperCase = (str: string) => str === str.toUpperCase(); 
+
+
 const convertColumnToObject = (column: any[]) => {
     return column.reduce((acc, item, index) => {
         if (index === 0) {

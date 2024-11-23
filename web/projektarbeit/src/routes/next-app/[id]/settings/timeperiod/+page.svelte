@@ -7,22 +7,24 @@
     import { Info } from "lucide-svelte";
     import { RangeCalendar } from "$lib/components/ui/range-calendar";
     import { page } from "$app/stores";
-    import { getLocalTimeZone, today } from "@internationalized/date";
+    import { CalendarDate, getLocalTimeZone, today } from "@internationalized/date";
     import { spBrowserClient } from "$lib";
-    import { toGermanDateString } from "$lib/utils";
+    import { updateProject } from "$lib/db";
     
     let { data } = $props();
 
     const project = data.sidebarData?.projects.find(p => `${p.id}` == $page.params.id);
 
-    const start = today(getLocalTimeZone());
-    const end = start.add({ days: 7 });
+    const startDate = new Date(project?.exam_start_date ?? '');
+    const endDate = new Date(project?.exam_end_date ?? '');
+
+    const startCalendarDate = new CalendarDate(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
+    const endCalendarDate = new CalendarDate(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
 
     let value = $state({
-        start,
-        end
+        start: project?.exam_start_date ? startCalendarDate : today(getLocalTimeZone()),
+        end: project?.exam_end_date ? endCalendarDate : today(getLocalTimeZone()).add({ days: 7 })
     });
-
     
     /**
      * Handles the continuation of the project setup process
@@ -34,14 +36,15 @@
         const startDate = new Date(value.start.year, value.start.month - 1, value.start.day);
         const endDate = new Date(value.end.year, value.end.month - 1, value.end.day);
 
-        const { error } = await spBrowserClient
-            .from('projects')
-            .update({
-                exam_start_date: startDate,
-                exam_end_date: endDate,
-                has_defined_exam_period: true
-            })
-            .eq('id', project?.id);
+        if (!project?.id) {
+            return;
+        };
+
+        const { error } = await updateProject(`${project?.id}`, {
+            exam_start_date: startDate,
+            exam_end_date: endDate,
+            has_defined_exam_period: true
+        }, spBrowserClient);
 
         if (error) {
             console.error('Error updating project:', error);
@@ -73,10 +76,9 @@
     <div class="flex flex-col gap-3 justify-center">
         <p>Wählen Sie einen Zeitraum für die Klausurphase aus.</p>
         <RangeCalendar class="rounded-md border w-fit" bind:value locale="de-DE"/>
-        <p class="text-sm text-muted-foreground italic">Planen Sie eher zu viel als zu wenig Zeit ein.</p>
         <Button 
             class="w-[278px] bg-emerald-700 hover:bg-emerald-800" 
-            disabled={(value.start === start && value.end === end || !value.start || !value.end || (value.start.day === value.end.day && value.start.month === value.end.month && value.start.year === value.end.year))}
+            disabled={!value || (value.start === startCalendarDate && value.end === endCalendarDate)}
             onclick={handleContinue}
         >
             Speichern

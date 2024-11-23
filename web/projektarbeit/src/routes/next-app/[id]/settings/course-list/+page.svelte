@@ -1,17 +1,20 @@
 <script lang="ts">
     import { SectionTitle } from "$lib/components";
     import { Input } from "$lib/components/ui/input";
-    import { Label } from "$lib/components/ui/label";
+    import * as Alert from "$lib/components/ui/alert";
+    import { Info } from "lucide-svelte";
     import { Button } from "$lib/components/ui/button";
     import { Card } from "$lib/components/ui/card";
     import { page } from "$app/stores";
     import * as Table from "$lib/components/ui/table";
     import { convertXLSXtoJSON } from "$lib/utils";
     import { spBrowserClient } from "$lib";
+    import { updateProject } from "$lib/db";
+    let files = $state<FileList>();
 
     let { data } = $props();
 
-    let files = $state<FileList>();
+    const project = data.sidebarData?.projects.find(p => `${p.id}` == $page.params.id);
 
     const handleUpload = async (e: Event) => {
 		e.preventDefault();
@@ -24,18 +27,14 @@
 
 		const columns = await convertXLSXtoJSON(file);
 
-		const { data: updateData, error: updateError } = await spBrowserClient
-			.from('projects')
-			.update({
-				graph_data_raw: columns,
-				step: 1,
-			})
-			.eq('id', $page.params.id)
-			.select()
-			.single();
-		
-		if (updateError) {
-			console.error(updateError);
+        const { data: updateData, error } = await updateProject(`${$page.params.id}`, {
+            graph_data_raw: columns,
+            has_uploaded_course_list: true,
+            has_selected_course_days_and_lks: false
+        }, spBrowserClient);
+        
+		if (error) {
+			console.error(error);
 			return {
 				status: 400,
 			};
@@ -49,9 +48,16 @@
 
 <SectionTitle>Kursliste</SectionTitle>
 
-
-
 <div class="py-6 max-w-xl">
+    {#if project?.has_uploaded_course_list}
+        <Alert.Root class="my-6" variant="info">
+            <Info class="size-4"/>
+            <Alert.Title>Kursliste bereits hochgeladen</Alert.Title>
+            <Alert.Description>
+                Sie können die Kursliste jederzeit ändern.
+            </Alert.Description>
+        </Alert.Root>
+    {/if}
     <Input type="file" name="file" accept=".xlsx" required aria-required="true" bind:files={files} />
     <Button class="bg-emerald-700 hover:bg-emerald-900 mt-3" disabled={!files} onclick={handleUpload}>Hochladen</Button>
 
