@@ -1,6 +1,6 @@
 import readXlsxFile from 'read-excel-file'
 import type { TODO } from '$lib/types';
-import type { CalendarDate } from '@internationalized/date';
+import { getLocalTimeZone, today, type CalendarDate, type DateValue } from '@internationalized/date';
 
 export const checkForUpperCase = (str: string) => str === str.toUpperCase(); 
 
@@ -121,3 +121,10 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+export const isDateInPast = (date: DateValue) => {
+	const now = today(getLocalTimeZone());
+	const todayDate = new Date(now.year, now.month - 1, now.day);
+	const compareDate = new Date(date.toString());
+	return compareDate.getTime() < todayDate.getTime();
+}

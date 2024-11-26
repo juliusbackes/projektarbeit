@@ -1,7 +1,5 @@
 <script lang="ts">
     import { SectionTitle } from "$lib/components";
-    import { Input } from "$lib/components/ui/input";
-    import { Label } from "$lib/components/ui/label";
     import { Button } from "$lib/components/ui/button";
     import * as Alert from "$lib/components/ui/alert";
     import { Info } from "lucide-svelte";
@@ -10,7 +8,7 @@
     import { CalendarDate, getLocalTimeZone, today } from "@internationalized/date";
     import { spBrowserClient } from "$lib";
     import { updateProject } from "$lib/db";
-    
+    import { isDateInPast } from "$lib/utils";
     let { data } = $props();
 
     const project = data.sidebarData?.projects.find(p => `${p.id}` == $page.params.id);
@@ -48,8 +46,9 @@
 
         if (error) {
             console.error('Error updating project:', error);
+            alert("Fehler beim Speichern");
         } else {
-            // Optionally handle successful update
+            alert("Zeitraum gespeichert");
             window.location.reload();
         }
     };
@@ -69,13 +68,9 @@
         </Alert.Root>
     {/if}
 
-    <p class="text-sm text-muted-foreground">
-        <!-- {value.start.toString()} - {value.end.toString()} -->
-    </p>
-
     <div class="flex flex-col gap-3 justify-center">
         <p>Wählen Sie einen Zeitraum für die Klausurphase aus.</p>
-        <RangeCalendar class="rounded-md border w-fit" bind:value locale="de-DE"/>
+        <RangeCalendar class="rounded-md border w-fit" bind:value locale="de-DE" isDateUnavailable={(date) => isDateInPast(date)}/>
         <Button 
             class="w-[278px] bg-emerald-700 hover:bg-emerald-800" 
             disabled={!value || (value.start === startCalendarDate && value.end === endCalendarDate)}
