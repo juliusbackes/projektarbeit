@@ -81,6 +81,7 @@
         }
 
         alert("Daten gespeichert");
+        window.location.reload();
     }
 </script>
 

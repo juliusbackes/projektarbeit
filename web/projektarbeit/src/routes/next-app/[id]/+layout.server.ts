@@ -37,7 +37,6 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, user }, param
                 }
             ],
         },
-        teams: [],
         projects,
         currentProject,
         routeId: params.id,

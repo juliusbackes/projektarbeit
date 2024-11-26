@@ -45,7 +45,6 @@
 
 	const sidebarData = $derived({ ...data.sidebarData, links });
 
-    // Map URL segments to German translations
     const urlToGerman = {
         "next-app": "Projekte",
         "settings": "Einstellungen",
@@ -57,10 +56,8 @@
         "graph": "Graph"
     };
 
-    // Get breadcrumb items from URL
     let pathSegments = $derived($page.url.pathname.split('/').filter(segment => segment));
     
-    // Create breadcrumb items with accumulated paths
     let breadcrumbItems = $derived(pathSegments.map((segment, index) => {
         const path = '/' + pathSegments.slice(0, index + 1).join('/');
         const label = segment === data.sidebarData?.routeId 

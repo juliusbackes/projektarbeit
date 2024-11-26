@@ -4,8 +4,10 @@
     import { CalendarRange, GitGraph, Settings, ChevronRight } from "lucide-svelte";
 	import type { Snippet } from "svelte";
 	import { page } from "$app/stores";
+	import type { Database } from "$lib/types";
+    import { Badge } from "$lib/components/ui/badge";
 
-	let { links }: { links: { general: { title: string, url: string, icon: Snippet }[], settings: { title: string, url: string, icon: Snippet }[] } } = $props();
+	let { links, currentProject }: { links: { general: { title: string, url: string, icon: Snippet }[], settings: { title: string, url: string, icon: Snippet }[] }, currentProject: Database["public"]["Tables"]["projects"]["Row"] } = $props();
 
 </script>
 
@@ -36,6 +38,16 @@
                                 {/snippet}
                                 <Settings />
                                 <span>Einstellungen</span>
+                                {@const incompleteCount = [
+                                    !currentProject?.has_uploaded_course_list,
+                                    !currentProject?.has_defined_exam_period,
+                                    !currentProject?.has_selected_course_days_and_lks
+                                ].filter(Boolean).length}
+                                {#if incompleteCount > 0}
+                                    <Badge class="ml-auto bg-emerald-700 text-white hover:bg-emerald-800">
+                                        {incompleteCount}
+                                    </Badge>
+                                {/if}
                                 <ChevronRight
                                     class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
                                 />
@@ -48,9 +60,16 @@
                                 {#each links.settings as subItem (subItem.title)}
                                     <Sidebar.MenuSubItem>
                                         <Sidebar.MenuSubButton isActive={$page.url.pathname === subItem.url}>
-                                            {#snippet child({ props })}
+                                            {#snippet child({ props }) }
                                                 <a href={subItem.url} {...props}>
                                                     <span>{subItem.title}</span>
+                                                    {#if (subItem.url.includes('course-list') && !currentProject?.has_uploaded_course_list) || 
+                                                        (subItem.url.includes('timeperiod') && !currentProject?.has_defined_exam_period) || 
+                                                        (subItem.url.includes('courses') && !currentProject?.has_selected_course_days_and_lks)}
+                                                        <Badge class="ml-auto bg-emerald-700 text-white hover:bg-emerald-800">
+                                                            1
+                                                        </Badge>
+                                                    {/if}
                                                 </a>
                                             {/snippet}
                                         </Sidebar.MenuSubButton>
