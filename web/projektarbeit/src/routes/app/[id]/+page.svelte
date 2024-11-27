@@ -1,32 +1,12 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import { ProjectAuthGuard, ProjectNav, ProjectTitle, UploadFile, DetectedCourses, SelectDates } from '$lib/components';
-	import { Step, MultiStepForm } from '$lib/components';
+import type { PageData } from "./$types";
 
-	let { data }: { data: PageData } = $props();
+    let { data }: { data: PageData } = $props();
+
+    console.log(data);
 
 </script>
 
-<ProjectAuthGuard status={data.status}>	
-	<ProjectNav {data} />
-	<ProjectTitle {data} />
-
-	<!-- <MultiStepForm {data} /> -->
-
-	<Step step={0} currentStep={data?.project?.step ?? 0}>
-		<UploadFile {data} />
-	</Step>
-
-	<Step step={1} currentStep={data?.project?.step ?? 0}>
-		<DetectedCourses {data}/>
-	</Step>
-
-	<Step step={2} currentStep={data?.project?.step ?? 0}>
-		<SelectDates {data} />
-	</Step>
-
-	<Step step={3} currentStep={data?.project?.step ?? 0}>
-		<h1>Klausurphase</h1>
-	</Step>
-</ProjectAuthGuard>
-
+<div>
+    {data.project?.name}
+</div>

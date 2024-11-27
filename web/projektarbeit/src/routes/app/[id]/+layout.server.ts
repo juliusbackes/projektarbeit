@@ -43,16 +43,16 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, user }, param
         navMain: [
             {
                 title: "Dashboard",
-                url: "/next-app",
+                url: "/app",
                 isActive: true,
                 items: [
                     {
                         title: "Overview",
-                        url: "/next-app/overview",
+                        url: "/app/overview",
                     },
                     {
                         title: "Analytics",
-                        url: "/next-app/analytics",
+                        url: "/app/analytics",
                     }
                 ]
             }

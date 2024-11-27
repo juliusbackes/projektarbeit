@@ -11,7 +11,7 @@
     import { spBrowserClient } from "$lib";
 
     let { data: propData } = $props();
-    const project = propData.sidebarData?.projects.find(p => `${p.id}` == $page.params.id);
+    const project = propData.sidebarData?.projects.find((p: any) => `${p.id}` == $page.params.id);
 
     type Course = {
         name: string;

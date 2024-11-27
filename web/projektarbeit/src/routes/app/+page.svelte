@@ -1,49 +1,74 @@
 <script lang="ts">
-    import type { PageData } from './$types';
-    import { NoProjects, CreateProject } from '$lib/components';
-    import { Button } from '$lib/components/ui/button';
+	import {
+		Card,
+		CardContent,
+		CardDescription,
+		CardHeader,
+		CardTitle
+	} from '$lib/components/ui/card';
+	import { Badge } from '$lib/components/ui/badge';
+	import { Search } from 'lucide-svelte';
+	import type { Database } from '$lib/types';
 
+	let { data }: { data: { projects: Database['public']['Tables']['projects']['Row'][] } } =
+		$props();
 
-    type ProjectItem = any;
- 
-    let { data }: { data: PageData } = $props();
+	let searchTerm = $state('');
 
+	const projects = data?.projects;
+
+	let filteredProjects = $derived(
+		projects.filter(
+			(project) =>
+				project?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				project?.description?.toLowerCase().includes(searchTerm.toLowerCase())
+		)
+	);
 </script>
 
-{#if data?.projects?.length === 0}
-  <NoProjects />  
-{:else}
+<div class="container mx-auto mt-10 p-4">
+	<h1 class="mb-6 text-3xl font-bold">Meine Projekte</h1>
 
-    <div class="flex items-center justify-between px-3">
-        <h1 class="font-semibold text-2xl md:text-5xl" >Meine Projekte</h1>
-        <CreateProject>
-            <Button class="bg-transparent flex gap-2 border-2 text-emerald-700 hover:text-emerald-900 transition-all duration-300" variant="outline">
-                {@render plusIcon()}
-                Projekt erstellen
-            </Button>
-        </CreateProject>
-    </div>
-  
-    <div class="flex justify-center mt-6">
-      <div class="flex flex-wrap gap-6">
-          {#each data.projects ?? [] as item}
-              {@render projectItem(item)}
-          {/each}
-      </div>
-    </div>
-    {/if} 
+	<div class="relative mb-6">
+		<Search class="absolute left-2 top-1/2 -translate-y-1/2 transform text-gray-400" size={20} />
+		<input
+			type="text"
+			placeholder="Projekt suchen..."
+			class="w-full rounded-md border py-2 pl-10 pr-4"
+			bind:value={searchTerm}
+		/>
+	</div>
 
-{#snippet projectItem(item: ProjectItem)}
-    <a class="p-4 bg-white rounded-xl md:h-40 w-full md:w-96 border-2 border-emerald-700/50 flex flex-col justify-between gap-2 shadow-xl hover:bg-emerald-700/10 transition-all duration-300 cursor-pointer hover:scale-110"  href={`/app/${item.id}`}>
-        <div>
-            <h2 class="font-semibold text-xl md:text-2xl">{item.name}</h2>
-            <p class="text-gray-500">{item.description}</p>
-        </div>
-    </a>
-{/snippet}
+	{#if projects.length === 0}
+		<div class="mx-auto flex flex-col items-center justify-center">
+			<p class="mt-8 text-center text-gray-500">Keine Projekte gefunden.</p>
+			<a href="/app/create" class="text-center text-emerald-700 hover:text-emerald-800"
+				>Neues Projekt erstellen</a
+			>
+		</div>
+	{/if}
 
-{#snippet plusIcon()}
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-  </svg>  
-{/snippet}
+	<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+		{#each filteredProjects as project (project.id)}
+			<a href={`/app/${project.id}`}>
+				<Card class="transition-shadow duration-300 hover:shadow-lg">
+					<CardHeader>
+						<CardTitle>{project.name}</CardTitle>
+						<CardDescription>{project.description} ss</CardDescription>
+					</CardHeader>
+					<CardContent class="bottom-0 mt-auto flex h-[75px] items-end justify-start">
+						<Badge variant={project.has_created_plan ? 'paFull' : 'warning'}>
+							{project.has_created_plan ? 'Fertig' : 'In Bearbeitung'}
+						</Badge>
+					</CardContent>
+				</Card>
+			</a>
+		{/each}
+	</div>
+
+	{#if filteredProjects.length === 0}
+		<p class="mt-8 text-center text-gray-500">
+			Keine Projekte gefunden, die zu Ihrer Suche passen.
+		</p>
+	{/if}
+</div>
