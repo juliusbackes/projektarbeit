@@ -11,11 +11,7 @@
     import { spBrowserClient } from "$lib";
 
     let { data: propData } = $props();
-
     const project = propData.sidebarData?.projects.find(p => `${p.id}` == $page.params.id);
-
-    const data = project?.graph_data_raw as Record<string, string[]> || {};
-    const courses = Object.keys(data);
 
     type Course = {
         name: string;
@@ -25,13 +21,19 @@
         adjancencyList: string[];
     };
 
-    let courseData: Course[] = $state(courses.map(course => ({
-        name: course,
-        studentCount: data[course]?.length || 0,
-        is2xHJ: checkForUpperCase(course),
-        possibleExamDates: [],
-        adjancencyList: data[course] || []
-    })));
+    const rawData = project?.graph_data_raw as Record<string, string[]>;
+    const evaluatedData = project?.graph_data_evaluated as Course[];
+
+    let courseData: Course[] = $state(
+        evaluatedData || 
+        Object.keys(rawData || {}).map(course => ({
+            name: course,
+            studentCount: rawData[course]?.length || 0,
+            is2xHJ: checkForUpperCase(course),
+            possibleExamDates: [],
+            adjancencyList: rawData[course] || []
+        }))
+    );
 
     const toggleWeekday = (course: Course, weekday: number) => {
         const index = course.possibleExamDates.indexOf(weekday);
