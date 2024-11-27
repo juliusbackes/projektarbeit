@@ -55,7 +55,7 @@
                     <a href="/app/account">
                         <DropdownMenu.Item>
                             <BadgeCheck />
-                            Account
+                            Konto
                         </DropdownMenu.Item>
                     </a>
 				</DropdownMenu.Group>
@@ -63,7 +63,7 @@
                 <form method="post" action="/logout" bind:this={logoutForm}>
                     <DropdownMenu.Item onclick={() => logoutForm.submit()}>
                         <LogOut />
-                        Log out
+                        Abmelden
                     </DropdownMenu.Item>
                 </form>
 			</DropdownMenu.Content>

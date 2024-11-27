@@ -12,6 +12,9 @@
 				destructive:
 					"bg-destructive text-destructive-foreground hover:bg-destructive/80 border-transparent",
 				outline: "text-foreground",
+				paFull: "bg-emerald-700 text-white hover:bg-emerald-800 border-emerald-700",
+				paEmpty: "bg-white text-emerald-700 hover:bg-gray-300 border-emerald-700",
+				warning: "bg-yellow-500 text-white hover:bg-yellow-600 border-yellow-500",
 			},
 		},
 		defaultVariants: {
