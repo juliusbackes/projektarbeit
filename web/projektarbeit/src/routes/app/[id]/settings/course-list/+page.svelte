@@ -12,9 +12,9 @@
     import { updateProject } from "$lib/db";
     let files = $state<FileList>();
 
-    let { data } = $props();
+        let { data } = $props();
 
-    const project = data.sidebarData?.projects.find(p => `${p.id}` == $page.params.id);
+        const project = data.sidebarData?.projects.find(p => `${p.id}` == $page.params.id);
 
     const handleUpload = async (e: Event) => {
 		e.preventDefault();

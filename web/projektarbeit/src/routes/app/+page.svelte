@@ -54,7 +54,7 @@
 				<Card class="transition-shadow duration-300 hover:shadow-lg">
 					<CardHeader>
 						<CardTitle>{project.name}</CardTitle>
-						<CardDescription>{project.description} ss</CardDescription>
+						<CardDescription>{project.description}</CardDescription>
 					</CardHeader>
 					<CardContent class="bottom-0 mt-auto flex h-[75px] items-end justify-start">
 						<Badge variant={project.has_created_plan ? 'paFull' : 'warning'}>
