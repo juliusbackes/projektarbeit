@@ -1,4 +1,4 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "$lib/types";
 
 export const getProject = async (id: string, supabase: SupabaseClient) => {
@@ -56,4 +56,48 @@ export const deleteProject = async (id: string, supabase: SupabaseClient) => {
         .delete()
         .eq('id', id);
     return { error };
+};
+
+export const createExam = async (
+    projectId: string,
+    exam: { name: string, studentList: string[] },
+    supabase: SupabaseClient
+) => {
+    const { data, error } = await supabase
+        .from('exams')
+        .insert({
+            projectId,
+            name: exam.name,
+            studentList: exam.studentList,
+        })
+        .select()
+        .single();
+    return { data, error };
+};
+
+export const deleteAllExams = async (projectId: string, supabase: SupabaseClient) => {
+    const { error } = await supabase
+        .from('exams')
+        .delete()
+        .eq('projectId', projectId);
+    return { error };
+};
+
+
+export const updateExam = async (id: string, updates: Database['public']['Tables']['exams']['Update'], supabase: SupabaseClient) => {
+    const { data, error } = await supabase
+        .from('exams')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+    return { data, error };
+};
+
+export const getExams = async (projectId: string, supabase: SupabaseClient): Promise<{ data: Database['public']['Tables']['exams']['Row'][], error: PostgrestError | null }> => {
+    const { data, error } = await supabase
+        .from('exams')
+        .select('*')
+        .eq('projectId', projectId);
+    return { data: data || [], error };
 };

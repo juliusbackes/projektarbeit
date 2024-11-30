@@ -209,28 +209,29 @@ const mapDatesToIndex = (dates: Date[]): Map<number, number> => {
 	return map;
 };
 
-export const createAdjacencyList = (exams: ExamData): Record<string, string[]> => {
-	const adjacencyList: Record<string, string[]> = {};
+export const createAdjacencyList = (exams: ExamData): Record<string, Set<string>> => {
+	const adjacencyList: Record<string, Set<string>> = {};
 
 	exams.forEach((exam) => {
-		adjacencyList[exam.name] = [];
+		adjacencyList[exam.name] = new Set();
 	});
 
 	exams.forEach((exam1) => {
 		exams.forEach((exam2) => {
-			if (exam1.name === exam2.name || adjacencyList[exam1.name].includes(exam2.name)) {
+			if (exam1.name === exam2.name || adjacencyList[exam1.name].has(exam2.name)) {
 				return;
 			}
 
-			adjacencyList[exam1.name].push(exam2.name);
-			adjacencyList[exam2.name].push(exam1.name);
+			const hasCommonStudents = exam1.studentList?.some(student => 
+				exam2.studentList?.includes(student)
+			);
+
+			if (hasCommonStudents) {
+				adjacencyList[exam1.name].add(exam2.name);
+				adjacencyList[exam2.name].add(exam1.name);
+			}
 		});
 	});
-
-	for (const exam of exams) {
-		// console.log(exam.name)
-	}
-
 	return adjacencyList;
 };
 
@@ -239,36 +240,41 @@ export const createAdjacencyList = (exams: ExamData): Record<string, string[]> =
  * @param exams - The exams to preprocess
  * @returns The preprocessed exams
  */
-export const preprocessExams = (exams: ExamData): ExamData => {
-	// Create a deep copy of the input exams
-	const examsCopy = JSON.parse(JSON.stringify(exams));
+export const preprocessExams = (
+	exams: Database['public']['Tables']['exams']['Row'][]
+): ExamData => {
 	const processedExams: ExamData = [];
-	console.log("exams246", exams);
 
-	exams.forEach((exam: ExamDataItem) => {
-		console.log("exam248", exam);
+	exams.forEach((exam) => {
 		if (exam.is2xHJ) {
 			const exam1: ExamDataItem = {
 				name: exam.name + '_1',
 				is2xHJ: false,
-				studentCount: exam.studentCount,
-				adjancencyList: [],
-				studentList: [...exam.adjancencyList],
-				possibleExamDates: [...exam.possibleExamDates]
+				studentCount: exam.studentList?.length || 0,
+				adjancencyList: new Set(),
+				studentList: exam.studentList || [],
+				possibleExamDates: exam.possibleExamDates || []
 			};
 
 			const exam2: ExamDataItem = {
 				name: exam.name + '_2',
 				is2xHJ: false,
-				studentCount: exam.studentCount,
-				adjancencyList: [],
-				studentList: [...exam.adjancencyList],
-				possibleExamDates: [...exam.possibleExamDates]
+				studentCount: exam.studentList?.length || 0,
+				adjancencyList: new Set(),
+				studentList: exam.studentList || [],
+				possibleExamDates: exam.possibleExamDates || []
 			};
 
 			processedExams.push(exam1, exam2);
 		} else {
-			processedExams.push(exam);
+			processedExams.push({
+				name: exam.name || '',
+				is2xHJ: false,
+				studentCount: exam.studentList?.length || 0,
+				adjancencyList: new Set(),
+				studentList: exam.studentList || [],
+				possibleExamDates: exam.possibleExamDates || []
+			});
 		}
 	});
 
@@ -280,9 +286,11 @@ export const preprocessExams = (exams: ExamData): ExamData => {
 	return processedExams;
 };
 
-export const createProjectGraph = (exams: ExamData, workingDays: Date[]): Graph => {
+export const createProjectGraph = (
+	exams: Database['public']['Tables']['exams']['Row'][],
+	workingDays: Date[]
+): Graph => {
 	const graph = new Graph();
-	console.log("exams285", exams);
 	const processedExams = preprocessExams(exams);
 
 	graph.colors = new Set(workingDays);

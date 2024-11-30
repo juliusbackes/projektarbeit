@@ -33,7 +33,7 @@ export type ExamDataItem = {
   name: string;
   is2xHJ: boolean;
   studentCount: number;
-  adjancencyList: string[];
+  adjancencyList: Set<string>;
   studentList?: string[];
   possibleExamDates: number[];
 };
@@ -43,7 +43,6 @@ export type ExamData = ExamDataItem[];
 
 
 /** SUPABASE TYPES */
-
 export type Json =
   | string
   | number
@@ -80,12 +79,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      exams: {
+        Row: {
+          adjacencyList: string[] | null
+          created_at: string
+          id: number
+          is2xHJ: boolean | null
+          name: string | null
+          possibleExamDates: number[] | null
+          projectId: number | null
+          studentCount: number | null
+          studentList: string[] | null
+        }
+        Insert: {
+          adjacencyList?: string[] | null
+          created_at?: string
+          id?: number
+          is2xHJ?: boolean | null
+          name?: string | null
+          possibleExamDates?: number[] | null
+          projectId?: number | null
+          studentCount?: number | null
+          studentList?: string[] | null
+        }
+        Update: {
+          adjacencyList?: string[] | null
+          created_at?: string
+          id?: number
+          is2xHJ?: boolean | null
+          name?: string | null
+          possibleExamDates?: number[] | null
+          projectId?: number | null
+          studentCount?: number | null
+          studentList?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exams_projectId_fkey"
+            columns: ["projectId"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           created_at: string
           description: string | null
-          exam_end_date: string | Date | null
-          exam_start_date: string | Date | null
+          exam_end_date: string | null
+          exam_start_date: string | null
           graph_data_evaluated: Json | null
           graph_data_raw: Json | null
           has_created_plan: boolean | null
@@ -99,8 +142,8 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string | null
-          exam_end_date?: string | Date | null
-          exam_start_date?: string | Date | null
+          exam_end_date?: string | null
+          exam_start_date?: string | null
           graph_data_evaluated?: Json | null
           graph_data_raw?: Json | null
           has_created_plan?: boolean | null
@@ -114,8 +157,8 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string | null
-          exam_end_date?: string | Date | null
-          exam_start_date?: string | Date | null
+          exam_end_date?: string | null
+          exam_start_date?: string | null
           graph_data_evaluated?: Json | null
           graph_data_raw?: Json | null
           has_created_plan?: boolean | null

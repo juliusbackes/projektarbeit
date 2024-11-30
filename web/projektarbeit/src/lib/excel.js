@@ -86,16 +86,20 @@ const columns = [
 		width: 10
 	},
 	{
-		width: 15
+        width: 15,
+        wrap: true
 	},
 	{
-		width: 15
+		width: 15,
+        wrap: true
 	},
 	{
-		width: 15
+		width: 15,
+        wrap: true
 	},
 	{
-		width: 20
+		width: 20,
+        wrap: true
 	}
 ];
 
@@ -172,6 +176,7 @@ const createExamCells = (date, examSchedule) => {
             cells[0] = {
                 type: String,
                 value: currentValue ? currentValue + ', ' + examName : examName,
+                wrap: true
             };
         }
     }
@@ -219,6 +224,6 @@ export const writeCalendarToFile = async (startDate, endDate, examSchedule) => {
     console.log(startDate, endDate)
     await writeXlsxFile(data, {
         columns,
-        fileName: 'calendar.xlsx'
+        fileName: 'klausurenplan.xlsx'
     });
 };

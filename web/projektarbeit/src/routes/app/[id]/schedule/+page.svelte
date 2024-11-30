@@ -7,6 +7,8 @@
     import { createProjectGraph, getWorkingDays } from "$lib/utils";
     import { writeCalendarToFile } from "$lib/excel";
 	import type { ExamData } from "$lib/types";
+	import { getExams } from "$lib/db";
+	import { spBrowserClient } from "$lib";
 
     let { data } = $props();
 
@@ -22,12 +24,20 @@
         const startDate = new Date(project.exam_start_date);
         const endDate = new Date(project.exam_end_date);
 
+        const { data: exams, error } = await getExams(`${project.id}`, spBrowserClient);
+
+        if (error) {
+            alert("Fehler beim Laden der Klausuren");
+            return;
+        }
+
+
         const workingDays = await getWorkingDays(startDate, endDate);
-        const graph = createProjectGraph(project.graph_data_evaluated as ExamData, workingDays);
+        const graph = createProjectGraph(exams, workingDays);
 
         const coloring = graph.getColoring();
 
-        // writeCalendarToFile(startDate, endDate, coloring);
+        writeCalendarToFile(startDate, endDate, coloring);
     };
 </script>
 

@@ -9,7 +9,8 @@
     import * as Table from "$lib/components/ui/table";
     import { convertXLSXtoJSON } from "$lib/utils";
     import { spBrowserClient } from "$lib";
-    import { updateProject } from "$lib/db";
+    import { createExam, deleteAllExams, updateProject } from "$lib/db";
+
     let files = $state<FileList>();
 
         let { data } = $props();
@@ -17,33 +18,48 @@
         const project = data.sidebarData?.projects.find(p => `${p.id}` == $page.params.id);
 
     const handleUpload = async (e: Event) => {
-		e.preventDefault();
-		
-		const file = files?.[0];
-
-		if (!file) {
-			return;
-		}
-
-		const columns = await convertXLSXtoJSON(file);
-
-        const { data: updateData, error } = await updateProject(`${$page.params.id}`, {
-            graph_data_raw: columns,
-            has_uploaded_course_list: true,
-            has_selected_course_days_and_lks: false
-        }, spBrowserClient);
+        e.preventDefault();
         
-		if (error) {
-			console.error(error);
-			return {
-				status: 400,
-			};
-		};
+        const file = files?.[0];
 
-		if (updateData) {
-			window.location.reload();
-		}
-	}
+        if (!file) {
+            return;
+        }
+
+        const columns = await convertXLSXtoJSON(file);
+
+        const exams = Object.keys(columns).map(key => ({
+            name: key,
+            studentList: columns[key]
+        }));
+
+        let hasError = false;
+
+        await deleteAllExams(`${$page.params.id}`, spBrowserClient);
+
+        for (const exam of exams) {
+            const { error } = await createExam(`${$page.params.id}`, {
+                name: exam.name,
+                studentList: exam.studentList
+            }, spBrowserClient);
+
+            if (error) {
+                alert(error.message);
+                hasError = true;
+                break;
+            }
+        }
+
+        if (!hasError) {
+            const { error } = await updateProject(`${$page.params.id}`, {
+                has_uploaded_course_list: true,
+            }, spBrowserClient);
+
+            alert("Kursliste erfolgreich hochgeladen");
+            
+            window.location.reload();
+        }
+    }
 </script>
 
 <SectionTitle>Kursliste</SectionTitle>

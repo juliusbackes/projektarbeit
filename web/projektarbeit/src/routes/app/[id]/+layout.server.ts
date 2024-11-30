@@ -29,6 +29,18 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, user }, param
         };
     }
 
+    const { data: exams, error: examsError } = await supabase
+        .from('exams')
+        .select('*')
+        .eq('projectId', params.id);
+    
+    if (examsError) {
+        console.error(examsError);
+        return {
+            status: 400,
+        };
+    }
+
     const sidebarData = {
         links: {
             general: [
@@ -58,5 +70,5 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, user }, param
             }
         ],
     };
-    return { sidebarData };
+    return { sidebarData, exams };
 }; 

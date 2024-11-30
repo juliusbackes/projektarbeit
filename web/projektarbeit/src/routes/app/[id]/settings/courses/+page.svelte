@@ -7,46 +7,36 @@
     import { checkForUpperCase } from "$lib/utils";
     import * as Alert from "$lib/components/ui/alert";
     import { AlertCircle } from "lucide-svelte";
-    import { updateProject } from "$lib/db";
+    import { updateExam, updateProject } from "$lib/db";
     import { spBrowserClient } from "$lib";
+	import type { Database } from "$lib/types";
 
     let { data: propData } = $props();
     const project = propData.sidebarData?.projects.find((p: any) => `${p.id}` == $page.params.id);
+    const { exams } = propData;
 
-    type Course = {
-        name: string;
-        studentCount: number;
-        is2xHJ: boolean;
-        possibleExamDates: number[];
-        adjancencyList: string[];
-    };
+    if (!exams) {
+        alert("Fehler beim Laden der Klausuren");
+    }
 
-    const rawData = project?.graph_data_raw as Record<string, string[]>;
-    const evaluatedData = project?.graph_data_evaluated as Course[];
+    let courseData = $state(exams?.map(exam => ({
+        ...exam,
+        possibleExamDates: exam.possibleExamDates || [],
+        is2xHJ: exam.is2xHJ || checkForUpperCase(exam.name || "")
+    })) || []);
 
-    let courseData: Course[] = $state(
-        evaluatedData || 
-        Object.keys(rawData || {}).map(course => ({
-            name: course,
-            studentCount: rawData[course]?.length || 0,
-            is2xHJ: checkForUpperCase(course),
-            possibleExamDates: [],
-            adjancencyList: rawData[course] || []
-        }))
-    );
-
-    const toggleWeekday = (course: Course, weekday: number) => {
-        const index = course.possibleExamDates.indexOf(weekday);
+    const toggleWeekday = (exam: Database['public']['Tables']['exams']['Row'], weekday: number) => {
+        const index = exam.possibleExamDates?.indexOf(weekday) || -1;
         if (index === -1) {
-            course.possibleExamDates = [...course.possibleExamDates, weekday];
+            exam.possibleExamDates = [...(exam.possibleExamDates || []), weekday];
         } else {
-            course.possibleExamDates = course.possibleExamDates.filter(d => d !== weekday);
+            exam.possibleExamDates = exam.possibleExamDates?.filter(d => d !== weekday) || [];
         }
         courseData = courseData;
     }
 
-    const updateIs2xHJ = (course: Course) => {
-        course.is2xHJ = !course.is2xHJ;
+    const updateIs2xHJ = (exam: Database['public']['Tables']['exams']['Row']) => {
+        exam.is2xHJ = !exam.is2xHJ;
         courseData = courseData;
     }
 
@@ -62,7 +52,7 @@
     let attempted = $state(false);
 
     $effect(() => {
-        hasInvalidCourses = courseData.some(course => course.possibleExamDates.length === 0);
+        hasInvalidCourses = courseData.some(exam => exam.possibleExamDates.length === 0);
     });
 
     const saveData = async () => {
@@ -71,22 +61,33 @@
             return;
         }
 
+        for (const exam of courseData) {
+            const { error } = await updateExam(`${exam.id}`, {
+                is2xHJ: exam.is2xHJ,
+                possibleExamDates: exam.possibleExamDates
+            }, spBrowserClient);
+
+            if (error) {
+                console.error(error);
+                alert("Fehler beim Speichern");
+                return;
+            }
+        }
 
         const { error } = await updateProject(`${project?.id}`, {
-            graph_data_evaluated: courseData,
             has_selected_course_days_and_lks: true
         }, spBrowserClient);
 
         if (error) {
             console.error(error);
             alert("Fehler beim Speichern");
+            return;
         }
 
         alert("Daten gespeichert");
         window.location.reload();
     }
 </script>
-
 
 <SectionTitle>Kurse</SectionTitle>
 
@@ -99,8 +100,8 @@
                 <TableHeader />
             </Table.Header>
             <Table.Body>
-                {#each courseData as course}
-                    {@render TableCourseRow(course)}
+                {#each courseData as exam}
+                    {@render TableExamRow(exam)}
                 {/each}
             </Table.Body>
         </Table.Root>
@@ -109,7 +110,6 @@
 </section>
 
 <!-- Helper Snippets -->
-
 {#snippet NoDatesSelectedError()}
     {#if attempted && hasInvalidCourses}
         <Alert.Root class="my-4" variant="destructive">
@@ -131,18 +131,18 @@
     </Table.Row>
 {/snippet}
 
-{#snippet TableCourseRow(course: Course)}
-    <Table.Row class={attempted && course.possibleExamDates.length === 0 ? 'bg-destructive/10 hover:bg-destructive/5' : ''}>
+{#snippet TableExamRow(exam: Database['public']['Tables']['exams']['Row'])}
+    <Table.Row class={attempted && exam.possibleExamDates?.length === 0 ? 'bg-destructive/10 hover:bg-destructive/5' : ''}>
         <Table.Cell class="font-semibold">
-            {course.name}
+            {exam.name}
         </Table.Cell>
         <Table.Cell>
-            {course.studentCount}
+            {exam.studentList?.length || 0}
         </Table.Cell>
         <Table.Cell>
             <Checkbox 
-                checked={course.is2xHJ}
-                onCheckedChange={() => updateIs2xHJ(course)}
+                checked={exam.is2xHJ || false}
+                onCheckedChange={() => updateIs2xHJ(exam)}
             />
         </Table.Cell>
         <Table.Cell class="flex gap-2">
@@ -150,8 +150,8 @@
                 <Button 
                     variant="outline" 
                     size="icon" 
-                    class="size-6 p-0 text-sm font-normal {course.possibleExamDates.includes(key) ? 'bg-emerald-700 text-primary-foreground hover:text-primary-foreground hover:bg-emerald-800' : 'text-gray-500 hover:bg-gray-100'} rounded"
-                    onclick={() => toggleWeekday(course, key)}
+                    class="size-6 p-0 text-sm font-normal {exam.possibleExamDates?.includes(key) ? 'bg-emerald-700 text-primary-foreground hover:text-primary-foreground hover:bg-emerald-800' : 'text-gray-500 hover:bg-gray-100'} rounded"
+                    onclick={() => toggleWeekday(exam, key)}
                 >
                     {value}
                 </Button>
