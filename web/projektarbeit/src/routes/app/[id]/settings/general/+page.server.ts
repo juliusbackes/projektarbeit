@@ -1,5 +1,6 @@
 import type { Actions } from "./$types";
-import { updateProject } from "$lib/db";
+import { deleteProject, updateProject } from "$lib/db";
+import { redirect } from "@sveltejs/kit";
 
 export const actions: Actions = {
     updateProject: async ({ request, locals, params }) => {
@@ -31,5 +32,18 @@ export const actions: Actions = {
             status: 200,
             body: { success: true }
         }
+    },
+    deleteProject: async ({ request, locals, params }) => {
+        const formData = await request.formData();
+        const { error } = await deleteProject(params.id, locals.supabase);
+
+        if (error) {
+            return {
+                status: 500,
+                body: { error: error.message }
+            }
+        }
+
+        throw redirect(302, '/app');
     }
 }
