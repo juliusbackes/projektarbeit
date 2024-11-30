@@ -14,8 +14,8 @@ Für die Kantenmenge \(E(G)\) gilt:
 \begin{equation*}
     E(G) = \{\{v_x, v_y\} \colon \; v_x, v_y \in V(G) \wedge v_x \neq v_y\}
 \end{equation*}
-Die Einschränkung $v_x \neq v_y$ ist optional.
-Dadurch wird festgelegt das es keine Schleifen in dem Graphen geben darf \parencite[2]{Diestel2017-bj}.
+Die Einschränkung $v_x\neq v_y$ ist optional.
+Sie gibt an, dass es keine Schleifen im Graphen geben darf. \parencite[2]{Diestel2017-bj}.
 In dieser Arbeit werden Schleifen nicht genutzt. Zwei Knoten $a$ und $b$ nennt man benachbart bzw. adjazent (engl. adjacent) wenn $\{a,b\} \in E(G)$ gilt. 
 Um die Darstellung zu vereinfachen, definieren wir $E(G) = \{\{A,B\},\{A,C\}\}$ als $E_G = \{AB, AC\}$ \parencite[3]{Diestel2017-bj}.
 \begin{figure}[H]
@@ -24,7 +24,7 @@ Um die Darstellung zu vereinfachen, definieren wir $E(G) = \{\{A,B\},\{A,C\}\}$ 
     \caption[caption]{Ein einfacher ungerichteter Graph $G$ \\ mit $V(G)=\{A,B,C,D\}$ und $E(G)=\{{AB, AC}\}$ }
     \label{g1}
 \end{figure}
-Die Anzahl der Kanten an einem Knoten $v$ wird durch den Grad des Knotens beschrieben. 
+\noindent Die Anzahl der Kanten an einem Knoten $v$ wird durch den Grad (eng. degree) des Knotens beschrieben. 
 Ein Knoten, der mit $n$-vielen Knoten verbunden ist, hat den Grad $n$. Es gilt
 $$\deg(v) = |E(v)|$$
 Die Knoten werden in schwach verzweigte und stark verzweigte Knoten unterteilt. 
@@ -48,12 +48,12 @@ definiert. Die Kanten eines gerichteten Graphen werden i. d. R. mit einem Pfeil 
 \end{equation*}
 
 \subsection{Graphenfärbung}
-Die Knotenfärbung, auch als Graph Coloring bezeichnet, stellt eine Methode zur Färbung von Knoten in einem Graphen $G$ dar. 
+Die Knotenfärbung (eng. Graph Coloring) stellt eine Methode zur Färbung von Knoten in einem Graphen $G$ dar. 
 Es wird demnach gefordert, dass keine zwei adjazenten Knoten die gleiche Farbe aufweisen.
 Die Farben werden i. d. R. als Buchstaben oder Zahlen dargestellt, wobei sie Gruppen oder Zuständen zugeordnet werden.
-Das Ziel der Färbung besteht in der Bestimmung der kleinstmöglichen Anzahl an Farben.
+Ziel der Färbung ist es, die kleinstmögliche Anzahl von Farben zu bestimmen.
 Diese Anzahl wird als chromatische Zahl des Graphen bezeichnet.\\\\
-Des Weiteren findet die Färbung Anwendung in der Stundenplanerstellung sowie der Färbung von Karten, beispielsweise dem sogenannten Vier-Farben-Satz.
+Des Weiteren findet die Färbung Anwendung in der Stundenplanerstellung sowie der Färbung von Karten, beispielsweise dem sogenannten Vier-Farben-Satz \parencite{LdM_2017_VFS}.
 Ein weiteres Anwendungsgebiet stellt die Klausurenplanerstellung dar, wie sie auch in dieser Arbeit erfolgt.\\\\
 \newpage
 \noindent Mathematisch wird das Graph Coloring als Abbildung $c$ von der Menge $V(G)$ als Knoten auf eine Menge $C(G)$ als Farben für einen Graphen $G$ definiert \parencite[121]{Diestel2017-bj}.
