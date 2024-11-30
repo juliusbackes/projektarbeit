@@ -45,7 +45,9 @@
 		"@supabase/supabase-js": "^2.45.3",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"mini-svg-data-uri": "^1.4.4",
+		"open-holiday-js": "^1.0.3",
 		"read-excel-file": "^5.8.5",
-		"svelte-motion": "^0.12.2"
+		"svelte-motion": "^0.12.2",
+		"write-excel-file": "^2.0.10"
 	}
 }

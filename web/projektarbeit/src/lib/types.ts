@@ -6,6 +6,40 @@ export type Toast = {
   message: string;
 };
 
+/** HOLIDAY TYPES */
+
+export type Holiday = {
+  comment?: {
+    language: string;
+    text: string;
+  }[];
+  endDate: Date;
+  id: string;
+  name: {
+    language: string;
+    text: string;
+  }[];
+  nationwide: boolean;
+  quality?: "Mandatory" | "Optional";
+  startDate: Date;
+  subdivisions?: {
+    code: string;
+    shortName: string;
+  }[];
+  type: "Public" | "Bank" | "National" | "Regional" | "Local" | "School" | "BackToSchool" | "EndOfLessons";
+}
+
+export type ExamDataItem = {
+  name: string;
+  is2xHJ: boolean;
+  studentCount: number;
+  adjancencyList: string[];
+  studentList?: string[];
+  possibleExamDates: number[];
+};
+
+export type ExamData = ExamDataItem[];
+
 
 
 /** SUPABASE TYPES */
