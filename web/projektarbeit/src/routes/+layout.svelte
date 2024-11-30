@@ -24,7 +24,7 @@
 <!-- <Toaster /> -->
 
 <svelte:head>
-	<title>Projektarbeit</title>
+	<title>Schedulo</title>
 </svelte:head>
 
 <div class="font-sf-display">

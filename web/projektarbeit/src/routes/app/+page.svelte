@@ -7,8 +7,9 @@
 		CardTitle
 	} from '$lib/components/ui/card';
 	import { Badge } from '$lib/components/ui/badge';
-	import { Search } from 'lucide-svelte';
+	import { Search, SquarePlus } from 'lucide-svelte';
 	import type { Database } from '$lib/types';
+	import { Button } from '$lib/components/ui/button';
 
 	let { data }: { data: { projects: Database['public']['Tables']['projects']['Row'][] } } =
 		$props();
@@ -27,7 +28,14 @@
 </script>
 
 <div class="container mx-auto mt-10 p-4">
-	<h1 class="mb-6 text-3xl font-bold">Meine Projekte</h1>
+
+	<div class="flex items-center justify-between">
+		<h1 class="mb-6 text-3xl font-bold">Meine Projekte</h1>
+		<Button class="bg-emerald-700 hover:bg-emerald-800" href="/app/create">
+			<SquarePlus size={20} />
+			Neues Projekt
+		</Button>
+	</div>
 
 	<div class="relative mb-6">
 		<Search class="absolute left-2 top-1/2 -translate-y-1/2 transform text-gray-400" size={20} />
