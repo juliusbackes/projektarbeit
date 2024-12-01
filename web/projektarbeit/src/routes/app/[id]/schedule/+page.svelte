@@ -30,7 +30,6 @@
             return;
         }
 
-
         const workingDays = await getWorkingDays(startDate, endDate);
         const graph = createProjectGraph(exams, workingDays);
 
@@ -43,6 +42,23 @@
 <section class="container mx-auto">
     <SectionTitle>Klausurenplan</SectionTitle>
 
+    <PlanExists />
+    <CannotCreatePlan />
+
+    {#if canCreatePlan && !project?.has_created_plan}
+        <div class="w-full flex justify-center mt-6">    
+            <Button onclick={createPlan} class="bg-emerald-700 hover:bg-emerald-800">Klausurenplan erstellen</Button>
+        </div>
+    {/if}    
+</section>  
+
+
+
+
+
+<!-- Helper Snippets -->
+
+{#snippet PlanExists()}
     {#if project?.has_created_plan}
         <Alert.Root class="my-6" variant="info">
             <Info class="size-4"/>
@@ -52,8 +68,10 @@
             </Alert.Description>
         </Alert.Root>
     {/if}
+{/snippet}
 
-    {#if !canCreatePlan}
+{#snippet CannotCreatePlan()}
+    {#if !canCreatePlan}       
         <Alert.Root class="my-6" variant="destructive">
             <Info class="size-4"/>
             <Alert.Title>Klausurenplan kann nicht erstellt werden</Alert.Title>
@@ -62,10 +80,4 @@
             </Alert.Description>
         </Alert.Root>
     {/if}
-
-    {#if canCreatePlan && !project?.has_created_plan}
-        <div class="w-full flex justify-center mt-6">    
-            <Button onclick={createPlan} class="bg-emerald-700 hover:bg-emerald-800">Klausurenplan erstellen</Button>
-        </div>
-    {/if}    
-</section>  
+{/snippet}
