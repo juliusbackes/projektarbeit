@@ -1,10 +1,56 @@
 \newpage
 \section{Entwicklung der Web-Applikation}
+Die Entwicklung der Webanwendung basiert auf dem Ziel, einen effizienten und automatisierten Prozess für die Klausurenplanung in der Oberstufe zu schaffen. In diesem Kapitel werden die Anforderungen definiert und die technische Umsetzung beschrieben.
 \subsection{Anforderungen und Spezifikationen}
+Der erste Schritt besteht darin, zu planen, welche Anforderungen an die Web-Anwendung gestellt werden. Welche Funktionen sollen zur Verfügung stehen? Wie können diese übersichtlich und benutzerfreundlich umgesetzt werden? Was ist technisch realisierbar? Alle Anforderungen und Spezifikationen können in funktionale und nicht-funktionale Anforderungen kategorisiert werden. Diese Differenzierung erleichtert eine strukturierte Umsetzung und Evaluation.
 \subsubsection{Funktionale Anforderungen}
+Funktionale Anforderungen beschreiben die Anforderungen, die sich auf eine bestimmte Funktion beziehen. Sie umfassen alle Anforderungen, die sich auf das beziehen, was die Anwendung tun soll \parencite{anforderungen}.\\\\
+\textbf{Kernfunktionen}
+\begin{itemize}
+    \item Die Web-Applikation soll automatisiert einen Klausurenplan im Excel-Format erstellen, basierend auf den vom Benutzer übermittelten Daten.
+
+    \item Der Klausurenplan sollte die Anzahl der verschiedenen Klausurtage minimieren und dabei die folgenden Regeln berücksichtigen:
+    \begin{itemize}
+        \item Maximal drei Klausuren pro Schüler pro Woche.
+        \item Maximal eine Klausur pro Schüler und Tag.
+        \item Keine Klausuren an Feiertagen oder während der Schulferien.
+    \end{itemize}
+
+    \item Die Web-Anwendung sollte den Klausurenplan und die dazugehörigen Graphen visualisieren können.
+\end{itemize}
+\textbf{Benutzerfunktionen}
+\begin{itemize}
+    \item Dem Benutzer soll die Möglichkeit gegeben werden, folgende Daten hochzuladen und auszuwählen:
+    
+    \begin{itemize}
+        \item Der Benutzer soll eine Kursliste im Excel-Format herunterladen können. Diese soll alle Kurse mit ihren Schüler enthalten. Daraus soll für jeden Kurs eine Liste erstellt werden, welche Kurse nicht gleichzeitig mit dem Kurs stattfinden können.
+        
+        \item Der User sollte Kurse auswählen können, die zweimal pro Halbjahr eine Klausur schreiben.
+        
+        \item Der Nutzer sollte, jedem Kurs mindestens einen oder mehrere mögliche Prüfungstage (Wochentage) zuzuweisen können.
+        
+        \item Der Benutzer sollte einen Zeitraum festlegen können, in dem alle Klausuren stattfinden sollen. Diesen Zeitraum nennen wir Klausurenphase.
+    \end{itemize}
+    
+    \item Alle Daten sollten von dem Benutzer geändert werden können. 
+    
+    \item Es sollte möglich sein, die Klausurenpläne in verschiedenen Projekten zu strukturieren, um eine bessere Übersicht zu gewährleisten. 
+\end{itemize}
 \subsubsection{Nicht-funktionale Anforderungen}
+Nichtfunktionale Anforderungen umfassen alle Anforderungen, die nicht die Funktion, sondern die Qualität des Endprodukts bestimmen \parencite{anforderungen}.
+\begin{itemize}
+    \item Die Web-App soll performant sein und auch bei vielen Kursen und Schülern schnell einen Klausurenplan erstellen.
+    \item Das Design der Webanwendung sollte modern, minimalistisch und konsistent sein.
+    \item Auch auf die Benutzerfreundlichkeit ist zu achten. Funktionen sollten nicht versteckt, sondern leicht verständlich und zugänglich sein.
+    \item Der Quellcode der Webanwendung sollte strukturiert, fehlerfrei und wiederverwendbar sein.
+    \item Die Projekte sollten nur für den Ersteller zugänglich sein. Sensible Benutzerdaten sollten verschlüsselt werden.
+    \item Moderne Web-Technologien sollen eingesetzt werden, um eine robuste und zukunftssichere Entwicklung zu gewährleisten.
+\end{itemize}
 \subsection{Systemarchitektur}
+Die Systemarchitektur umfasst alle wichtigen Technologien und Werkzeuge, die zur Implementierung der Webanwendung verwendet werden. Sie beschreibt die grundlegende Struktur der Anwendung, einschließlich der Trennung zwischen Frontend und Backend und deren Interaktion. Das Frontend ist für die Benutzeroberfläche zuständig, während das Backend die Datenverarbeitung und Logik übernimmt \parencite{mccartney-2024}. Die Kommunikation zwischen beiden Bereichen erfolgt über standardisierte Schnittstellen. So genannte Application Programming Interfaces (APIs) \parencite{gazarov-2019}. Ziel der Architektur ist es, eine skalierbare, wartbare und performante Anwendung zu schaffen, die effizient weiterentwickelt werden kann.
 \subsubsection{Frontend-Design}
+Das Frontend-Design befasst sich mit der Benutzeroberfläche. Welche Werkzeuge werden verwendet, um dem Benutzer welche Funktionen auf welche Weise anzuzeigen? \parencite{mccartney-2024}\\\\
+kek123  
 \subsubsection{Backend-Design}
 \subsubsection{Technologie-Stack}
 \subsection{Implementierung}
