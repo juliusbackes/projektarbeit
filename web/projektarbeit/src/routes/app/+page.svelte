@@ -74,7 +74,7 @@
 		{/each}
 	</div>
 
-	{#if filteredProjects.length === 0}
+	{#if filteredProjects.length === 0 && searchTerm !== ''}
 		<p class="mt-8 text-center text-gray-500">
 			Keine Projekte gefunden, die zu Ihrer Suche passen.
 		</p>

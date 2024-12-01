@@ -6,14 +6,13 @@
     import { Info } from "lucide-svelte";
     import { createProjectGraph, getWorkingDays } from "$lib/utils";
     import { writeCalendarToFile } from "$lib/excel";
-	import type { ExamData } from "$lib/types";
 	import { getExams } from "$lib/db";
 	import { spBrowserClient } from "$lib";
 
     let { data } = $props();
 
     const project = data.sidebarData?.projects.find((p: any) => `${p.id}` == $page.params.id);
-    const canCreatePlan = project?.has_uploaded_course_list && project?.has_selected_course_days_and_lks && project?.has_defined_exam_period && project?.graph_data_evaluated;
+    const canCreatePlan = project?.has_uploaded_course_list && project?.has_selected_course_days_and_lks && project?.has_defined_exam_period;
 
     const createPlan = async () => {
         if (!(project?.exam_start_date && project?.exam_end_date)) {
@@ -65,12 +64,8 @@
     {/if}
 
     {#if canCreatePlan && !project?.has_created_plan}
-        <div class="w-full flex justify-center">    
+        <div class="w-full flex justify-center mt-6">    
             <Button onclick={createPlan} class="bg-emerald-700 hover:bg-emerald-800">Klausurenplan erstellen</Button>
         </div>
-    {/if}
-
-    <Button onclick={() => writeCalendarToFile(new Date(2024, 6, 1), new Date(2024, 11, 31))}>test excel</Button>
-
-    
+    {/if}    
 </section>  

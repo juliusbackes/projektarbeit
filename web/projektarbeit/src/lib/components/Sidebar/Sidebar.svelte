@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { SidebarMain, ProjectSwitcher, SidebarUser } from "$lib/components";
-	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+	import * as Sidebar from "$lib/components/ui/sidebar";
 
 	let {
 		sidebarData,
