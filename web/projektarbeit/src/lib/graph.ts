@@ -189,4 +189,41 @@ export class Graph {
 		this.color();
 		return this.coloring;
 	}
+
+	toJSON() {
+		return {
+			graph: Array.from(this.graph.entries()),
+			coloring: Array.from(this.coloring.entries()).map(([key, date]) => [key, date.getTime()]),
+			colors: Array.from(this.colors).map(date => date.getTime()),
+			colorToWeekday: Array.from(this.colorToWeekday.entries()).map(([date, weekday]) => [date.getTime(), weekday]),
+			vertexToWeekdays: Array.from(this.vertexToWeekdays.entries())
+		};
+	}
+
+	static fromJSON(json: any): Graph {
+		const graph = new Graph();
+		
+		// Restore graph
+		graph.graph = new Map(json.graph);
+		
+		// Restore coloring
+		graph.coloring = new Map(
+			json.coloring.map(([key, timestamp]: [string, number]) => [key, new Date(timestamp)])
+		);
+		
+		// Restore colors
+		graph.colors = new Set(
+			json.colors.map((timestamp: number) => new Date(timestamp))
+		);
+		
+		// Restore colorToWeekday
+		graph.colorToWeekday = new Map(
+			json.colorToWeekday.map(([timestamp, weekday]: [number, number]) => [new Date(timestamp), weekday])
+		);
+		
+		// Restore vertexToWeekdays
+		graph.vertexToWeekdays = new Map(json.vertexToWeekdays);
+		
+		return graph;
+	}
 }

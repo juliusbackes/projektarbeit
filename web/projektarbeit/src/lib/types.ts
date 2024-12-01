@@ -1,3 +1,5 @@
+import { Graph } from "./graph";
+
 export type TODO = any;
 
 export type Toast = {
@@ -129,8 +131,7 @@ export type Database = {
           description: string | null
           exam_end_date: string | null
           exam_start_date: string | null
-          graph_data_evaluated: Json | null
-          graph_data_raw: Json | null
+          graph: Json | Graph | null
           has_created_plan: boolean | null
           has_defined_exam_period: boolean | null
           has_selected_course_days_and_lks: boolean | null
@@ -144,8 +145,7 @@ export type Database = {
           description?: string | null
           exam_end_date?: string | null
           exam_start_date?: string | null
-          graph_data_evaluated?: Json | null
-          graph_data_raw?: Json | null
+          graph?: Json | Graph | null
           has_created_plan?: boolean | null
           has_defined_exam_period?: boolean | null
           has_selected_course_days_and_lks?: boolean | null
@@ -159,8 +159,7 @@ export type Database = {
           description?: string | null
           exam_end_date?: string | null
           exam_start_date?: string | null
-          graph_data_evaluated?: Json | null
-          graph_data_raw?: Json | null
+          graph?: Json | Graph | null
           has_created_plan?: boolean | null
           has_defined_exam_period?: boolean | null
           has_selected_course_days_and_lks?: boolean | null
