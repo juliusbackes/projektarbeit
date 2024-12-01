@@ -26,7 +26,7 @@ Um die Darstellung zu vereinfachen, definieren wir $E(G) = \{\{A,B\},\{A,C\}\}$ 
 \end{figure}
 \noindent Die Anzahl der Kanten an einem Knoten $v$ wird durch den Grad (eng. degree) des Knotens beschrieben. 
 Ein Knoten, der mit $n$-vielen Knoten verbunden ist, hat den Grad $n$. Es gilt
-$$\deg(v) = |E(v)|$$
+$$\deg_G(v) = |E(v)|$$
 Die Knoten werden in schwach verzweigte und stark verzweigte Knoten unterteilt. 
 Ein Knoten mit z.B. acht verbundenen Knoten ist stärker verzweigt als ein Knoten mit zwei verbundenen Knoten \parencite[5]{Diestel2017-bj}.\\\\
 Graphen lassen sich in zwei Arten unterscheiden: gerichtete Graphen und ungerichtete Graphen. Ein ungerichteter Graph zeichnet sich dadurch aus, dass die Kanten zwischen den Knoten keine Richtung aufweisen (vgl. Abb. 1). Im Unterschied dazu besteht die Kantemenge $E(G)$ eines gerichteten Graphen aus einer Menge von geordneten Paaren anstelle einer Menge von Mengen mit Knoten. Sie wird mit
@@ -72,10 +72,9 @@ Mit (1) wird gewährleistet, das zwei adjazente Knoten nicht mit derselben Farbe
     \caption{Gefärbter Graph $G$}
 \end{figure}
 \noindent Ein wichtiges Konzept in der Graphenfärbung ist der \textbf{Sättigungsgrad} (eng. degree of saturation). 
-Für einen gegebenen Knoten $v$ beschreibt der Sättigungsgrad $\text{sat}(v)$ die Anzahl der verschiedenen Farben, die in der Menge der Nachbarn vorkommen. Formal gilt: 
-\parencite[39]{lewis2021guide}
+Für einen gegebenen Knoten $v$ beschreibt der Sättigungsgrad $\text{sat}_G(v)$ die Anzahl der verschiedenen Farben, die in der Menge der Nachbarn vorkommen\parencite[39]{lewis2021guide}. Formal gilt: 
 \begin{equation*}
-    \text{sat}(v)=|\{C_G(w)\colon w \in N_G(v) \; \wedge \; w \notin U(G)\}|
+    \text{sat}_G(v)=|\{C_G(w)\colon w \in N_G(v) \; \wedge \; w \notin U(G)\}|
 \end{equation*}
 wobei $C_G(w)$ die Farbe des Knotens $w$ angibt und $U(G)$ die Menge der ungefärbten Knoten. Für $U(G)$ gilt:
 \begin{equation*}
@@ -83,6 +82,6 @@ wobei $C_G(w)$ die Farbe des Knotens $w$ angibt und $U(G)$ die Menge der ungefä
 \end{equation*}
 Die Funktionen zur Bestimmung des maximalen Sättigungsgrads und des maximalen Knotengrads können wie folgt definiert werden:
 \begin{align*}
-    \max \text{sat}(v) &= \max(\{\text{sat}(v)\colon \; v \in V(G) \setminus U(G)\})\\
-    \max \deg(v) &= \max(\{\deg(v) \colon \; v \in V(G)\})
+    \max \text{sat}_G(v) &= \max(\{\text{sat}_G(v)\colon \; v \in V(G) \setminus U(G)\})\\
+    \max \deg_G(v) &= \max(\{\deg_G(v) \colon \; v \in V(G)\})
 \end{align*}
