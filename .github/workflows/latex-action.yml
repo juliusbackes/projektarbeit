@@ -25,6 +25,7 @@ jobs:
           args: "-lualatex -file-line-error -interaction=nonstopmode"
 
       - name: Push PDF to GitHub
+        if: always()
         run: |
           rm main.aux
           rm main.bbl
