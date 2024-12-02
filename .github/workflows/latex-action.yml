@@ -26,14 +26,7 @@ jobs:
 
       - name: Push PDF to GitHub
         run: |
-          rm main.aux
-          rm main.bbl
-          rm main.bcf
-          rm main.blg
-          rm main.fdb_latexmk
-          rm main.fls
-          rm main.log
-          rm main.run.xml
+          find . -type f -name 'main.*' ! -name 'main.pdf' -delete
           rm docs/main.pdf
           mv main.pdf docs/main.pdf
           git config --global user.name "github-actions[bot]"
