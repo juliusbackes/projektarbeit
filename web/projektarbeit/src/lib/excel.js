@@ -167,15 +167,19 @@ const createExamCells = (date, examSchedule) => {
 
     for (const [examName, examDate] of examSchedule.entries()) {
         if (examDate.toDateString() === date.toDateString()) {
-            const phase = examName.includes('_227') ? 0 :
-                         examName.includes('_226') ? 1 : 
-                         examName.includes('_225') ? 2 :
+
+            const cleanedExamName = examName.replace(/\$\$(1|2)/g, '');
+
+            const phase = cleanedExamName.includes('_227') ? 0 :
+                         cleanedExamName.includes('_226') ? 1 : 
+                         cleanedExamName.includes('_225') ? 2 :
                          3;
             
             const currentValue = cells[0].value;
+            
             cells[0] = {
                 type: String,
-                value: currentValue ? currentValue + ', ' + examName : examName,
+                value: currentValue ? currentValue + ', ' + cleanedExamName : cleanedExamName,
                 wrap: true
             };
         }
@@ -221,7 +225,6 @@ export const writeCalendarToFile = async (startDate, endDate, examSchedule) => {
             currentSchoolWeek++;
         }
     }
-    console.log(startDate, endDate)
     await writeXlsxFile(data, {
         columns,
         fileName: 'klausurenplan.xlsx'

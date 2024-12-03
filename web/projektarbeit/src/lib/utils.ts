@@ -248,7 +248,7 @@ export const preprocessExams = (
 	exams.forEach((exam) => {
 		if (exam.is2xHJ) {
 			const exam1: ExamDataItem = {
-				name: exam.name + '_1',
+				name: exam.name + '$$1',
 				is2xHJ: false,
 				studentCount: exam.studentList?.length || 0,
 				adjancencyList: new Set(),
@@ -257,7 +257,7 @@ export const preprocessExams = (
 			};
 
 			const exam2: ExamDataItem = {
-				name: exam.name + '_2',
+				name: exam.name + '$$2',
 				is2xHJ: false,
 				studentCount: exam.studentList?.length || 0,
 				adjancencyList: new Set(),
