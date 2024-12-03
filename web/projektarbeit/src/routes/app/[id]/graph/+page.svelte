@@ -137,7 +137,7 @@
 
       nodeGroup
         .append("text")
-        .text(d => d.id)
+        .text(d => d.id.replace(/\$\$(1|2)/g, ''))
         .attr("text-anchor", "middle")
         .attr("dy", ".35em")
         .attr("fill", "black")

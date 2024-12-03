@@ -18,6 +18,17 @@ import alignCenter from 'lucide-svelte/icons/align-center';
 
 export const checkForUpperCase = (str: string) => str === str.toUpperCase();
 
+export const checkForGrade = (course: string): number | null => {
+	if (course.includes('EP')) {
+		return 0;
+	} else if (course.includes('Q1')) {
+		return 1;
+	} else if (course.includes('Q2')) {
+		return 2;
+	}
+	return null;
+};
+
 const convertColumnToObject = (column: any[]) => {
 	return column.reduce((acc, item, index) => {
 		if (index === 0) {
@@ -222,7 +233,7 @@ export const createAdjacencyList = (exams: ExamData): Record<string, Set<string>
 				return;
 			}
 
-			const hasCommonStudents = exam1.studentList?.some(student => 
+			const hasCommonStudents = exam1.studentList?.some((student) =>
 				exam2.studentList?.includes(student)
 			);
 
@@ -323,4 +334,42 @@ export const getCalendarWeek = (date: Date): number => {
 	const dayNr = Math.ceil((date.getTime() - firstJan.getTime()) / (24 * 60 * 60 * 1000));
 	const weekNr = Math.ceil((dayNr + firstJan.getDay()) / 7);
 	return weekNr;
+};
+
+export const getSchoolStartDate = async (examStartDate: Date): Promise<Date | null> => {
+	console.log("examStartDate");
+	const startDate = new Date(examStartDate);
+	startDate.setMonth(startDate.getMonth() - 12);
+	
+	const { schoolHolidays } = await fetchHolidays(startDate, examStartDate);
+	
+	const summerHolidays = schoolHolidays.find(holiday => 
+		holiday.name?.[0]?.text?.toLowerCase().includes('sommerferien')
+	);
+
+	console.log("summerHolidays", summerHolidays);
+
+	if (!summerHolidays) {
+		return null;
+	}
+
+	const holidayEnd = new Date(summerHolidays.endDate);
+	holidayEnd.setDate(holidayEnd.getDate() + 1);
+
+	while (holidayEnd.getDay() === 0 || holidayEnd.getDay() === 6) {
+		holidayEnd.setDate(holidayEnd.getDate() + 1);
+	}
+
+	console.log("holidayEnd", holidayEnd);
+
+	return holidayEnd;
+};
+
+export const getSchoolWeek = (currentWeek: number, schoolStartWeek: number): number => {
+	if (currentWeek < schoolStartWeek) {
+		const weeksInPreviousYear = 52 - schoolStartWeek;
+		return weeksInPreviousYear + currentWeek + 1;
+	}
+	
+	return currentWeek - schoolStartWeek + 1;
 };

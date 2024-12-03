@@ -1,6 +1,6 @@
 // @ts-nocheck
 import writeXlsxFile from 'write-excel-file';
-import { getWorkingDays, getCalendarWeek, getDatesBetween, fetchHolidays } from './utils';
+import { getWorkingDays, getCalendarWeek, getDatesBetween, fetchHolidays, getSchoolStartDate, getSchoolWeek } from './utils';
 
 const HeaderRow = [
 	{
@@ -122,7 +122,7 @@ const createEmptyCells = () => [
 const createWeekSummaryRow = (date, currentSchoolWeek) => ([
     {
         type: String,
-        value: getCalendarWeek(date).toString(),
+        value: (getCalendarWeek(date) + 1).toString(),
         backgroundColor: '#53ffff',
         color: '#000000',
         borderColor: '#000000',
@@ -157,7 +157,7 @@ const getHolidayName = (date, publicHolidays, schoolHolidays) => {
            'Ferien';
 };
 
-const createExamCells = (date, examSchedule) => {
+const createExamCells = (date, examSchedule, exams) => {
     const cells = [
         { type: String, value: '', backgroundColor: undefined },
         { type: String, value: '', backgroundColor: undefined },
@@ -170,14 +170,11 @@ const createExamCells = (date, examSchedule) => {
 
             const cleanedExamName = examName.replace(/\$\$(1|2)/g, '');
 
-            const phase = cleanedExamName.includes('_227') ? 0 :
-                         cleanedExamName.includes('_226') ? 1 : 
-                         cleanedExamName.includes('_225') ? 2 :
-                         3;
+            const grade = exams.find(exam => exam.name === cleanedExamName)?.grade;
             
             const currentValue = cells[0].value;
             
-            cells[0] = {
+            cells[grade] = {
                 type: String,
                 value: currentValue ? currentValue + ', ' + cleanedExamName : cleanedExamName,
                 wrap: true
@@ -188,13 +185,15 @@ const createExamCells = (date, examSchedule) => {
     return cells;
 };
 
-export const writeCalendarToFile = async (startDate, endDate, examSchedule) => {
+export const writeCalendarToFile = async (startDate, endDate, examSchedule, exams) => {
     const dateRange = await getDatesBetween(startDate, endDate);
     const workingDays = dateRange.filter(date => date.getDay() !== 0 && date.getDay() !== 6);
     const { publicHolidays, schoolHolidays } = await fetchHolidays(startDate, endDate);
     
+    const schoolStartDate = await getSchoolStartDate(startDate);
+    const schoolStartWeek = schoolStartDate ? getCalendarWeek(schoolStartDate) : 1;
+    
     const data = [HeaderRow];
-    let currentSchoolWeek = 1;
 
     for (const date of workingDays) {
         const isPublicHoliday = publicHolidays.some(holiday => isHolidayDate(date, holiday));
@@ -215,16 +214,18 @@ export const writeCalendarToFile = async (startDate, endDate, examSchedule) => {
             const holidayName = getHolidayName(date, publicHolidays, schoolHolidays);
             row.push(createHolidayCell(holidayName));
         } else {
-            row.push(...createExamCells(date, examSchedule));
+            row.push(...createExamCells(date, examSchedule, exams));
         }
 
         data.push(row);
 
         if (date.getDay() === 5) {
-            data.push(createWeekSummaryRow(date, currentSchoolWeek));
-            currentSchoolWeek++;
+            const currentWeek = getCalendarWeek(date);
+            const schoolWeek = getSchoolWeek(currentWeek, schoolStartWeek);
+            data.push(createWeekSummaryRow(date, schoolWeek));
         }
     }
+    
     await writeXlsxFile(data, {
         columns,
         fileName: 'klausurenplan.xlsx'

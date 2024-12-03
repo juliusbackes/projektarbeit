@@ -4,12 +4,10 @@
     import * as Alert from "$lib/components/ui/alert";
     import { Button } from "$lib/components/ui/button";
     import { Info } from "lucide-svelte";
-    import { createProjectGraph, getWorkingDays } from "$lib/utils";
+    import { createProjectGraph, getSchoolStartDate, getWorkingDays } from "$lib/utils";
     import { writeCalendarToFile } from "$lib/excel";
 	import { getExams, updateProject } from "$lib/db";
 	import { spBrowserClient } from "$lib";
-	import type { Json } from "$lib/types";
-	import { Graph } from "$lib/graph";
 
     let { data } = $props();
 
@@ -38,7 +36,7 @@
 
         const coloring = graph.getColoring();
 
-        writeCalendarToFile(startDate, endDate, coloring);
+        writeCalendarToFile(startDate, endDate, coloring, exams);
 
         const { data: updatedProject, error: updateError } = await updateProject(`${project.id}`, { 
             has_created_plan: true,

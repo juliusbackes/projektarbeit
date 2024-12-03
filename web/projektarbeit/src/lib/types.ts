@@ -85,6 +85,7 @@ export type Database = {
         Row: {
           adjacencyList: string[] | null
           created_at: string
+          grade: number | null
           id: number
           is2xHJ: boolean | null
           name: string | null
@@ -96,6 +97,7 @@ export type Database = {
         Insert: {
           adjacencyList?: string[] | null
           created_at?: string
+          grade?: number | null
           id?: number
           is2xHJ?: boolean | null
           name?: string | null
@@ -107,6 +109,7 @@ export type Database = {
         Update: {
           adjacencyList?: string[] | null
           created_at?: string
+          grade?: number | null
           id?: number
           is2xHJ?: boolean | null
           name?: string | null
@@ -131,7 +134,7 @@ export type Database = {
           description: string | null
           exam_end_date: string | null
           exam_start_date: string | null
-          graph: Json | Graph | null
+          graph: Json | null
           has_created_plan: boolean | null
           has_defined_exam_period: boolean | null
           has_selected_course_days_and_lks: boolean | null
@@ -145,7 +148,7 @@ export type Database = {
           description?: string | null
           exam_end_date?: string | null
           exam_start_date?: string | null
-          graph?: Json | Graph | null
+          graph?: Json | null
           has_created_plan?: boolean | null
           has_defined_exam_period?: boolean | null
           has_selected_course_days_and_lks?: boolean | null
@@ -159,7 +162,7 @@ export type Database = {
           description?: string | null
           exam_end_date?: string | null
           exam_start_date?: string | null
-          graph?: Json | Graph | null
+          graph?: Json | null
           has_created_plan?: boolean | null
           has_defined_exam_period?: boolean | null
           has_selected_course_days_and_lks?: boolean | null
