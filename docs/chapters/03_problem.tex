@@ -1,4 +1,25 @@
 \newpage
 \section{Klausurenplanung als Optimierungsproblem}
+EINLEITUNG
 \subsection{Modellierung}
+Die Klausurenplanung kann effektiv als Graphenproblem modelliert werden, indem die Klausuren und ihre zeitlichen Abhängigkeiten in einem Konfliktgraphen dargestellt werden. In diesem Graphen repräsentiert jeder Knoten eine Klausur $k \in K$, während Kanten zwischen den Knoten Konflikte symbolisieren, die verhindern, dass zwei Klausuren gleichzeitig stattfinden können. Solche Konflikte entstehen beispielsweise, wenn Schüler oder Lehrkräfte an mehreren Klausuren beteiligt sind, da sie nicht gleichzeitig an mehreren Prüfungen teilnehmen können.\\\\
+Ein Beispiel veranschaulicht diese Modellierung: Gegeben sei eine Menge von Prüfungen $K(G) = \{A,B,C,D,E\} $, deren Teilnehmer sich überschneiden können. Falls Schüler 1 sowohl an Klausur $A$ als auch an Klausur $B$ teilnimmt, wird eine Kante zwischen den Knoten A und B gezogen. Ebenso entsteht eine Kante zwischen $A$ und $D$, wenn Schüler 2 und Schüler 4 an beiden Klausuren beteiligt sind.
+Der resultierende Graph veranschaulicht übersichtlich, welche Klausuren nicht gleichzeitig stattfinden dürfen. Diese Konflikte dienen als Grundlage, um die Klausuren zeitlich so zu planen, dass Überschneidungen vermieden und eine optimale Terminierung gewährleistet werden kann.\\\\
+!!ABB.!!\\\\
+Das Problem kann mithilfe der Graphenfärbung gelöst werden. Jede Farbe $ c \in C(G)$ repräsentiert ein Datum, und die Aufgabe besteht darin, die Knoten so zu färben, dass keine zwei miteinander verbundenen Knoten dieselbe Farbe erhalten. \\\\
+Ziel ist es, die Gesamtzahl der verwendeten Farben zu minimieren, da dies einer Optimierung des Klausurenplans entspricht. Je weniger Farben erforderlich sind, desto kompakter und übersichtlicher wird der Zeitplan, was den organisatorischen Aufwand reduziert.\\\\
+Die minimale Anzahl an Farben in einem solchen Konfliktgraphen gibt schließlich an, wie viele Zeitfenster/Tage mindestens benötigt werden, um alle Konflikte zu vermeiden. Dieses Modell bietet eine präzise Grundlage für die Erstellung eines effizienten und konfliktfreien Klausurenplans.\\\\
+Wir definieren die Menge der Farben $C(G)$ als die Menge aller möglichen Daten, an denen eine Klausur stattfinden kann. Diese umfasst alle Daten innerhalb eines zuvor festgelegten Zeitraums, ausgenommen Wochenenden, Feiertage und Ferien.\\
+Die Menge $WD = \{0, \dots, 4\}$ repräsentiert die Wochentag-Indizes. Wir definieren eine Abbildung 
+$$ w_{C(G)} \colon C(G) \rightarrow WD, $$
+die jedem Datum einen Wochentag zuweist.\\
+Weiterhin definieren wir die Menge $ D = \mathcal{P}(WD) \setminus \varnothing$, also die Potenzmenge von $WD$ ohne die leere Menge. Diese enthält alle möglichen Kombinationen von Wochentag-Indizes. Zusätzlich definieren wir eine Abbildung 
+$$ w_{K(G)} \colon K(G) \rightarrow D, $$
+die jedem Knoten $v \in K(G)$ eine Teilmenge von $WD$ zuordnet.\\
+Die möglichen Farben eines Knotens $v$ definieren wir schließlich als
+$$
+C(v)= \{ c \colon \; c \in C(G) \, \setminus \, C(N_G(v)) \; \wedge \; w_{C(G)}(c) \in w_{K(G)}(v)\}
+$$
+wobei $N_G(v)$ die Menge der Nachbarn von $v$ im Graphen $G$ bezeichnet. 
+
 \subsection{Zielsetzungen}
