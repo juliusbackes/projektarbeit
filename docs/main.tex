@@ -20,8 +20,11 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{etoolbox}
+\usepackage{longtable}
+\usepackage[outputdir=../]{minted}
 \captionsetup{singlelinecheck=false, justification=centering, font=small}
 \usepackage[backend=biber, style=apa]{biblatex}
+\setlength{\bibitemsep}{1em}
 \addbibresource{docs/sources.bib}
 
 \pgfplotsset{compat=1.18}
@@ -72,4 +75,6 @@
 \input{docs/chapters/06_validierung}
 \input{docs/chapters/07_summary}
 \input{docs/chapters/08_sources}
+\input{docs/chapters/09_anteile}
+
 \end{document}
