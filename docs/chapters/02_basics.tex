@@ -80,8 +80,8 @@ wobei $C_G(w)$ die Farbe des Knotens $w$ angibt und $U(G)$ die Menge der ungefä
 \begin{equation*}
     U(G)\coloneqq \{v \in V(G) \colon \;C_G(v) = \varnothing\}
 \end{equation*}
-Die Funktionen zur Bestimmung des maximalen Sättigungsgrads und des maximalen Knotengrads können wie folgt definiert werden:
+Die Funktionen, die den Knoten $v$ mit dem höchsten Sättigungs- oder Knotengrad in einem Graphen $G$ liefern, können wie folgt definiert werden.
 \begin{align*}
-    \max \text{sat}_G(v) &= \max(\{\text{sat}_G(v)\colon \; v \in V(G) \setminus U(G)\})\\
-    \max \deg_G(v) &= \max(\{\deg_G(v) \colon \; v \in V(G)\})
+    \arg \max \text{sat}(G) &= \{v \in V(G) \colon \; \text{sat}_G(v) = \max(\{\text{sat}_G(u) \colon u \in V(G) \})\}\\
+    \arg \max \deg(G) &= \{v \in V(G)\colon \; \deg_G(v) = \max(\{\deg_G(u) \colon u \in V(G)\}) \}
 \end{align*}

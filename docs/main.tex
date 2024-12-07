@@ -21,11 +21,21 @@
 \usepackage{caption}
 \usepackage{etoolbox}
 \usepackage{longtable}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage[outputdir=../]{minted}
 \captionsetup{singlelinecheck=false, justification=centering, font=small}
 \usepackage[backend=biber, style=apa]{biblatex}
 \setlength{\bibitemsep}{1em}
 \addbibresource{docs/sources.bib}
+
+\DeclareLabeldate{
+  \field{date}
+  \field{year}
+  \field{eventdate}
+  \field{origdate}
+  \literal{o. D.}
+}
 
 \pgfplotsset{compat=1.18}
 
@@ -55,6 +65,7 @@
 \fancyhf{}
 \fancyhead[RO]{\nouppercase{\leftmark\hfill}}
 \fancyfoot[R]{\thepage}
+\setlength{\headheight}{14.49998pt}
 
 \begin{document}
 \pagestyle{fancy}
