@@ -65,12 +65,40 @@ tailwind - shadcn
 \subsubsection{Backend-Design}
 Das Backend umfasst alle Prozesse, die im Hintergrund der Anwendung ablaufen. Es steuert die Logik für Benutzerfunktionen, verarbeitet Datenbankabfragen, regelt die Kommunikation zwischen Diensten und sorgt dafür, dass Funktionen wie Benutzerauthentifizierung reibungslos funktionieren \parencite{nam-le-thanh-web-designer-2023}.\\\\
 Das Backend der hier entwickelten Webanwendung soll vor allem zwei Hauptaufgaben erfüllen. Erstens die Authentifizierung: Dazu gehören die Speicherung von Benutzerdaten, die Verschlüsselung von Passwörtern und die Speicherung von sogenannten Authentifizierungstokens, die für die Kommunikation mit dem Backend benötigt werden. Zweitens die Speicherung aller anderen Daten. Alle Kurse, Graphen und alle damit verbundenen Daten müssen gespeichert werden.\\\\
-Dazu benötigt man eine Datenbank. In diesem Projekt wird eine SQL-Datenbank (Structured Query Language) verwendet, da es durch die feste Datenstruktur und die einfache Verwaltung von Beziehungen ideale Voraussetzungen für die sichere und einheitliche Speicherung komplexer Daten wie Kurse und Graphen bietet QUELLE.\\\\
-Nun muss noch eine Lösung für die andere Hauptaufgabe gefunden werden. Die Antwort heißt Firebase bzw. Supabase. Firebase ist ein Backend-as-a-Service (Baas), das von Google entwickelt wurde. Es ist Cloud-basiert und hat viele wichtige Funktionen wie Datenbank, Authentifizierung und vieles mehr bereits integriert. Supabase ist eine Open-Source-Kopie von Firebase. Unternehmen wie Mozilla, PwC, Johnson \& Johnson und 1Password verwenden Supabase. https://supabase.com/ga.\\\\
+Dazu benötigt man eine Datenbank. In diesem Projekt wird eine SQL-Datenbank (Structured Query Language) verwendet, da es durch die feste Datenstruktur und die einfache Verwaltung von Beziehungen ideale Voraussetzungen für die sichere und einheitliche Speicherung komplexer Daten wie Kurse und Graphen bietet \parencite{aws-sql}.\\\\
+Nun muss noch eine Lösung für die andere Hauptaufgabe gefunden werden. Die Antwort heißt Firebase bzw. Supabase. Firebase ist ein Backend-as-a-Service (Baas), das von Google entwickelt wurde. Es ist Cloud-basiert und hat viele wichtige Funktionen wie Datenbank, Authentifizierung und vieles mehr bereits integriert. Supabase ist eine Open-Source-Kopie von Firebase \parencite{wilson-2022}. Unternehmen wie Mozilla, PwC, Johnson \& Johnson und 1Password verwenden Supabase \parencite{sb-companies}.\\\\
 
-sveltekit?\\\\\\\\
+sveltekitt?\\\\\\\\
 Alle Voraussetzungen sind erfüllt: Die Benutzeroberfläche wird mit TypeScript und dem Framework Svelte entwickelt. Im Backend übernimmt Supabase sowohl die Datenbankverwaltung als auch die Benutzerauthentifizierung und bildet damit eine stabile und skalierbare Grundlage für die Anwendung.
-% \subsubsection{Technologie-Stack}
+\newpage
 \subsection{Implementierung}
+EINLEITUNG
 \subsubsection{Algorithmische Umsetzung}
+In der Anwendung wird ein Dsatur (Degree of Saturation - Grad der Sättigung ) Algorithmus verwendet.
+
+\begin{algorithm}
+\caption{Dsatur Algorithmus in Pseudocode}\label{alg:cap}
+\begin{algorithmic}
+\Require Graph $G = (V(G), E(G))$, Farben $C(G)$\\
+\State coloring $\gets$ $f: V(G) \rightarrow \varnothing$\\
+
+
+
+\While{$U(G)$ $\neq$ $\varnothing$}
+
+    \State chosenVertex $\gets$ $\arg \max \text{sat($U(G)$)}$\\
+    
+    \If{(chosenVertex $=$ $\varnothing) \vee (\text{chosenVertex} \in \mathcal{P}(V(G))$}\\
+        \State chosenVertex $\gets$ $\arg \max \deg(U(G))$\\
+        
+        \If{chosenVertex = $\varnothing$}\\
+            \State chosenVertex $\gets$ getRandomVertex($U(G)$)\\
+        \EndIf\\
+    \EndIf\\
+    \State lowestColor $\gets$ getLowestAvailableColor(chosenVertex)
+    \State coloring.set(chosenVertex, lowestColor)\\
+\EndWhile
+
+\end{algorithmic}
+\end{algorithm}
 \subsubsection{Benutzeroberfläche}

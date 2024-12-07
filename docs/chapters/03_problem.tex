@@ -10,12 +10,12 @@ Das Problem kann mithilfe der Graphenfärbung gelöst werden. Jede Farbe $ c \in
 Ziel ist es, die Gesamtzahl der verwendeten Farben zu minimieren, da dies einer Optimierung des Klausurenplans entspricht. Je weniger Farben erforderlich sind, desto kompakter und übersichtlicher wird der Zeitplan, was den organisatorischen Aufwand reduziert.\\\\
 Die minimale Anzahl an Farben in einem solchen Konfliktgraphen gibt schließlich an, wie viele Zeitfenster/Tage mindestens benötigt werden, um alle Konflikte zu vermeiden. Dieses Modell bietet eine präzise Grundlage für die Erstellung eines effizienten und konfliktfreien Klausurenplans.\\\\
 Wir definieren die Menge der Farben $C(G)$ als die Menge aller möglichen Daten, an denen eine Klausur stattfinden kann. Diese umfasst alle Daten innerhalb eines zuvor festgelegten Zeitraums, ausgenommen Wochenenden, Feiertage und Ferien.\\
-Die Menge $WD = \{0, \dots, 4\}$ repräsentiert die Wochentag-Indizes. Wir definieren eine Abbildung 
-$$ w_{C(G)} \colon C(G) \rightarrow WD, $$
+Die Menge $I_W = \{0, \dots, 4\}$ repräsentiert die Wochentag-Indizes. Wir definieren eine Abbildung 
+$$ w_{C(G)} \colon \; C(G) \rightarrow I_W, $$
 die jedem Datum einen Wochentag zuweist.\\
-Weiterhin definieren wir die Menge $ D = \mathcal{P}(WD) \setminus \varnothing$, also die Potenzmenge von $WD$ ohne die leere Menge. Diese enthält alle möglichen Kombinationen von Wochentag-Indizes. Zusätzlich definieren wir eine Abbildung 
+Weiterhin definieren wir die Menge $ D = \mathcal{P}(I_W) \setminus \varnothing$, also die Potenzmenge von $I_W$ ohne die leere Menge. Diese enthält alle möglichen Kombinationen von Wochentag-Indizes. Zusätzlich definieren wir eine Abbildung 
 $$ w_{K(G)} \colon K(G) \rightarrow D, $$
-die jedem Knoten $v \in K(G)$ eine Teilmenge von $WD$ zuordnet.\\
+die jedem Knoten $v \in K(G)$ eine Teilmenge von $I_W$ zuordnet.\\
 Die möglichen Farben eines Knotens $v$ definieren wir schließlich als
 $$
 C(v)= \{ c \colon \; c \in C(G) \, \setminus \, C(N_G(v)) \; \wedge \; w_{C(G)}(c) \in w_{K(G)}(v)\}
