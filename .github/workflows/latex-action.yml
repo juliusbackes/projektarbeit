@@ -22,7 +22,7 @@ jobs:
         with:
           root_file: docs/main.tex
           latexmk_use_lualatex: true
-          args: "-lualatex -file-line-error -interaction=nonstopmode -bibtex"
+          args: "-lualatex -file-line-error -interaction=nonstopmode -bibtex -recorder"
 
       - name: Push PDF to GitHub
         run: |
