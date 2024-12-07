@@ -1,5 +1,5 @@
 name: Build LaTeX document
-on: 
+on:
   push:
     paths:
       - 'docs/**'
@@ -16,21 +16,19 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y biber
-
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
           root_file: docs/main.tex
           latexmk_use_lualatex: true
-          args: "-lualatex -file-line-error -interaction=nonstopmode -bibtex -recorder"
+          args: "-lualatex -file-line-error -interaction=nonstopmode -recorder -bibtex"
 
       - name: Push PDF to GitHub
         run: |
           find . -type f -name 'main.*' ! -name 'main.pdf' -delete
-          rm docs/main.pdf
           mv main.pdf docs/main.pdf
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/main.pdf
           git commit -m "@actions: update PDF"
-          git push origin main --force
+          git push origin main
