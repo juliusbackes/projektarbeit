@@ -159,10 +159,10 @@ const getHolidayName = (date, publicHolidays, schoolHolidays) => {
 
 const createExamCells = (date, examSchedule, exams) => {
     const cells = [
-        { type: String, value: '', backgroundColor: undefined },
-        { type: String, value: '', backgroundColor: undefined },
-        { type: String, value: '', backgroundColor: undefined },
-        { type: String, value: '', backgroundColor: undefined }
+        { type: String, value: undefined, backgroundColor: undefined },
+        { type: String, value: undefined, backgroundColor: undefined },
+        { type: String, value: undefined, backgroundColor: undefined },
+        { type: String, value: undefined, backgroundColor: undefined }
     ];
 
     for (const [examName, examDate] of examSchedule.entries()) {
@@ -172,7 +172,7 @@ const createExamCells = (date, examSchedule, exams) => {
 
             const grade = exams.find(exam => exam.name === cleanedExamName)?.grade;
             
-            const currentValue = cells[0].value;
+            const currentValue = cells[grade].value;
             
             cells[grade] = {
                 type: String,

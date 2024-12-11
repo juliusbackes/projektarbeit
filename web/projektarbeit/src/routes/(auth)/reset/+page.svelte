@@ -15,13 +15,11 @@
 	async function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
 		isSubmitting = true;
-        console.log(email)
 
         const { error } = await spBrowserClient.auth.resetPasswordForEmail(email, {
             redirectTo: `${dev ? 'http://localhost:5173' : BASE_URL}/callback`
         });
 
-        console.log(error)
 	}
 </script>
 <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

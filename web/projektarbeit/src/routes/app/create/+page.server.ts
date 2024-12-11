@@ -11,8 +11,6 @@ export const actions: Actions = {
 
         const { data: projectData, error: projectError } = await createProject({ name, description, user_id }, supabase);
 
-        console.log(projectData, name, description, user_id);
-
 		if (projectError) {
 			return {
 				status: 500,

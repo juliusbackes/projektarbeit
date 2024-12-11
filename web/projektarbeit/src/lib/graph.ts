@@ -1,3 +1,5 @@
+import { convertDayIndex, createColorToWeek, createWeekLoad, getCourseType } from "$lib/utils";
+
 /**
  * @class Graph class
  * @description The Graph class for the "projektarbeit" is a simple implementation of a graph using an adjacency list.
@@ -123,11 +125,7 @@ export class Graph {
 		return vertices[Math.floor(Math.random() * vertices.length)];
 	}
 
-	private getBestAvailableColor(vertex: string): Date {
-		if (this.colors.size === 0) {
-			throw new Error('No colors available');
-		}
-
+	private getNeighborColors(vertex: string): Set<Date> {
 		const neighborColors = new Set<Date>();
 		this.getNeighbors(vertex).forEach((neighbor) => {
 			const color = this.coloring.get(neighbor);
@@ -135,66 +133,122 @@ export class Graph {
 				neighborColors.add(color);
 			}
 		});
+		return neighborColors;
+	}
 
-		const availableColors = Array.from(this.colors.difference(neighborColors));
-
-		const validColors = availableColors.filter((color) => {
-			const colorWeekday = this.colorToWeekday.get(color);
+	private filterValidColors(availableColors: Date[], vertex: string): Date[] {
+		return availableColors.filter((color) => {
+			const colorWeekday = this.colorToWeekday.get(color) || convertDayIndex(color.getDay());
 			const vertexWeekdays = this.vertexToWeekdays.get(vertex);
-			const week = this.colorToWeek.get(color);
 
-			if (colorWeekday === undefined || vertexWeekdays === undefined || week === undefined) {
-				return false;
-			}
-
-			const currentWeekLoad = this.weekLoad.get(week) ?? 0;
-
-			if (currentWeekLoad >= 3) {
+			if (colorWeekday === undefined || vertexWeekdays === undefined) {
 				return false;
 			}
 
 			return vertexWeekdays.includes(colorWeekday);
 		});
+	}
+
+	private getBestAvailableColor(vertex: string): Date {
+		if (this.colors.size === 0) {
+			throw new Error('No colors available');
+		}
+
+		const neighborColors = this.getNeighborColors(vertex);
+		const availableColors = Array.from(this.colors.difference(neighborColors));
+		const validColors = this.filterValidColors(availableColors, vertex);
 
 		if (validColors.length === 0) {
 			throw new Error(`No valid colors available for vertex ${vertex}`);
 		}
 
-		const selectedColor = validColors[0];
-		const week = this.colorToWeek.get(selectedColor);
-		
-		if (week !== undefined) {
-			const currentLoad = this.weekLoad.get(week) ?? 0;
-			this.weekLoad.set(week, currentLoad + 1);
+		// Find the color with the lowest score
+		let bestColor = validColors[0];
+		let bestScore = Infinity;
+
+		const is2xHJSecond = vertex.endsWith('$$2');
+
+		for (const color of validColors) {
+			const week = this.colorToWeek.get(color);
+			if (week === undefined) continue;
+
+			const weekLoad = this.weekLoad.get(week) || 0;
+			const conflicts = this.countAdjacentConflictsInWeek(vertex, week);
+
+			let score: number;
+			if (is2xHJSecond) {
+				const WEEK_WEIGHT = 1000;
+				score = (weekLoad * 10) + conflicts - (week * WEEK_WEIGHT);
+			} else {
+				score = (weekLoad * 10) + conflicts;
+			}
+
+			if (score < bestScore) {
+				bestScore = score;
+				bestColor = color;
+			}
 		}
-		
-		return selectedColor;
+
+		const chosenWeek = this.colorToWeek.get(bestColor);
+		if (chosenWeek !== undefined) {
+			const currentLoad = this.weekLoad.get(chosenWeek) || 0;
+			this.weekLoad.set(chosenWeek, currentLoad + 1);
+		}
+
+		return bestColor;
+	}
+
+	private countAdjacentConflictsInWeek(vertex: string, week: number): number {
+		let conflicts = 0;
+		const neighbors = this.getNeighbors(vertex);
+
+		for (const neighbor of neighbors) {
+			const neighborColor = this.coloring.get(neighbor);
+			if (neighborColor && this.colorToWeek.get(neighborColor) === week) {
+				conflicts++;
+			}
+		}
+
+		return conflicts;
 	}
 
 	/**
 	 * Colors the graph using the dsatur (degree saturation) algorithm.
 	 */
 	private color(): void {
-		while (!this.allVerticesColored()) {
-			const uncolored = this.getUncoloredVertices();
+		this.colorToWeek = createColorToWeek(this.colors);
+		this.weekLoad = createWeekLoad(this.colorToWeek);
 
-			let chosenVertex: string | string[] = this.getMaxSaturationVertex(uncolored);
+		const phases = [
+			() => this.getUncoloredVertices().filter(v => getCourseType(v) === 1),
+			() => this.getUncoloredVertices().filter(v => getCourseType(v) === 0),
+			() => this.getUncoloredVertices().filter(v => getCourseType(v) === 2)
+		];
 
-			if (chosenVertex.length > 1) {
-				chosenVertex = this.getMaxDegreeVertex(uncolored);
+		for (const getPhaseVertices of phases) {
+			let vertices = getPhaseVertices();
+			
+			while (vertices.length > 0) {
+				let chosenVertex: string | string[] = this.getMaxSaturationVertex(vertices);
 
 				if (chosenVertex.length > 1) {
-					chosenVertex = this.getRandomVertex(uncolored);
+					chosenVertex = this.getMaxDegreeVertex(vertices);
+
+					if (chosenVertex.length > 1) {
+						chosenVertex = this.getRandomVertex(vertices);
+					}
 				}
+
+				if (Array.isArray(chosenVertex)) {
+					chosenVertex = chosenVertex[0];
+				}
+
+				const bestColor = this.getBestAvailableColor(chosenVertex);
+				this.coloring.set(chosenVertex, bestColor);
+
+				// Update vertices for next iteration
+				vertices = getPhaseVertices();
 			}
-
-			if (Array.isArray(chosenVertex)) {
-				chosenVertex = chosenVertex[0];
-			}
-
-			const bestColor = this.getBestAvailableColor(chosenVertex);
-
-			this.coloring.set(chosenVertex, bestColor);
 		}
 	}
 

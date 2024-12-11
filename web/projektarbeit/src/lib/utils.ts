@@ -326,10 +326,6 @@ export const createProjectGraph = (
 		graph.vertexToWeekdays.set(exam.name, exam.possibleExamDates);
 	});
 
-	graph.colorToWeek = createColorToWeek(graph.colors);
-
-	graph.weekLoad = createWeekLoad(graph.colorToWeek);
-
 	return graph;
 };
 
@@ -341,7 +337,6 @@ export const getCalendarWeek = (date: Date): number => {
 };
 
 export const getSchoolStartDate = async (examStartDate: Date): Promise<Date | null> => {
-	console.log('examStartDate');
 	const startDate = new Date(examStartDate);
 	startDate.setMonth(startDate.getMonth() - 12);
 
@@ -389,14 +384,11 @@ export const createColorToWeek = (colorsSet: Set<Date>): Map<Date, number> => {
 export const createWeekLoad = (colorToWeek: Map<Date, number>): Map<number, number> => {
 	const weekLoad = new Map<number, number>();
 
-	// Get unique weeks from colorToWeek
 	const uniqueWeeks = new Set(colorToWeek.values());
 
-	// Initialize each week with 0 load
 	uniqueWeeks.forEach((week) => {
 		weekLoad.set(week, 0);
 	});
-
 	return weekLoad;
 };
 
@@ -428,4 +420,14 @@ export const parseCourseName = (
 		grade,
 		weekIndexes
 	};
+};
+
+export const convertDayIndex = (dayIndex: number): number => {
+	return dayIndex === 0 ? 6 : dayIndex - 1;
+};
+
+export const getCourseType = (vertex: string): number => {
+	if (vertex.endsWith('$$1')) return 1;
+	if (vertex.endsWith('$$2')) return 2;
+	return 0;
 };

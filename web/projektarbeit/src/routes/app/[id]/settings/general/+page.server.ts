@@ -27,7 +27,6 @@ export const actions: Actions = {
             }
         }
 
-        console.log(data);
         return {
             status: 200,
             body: { success: true }

@@ -22,7 +22,6 @@
 	let courseData = $state(
 		exams?.map((exam) => {
 			const parsedName = parseCourseName(exam.name || '');
-			console.log(parsedName, exam.possibleExamDates, (exam.possibleExamDates ?? [])?.length > 0);
 			return {
 				...exam,
 				possibleExamDates: (exam.possibleExamDates ?? [])?.length > 0 ? exam.possibleExamDates : parsedName?.weekIndexes || [],
