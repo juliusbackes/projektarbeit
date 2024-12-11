@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 	import * as Table from '$lib/components/ui/table';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { checkForGrade, checkForUpperCase } from '$lib/utils';
+	import { checkForGrade, checkForUpperCase, parseCourseName } from '$lib/utils';
 	import * as Alert from '$lib/components/ui/alert';
 	import { AlertCircle } from 'lucide-svelte';
 	import { updateExam, updateProject } from '$lib/db';
@@ -20,12 +20,16 @@
 	}
 
 	let courseData = $state(
-		exams?.map((exam) => ({
-			...exam,
-			possibleExamDates: exam.possibleExamDates || [],
-			is2xHJ: exam.is2xHJ || checkForUpperCase(exam.name || ''),
-			grade: exam.grade || checkForGrade(exam.name || '')
-		})) || []
+		exams?.map((exam) => {
+			const parsedName = parseCourseName(exam.name || '');
+			console.log(parsedName, exam.possibleExamDates, (exam.possibleExamDates ?? [])?.length > 0);
+			return {
+				...exam,
+				possibleExamDates: (exam.possibleExamDates ?? [])?.length > 0 ? exam.possibleExamDates : parsedName?.weekIndexes || [],
+				is2xHJ: exam.is2xHJ || parsedName?.is2xHJ || false,
+				grade: exam.grade ?? parsedName?.grade ?? checkForGrade(exam.name || '')
+			};
+		}) || []
 	);
 
 	const toggleWeekday = (exam: Database['public']['Tables']['exams']['Row'], weekday: number) => {
@@ -66,7 +70,7 @@
 	let attempted = $state(false);
 
 	$effect(() => {
-		hasInvalidCourses = courseData.some((exam) => exam.possibleExamDates.length === 0) || courseData.some((exam) => exam.grade === null);
+		hasInvalidCourses = courseData.some((exam) => (exam.possibleExamDates ?? []).length === 0) || courseData.some((exam) => exam.grade === null);
 	});
 
 	const saveData = async () => {

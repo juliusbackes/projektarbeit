@@ -326,6 +326,10 @@ export const createProjectGraph = (
 		graph.vertexToWeekdays.set(exam.name, exam.possibleExamDates);
 	});
 
+	graph.colorToWeek = createColorToWeek(graph.colors);
+
+	graph.weekLoad = createWeekLoad(graph.colorToWeek);
+
 	return graph;
 };
 
@@ -337,17 +341,15 @@ export const getCalendarWeek = (date: Date): number => {
 };
 
 export const getSchoolStartDate = async (examStartDate: Date): Promise<Date | null> => {
-	console.log("examStartDate");
+	console.log('examStartDate');
 	const startDate = new Date(examStartDate);
 	startDate.setMonth(startDate.getMonth() - 12);
-	
+
 	const { schoolHolidays } = await fetchHolidays(startDate, examStartDate);
-	
-	const summerHolidays = schoolHolidays.find(holiday => 
+
+	const summerHolidays = schoolHolidays.find((holiday) =>
 		holiday.name?.[0]?.text?.toLowerCase().includes('sommerferien')
 	);
-
-	console.log("summerHolidays", summerHolidays);
 
 	if (!summerHolidays) {
 		return null;
@@ -360,8 +362,6 @@ export const getSchoolStartDate = async (examStartDate: Date): Promise<Date | nu
 		holidayEnd.setDate(holidayEnd.getDate() + 1);
 	}
 
-	console.log("holidayEnd", holidayEnd);
-
 	return holidayEnd;
 };
 
@@ -370,6 +370,62 @@ export const getSchoolWeek = (currentWeek: number, schoolStartWeek: number): num
 		const weeksInPreviousYear = 52 - schoolStartWeek;
 		return weeksInPreviousYear + currentWeek + 1;
 	}
-	
+
 	return currentWeek - schoolStartWeek + 1;
+};
+
+export const createColorToWeek = (colorsSet: Set<Date>): Map<Date, number> => {
+	const colorToWeek = new Map<Date, number>();
+	const colors = Array.from(colorsSet);
+
+	for (let i = 0; i < colors.length; i++) {
+		const color = colors[i];
+		colorToWeek.set(color, getCalendarWeek(color));
+	}
+
+	return colorToWeek;
+};
+
+export const createWeekLoad = (colorToWeek: Map<Date, number>): Map<number, number> => {
+	const weekLoad = new Map<number, number>();
+
+	// Get unique weeks from colorToWeek
+	const uniqueWeeks = new Set(colorToWeek.values());
+
+	// Initialize each week with 0 load
+	uniqueWeeks.forEach((week) => {
+		weekLoad.set(week, 0);
+	});
+
+	return weekLoad;
+};
+
+export const parseCourseName = (
+	name: string
+): { is2xHJ: boolean; grade: number | null; weekIndexes: number[] } | null => {
+	const config = name.match(/((Q(1|2))|E)?(-[0-9](-[0-9])*)?$/gi);
+
+	if (!config?.[0]) {
+		return {
+			is2xHJ: checkForUpperCase(name),
+			grade: null,
+			weekIndexes: []
+		};
+	}
+
+	const gradePart = config[0].match(/^(Q(1|2)|E)/i)?.[0];
+	const weekIndexes = config[0].split('-').slice(1).map(Number);
+
+	let grade: number | null = null;
+	if (gradePart) {
+		if (gradePart.toUpperCase() === 'E') grade = 0;
+		else if (gradePart.toUpperCase() === 'Q1') grade = 1;
+		else if (gradePart.toUpperCase() === 'Q2') grade = 2;
+	}
+
+	return {
+		is2xHJ: checkForUpperCase(name),
+		grade,
+		weekIndexes
+	};
 };

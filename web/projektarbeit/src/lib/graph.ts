@@ -5,10 +5,12 @@
 export class Graph {
 	graph: Map<string, string[]> = new Map();
 	coloring: Map<string, Date> = new Map();
-	colors: Set<Date> = new Set(); // Set of dates representing the colors (format: Unix timestamp in milliseconds)
-	colorToWeekday: Map<Date, number> = new Map(); // Map of colors to weekdays (0 = Monday, 6 = Sunday)
-	vertexToWeekdays: Map<string, number[]> = new Map(); // Map of vertices to weekdays (0 = Monday, 6 = Sunday)
-	
+	colors: Set<Date> = new Set();
+	colorToWeekday: Map<Date, number> = new Map();
+	vertexToWeekdays: Map<string, number[]> = new Map();
+	colorToWeek: Map<Date, number> = new Map();
+	weekLoad: Map<number, number> = new Map();
+
 	getAllVertices(): string[] {
 		return Array.from(this.graph.keys());
 	}
@@ -89,19 +91,19 @@ export class Graph {
 	private getSaturation(v: string): number {
 		const neighbors = this.getNeighbors(v);
 		const neighborColors = new Set<Date>();
-		
-		neighbors.forEach(neighbor => {
+
+		neighbors.forEach((neighbor) => {
 			const color = this.coloring.get(neighbor);
 			if (color) {
 				neighborColors.add(color);
 			}
 		});
-		
+
 		return neighborColors.size;
 	}
 
 	private getMaxSaturationVertex(vertices: string[]): string[] {
-		const saturations = vertices.map(v => ({ vertex: v, saturation: this.getSaturation(v) }));
+		const saturations = vertices.map((v) => ({ vertex: v, saturation: this.getSaturation(v) }));
 		const maxSaturation = Math.max(...saturations.map(({ saturation }) => saturation));
 		return saturations
 			.filter(({ saturation }) => saturation === maxSaturation)
@@ -109,76 +111,90 @@ export class Graph {
 	}
 
 	private getMaxDegreeVertex(vertices: string[]): string[] {
-		const degrees = vertices.map(v => ({ vertex: v, degree: this.getNeighbors(v).length }));
+		const degrees = vertices.map((v) => ({ vertex: v, degree: this.getNeighbors(v).length }));
 		const maxDegree = Math.max(...degrees.map(({ degree }) => degree));
-		return degrees
-			.filter(({ degree }) => degree === maxDegree)
-			.map(({ vertex }) => vertex);
+		return degrees.filter(({ degree }) => degree === maxDegree).map(({ vertex }) => vertex);
 	}
 
 	private getRandomVertex(vertices: string[]): string {
 		if (vertices.length === 0) {
-			throw new Error("The vertices array is empty");
+			throw new Error('The vertices array is empty');
 		}
 		return vertices[Math.floor(Math.random() * vertices.length)];
 	}
 
-	private getLowestAvailableColor(vertex: string): Date {
+	private getBestAvailableColor(vertex: string): Date {
 		if (this.colors.size === 0) {
-			throw new Error("No colors available");
+			throw new Error('No colors available');
 		}
-		
+
 		const neighborColors = new Set<Date>();
-		this.getNeighbors(vertex).forEach(neighbor => {
+		this.getNeighbors(vertex).forEach((neighbor) => {
 			const color = this.coloring.get(neighbor);
 			if (color !== undefined) {
 				neighborColors.add(color);
 			}
 		});
-		
-		const availableColors = this.colors.difference(neighborColors);
 
-		for (const color of availableColors) {
+		const availableColors = Array.from(this.colors.difference(neighborColors));
+
+		const validColors = availableColors.filter((color) => {
 			const colorWeekday = this.colorToWeekday.get(color);
 			const vertexWeekdays = this.vertexToWeekdays.get(vertex);
+			const week = this.colorToWeek.get(color);
 
-			if (colorWeekday === undefined || vertexWeekdays === undefined) {
-				throw new Error(`Color or vertex weekdays not found: ${colorWeekday} ${vertexWeekdays} ${vertex}`);
+			if (colorWeekday === undefined || vertexWeekdays === undefined || week === undefined) {
+				return false;
 			}
 
-			if (!vertexWeekdays.includes(colorWeekday)) {
-				availableColors.delete(color);
+			const currentWeekLoad = this.weekLoad.get(week) ?? 0;
+
+			if (currentWeekLoad >= 3) {
+				return false;
 			}
+
+			return vertexWeekdays.includes(colorWeekday);
+		});
+
+		if (validColors.length === 0) {
+			throw new Error(`No valid colors available for vertex ${vertex}`);
 		}
 
-		return availableColors.values().next().value; // Return earliest date
+		const selectedColor = validColors[0];
+		const week = this.colorToWeek.get(selectedColor);
+		
+		if (week !== undefined) {
+			const currentLoad = this.weekLoad.get(week) ?? 0;
+			this.weekLoad.set(week, currentLoad + 1);
+		}
+		
+		return selectedColor;
 	}
 
 	/**
 	 * Colors the graph using the dsatur (degree saturation) algorithm.
 	 */
 	private color(): void {
-    	while (!this.allVerticesColored()) {
-        	const uncolored = this.getUncoloredVertices();
-        
+		while (!this.allVerticesColored()) {
+			const uncolored = this.getUncoloredVertices();
+
 			let chosenVertex: string | string[] = this.getMaxSaturationVertex(uncolored);
-        
+
 			if (chosenVertex.length > 1) {
 				chosenVertex = this.getMaxDegreeVertex(uncolored);
 
 				if (chosenVertex.length > 1) {
 					chosenVertex = this.getRandomVertex(uncolored);
-
-				};
-			};
+				}
+			}
 
 			if (Array.isArray(chosenVertex)) {
 				chosenVertex = chosenVertex[0];
-			};
+			}
 
-			const lowestColor = this.getLowestAvailableColor(chosenVertex);
+			const bestColor = this.getBestAvailableColor(chosenVertex);
 
-			this.coloring.set(chosenVertex, lowestColor);
+			this.coloring.set(chosenVertex, bestColor);
 		}
 	}
 
@@ -194,36 +210,35 @@ export class Graph {
 		return {
 			graph: Array.from(this.graph.entries()),
 			coloring: Array.from(this.coloring.entries()).map(([key, date]) => [key, date.getTime()]),
-			colors: Array.from(this.colors).map(date => date.getTime()),
-			colorToWeekday: Array.from(this.colorToWeekday.entries()).map(([date, weekday]) => [date.getTime(), weekday]),
+			colors: Array.from(this.colors).map((date) => date.getTime()),
+			colorToWeekday: Array.from(this.colorToWeekday.entries()).map(([date, weekday]) => [
+				date.getTime(),
+				weekday
+			]),
 			vertexToWeekdays: Array.from(this.vertexToWeekdays.entries())
 		};
 	}
 
 	static fromJSON(json: any): Graph {
 		const graph = new Graph();
-		
-		// Restore graph
+
 		graph.graph = new Map(json.graph);
-		
-		// Restore coloring
+
 		graph.coloring = new Map(
 			json.coloring.map(([key, timestamp]: [string, number]) => [key, new Date(timestamp)])
 		);
-		
-		// Restore colors
-		graph.colors = new Set(
-			json.colors.map((timestamp: number) => new Date(timestamp))
-		);
-		
-		// Restore colorToWeekday
+
+		graph.colors = new Set(json.colors.map((timestamp: number) => new Date(timestamp)));
+
 		graph.colorToWeekday = new Map(
-			json.colorToWeekday.map(([timestamp, weekday]: [number, number]) => [new Date(timestamp), weekday])
+			json.colorToWeekday.map(([timestamp, weekday]: [number, number]) => [
+				new Date(timestamp),
+				weekday
+			])
 		);
-		
-		// Restore vertexToWeekdays
+
 		graph.vertexToWeekdays = new Map(json.vertexToWeekdays);
-		
+
 		return graph;
 	}
 }

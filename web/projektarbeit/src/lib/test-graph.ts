@@ -44,8 +44,8 @@
 // console.log(graph.getColoring());
 // console.log(graph.graph)
 
-import { getWorkingDays } from "$lib/utils";
+import { parseCourseName } from "$lib/utils";
 
-const workingDays = await getWorkingDays(new Date("2024-09-01"), new Date("2025-02-28"));
-
-console.log(workingDays);
+parseCourseName("bio526-Q1-1-2");
+parseCourseName("geg826-Q2");
+parseCourseName("eng826-E-4-0-3");
