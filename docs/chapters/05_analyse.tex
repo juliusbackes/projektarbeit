@@ -1,0 +1,33 @@
+\newpage
+
+\section{Analyse und Evaluation der Optimierung}
+In diesem Kapitel werden die Optimierungsergebnisse analysiert und bewertet. Dazu wird zunächst die Qualität der gefundenen Lösung anhand definierter Metriken überprüft. Anschließend erfolgt eine Untersuchung der Effizienz und Komplexität des gewählten Algorithmus, um dessen Leistungsfähigkeit zu beurteilen. Abschließend werden die durchgeführten Tests und deren Ergebnisse vorgestellt, um die Praxistauglichkeit der Lösung zu bewerten und Verbesserungspotentiale aufzuzeigen.
+\subsection{Bewertung der Lösungsqualität}
+Der Algorithmus terminiert grundsätzlich fair und bietet viel Freiraum bei der Planung. Die Regel, nicht mehr als drei Prüfungen pro Schüler pro Woche vorzusehen, ist jedoch bei einer sehr hohen Anzahl von Kursen schwer einzuhalten und kann in diesen seltenen Fällen überschritten werden.\\\\
+In Zukunft könnte versucht werden, einen noch schnelleren und optimaleren Algorithmus als den Dsatur-Algorithmus zu finden. Außerdem könnte versucht werden, durch weitere Optimierungen die Regel von maximal drei Klausuren pro Schüler pro Woche besser einzuhalten.\\\\
+Ein Aspekt des DSatur-Algorithmus ist die zufällige Auswahl des ersten Knotens. Dies kann dazu führen, dass die Terminierung der Klausuren bei wiederholten Durchläufen leicht variiert. Dies wirkt sich zwar auf die genaue Anordnung der Termine aus, hat aber keinen negativen Einfluss auf die Einhaltung der Planungsregeln und die Gesamtqualität der Lösung.
+
+\subsection{Effizienz und Komplexität}
+Der DSatur-Algorithmus durchläuft in jeder Iteration einen Auswahlprozess, bei dem alle noch nicht eingefärbten Knoten geprüft werden. Dieser Prozess wird fortgesetzt, bis alle Knoten eingefärbt sind. Zudem wird in jeder Iteration die Sättigung jedes Knotens abgefragt, um den nächsten Knoten mit der höchsten Sättigung zu bestimmen. Darüber hinaus wird die bestmögliche verfügbare Farbe ermittelt. Insgesamt ergibt sich daraus eine Laufzeit von $\mathcal{O}(n^2)$, wobei $n = |V(G)|$ die Anzahl der Knoten im Graphen ist. \glqq Schnell\grqq \, sind Algorithmen mit nicht-polynomialer Komplexität wie $\mathcal{O}(n)$ oder $\mathcal{O}(\log(n))$ \parencite{leismann-2023}.
+Die Big O Notation ($\mathcal{O}(n^2)$) beschreibt, wie die Laufzeit eines Algorithmus mit der Größe des Inputs wächst, und kategorisiert Algorithmen nach ihrer Effizienz \parencite{leismann-2023}.\\\\
+\begin{figure}[h!]
+\centering
+\begin{tabular}{@{}cc@{}}
+\toprule
+\textbf{Anzahl der Kurse} & \textbf{Laufzeit (s)} \\ \midrule
+10                        & 0.612                 \\
+100                       & 3.582                 \\
+500                       & 13.399                \\
+1000                      & 32.197                \\ \bottomrule
+\end{tabular}
+\caption[Laufzeiten für verschiedene Kursanzahlen]{Laufzeiten für verschiedene Kursanzahlen (durgeführt auf MacBook Air 2020 M1)}
+\label{tab:laufzeiten}
+\end{figure}
+\subsection{Tests und Ergebnisse}
+Die Webanwendung wird im Folgenden anhand eines Beispiels getestet. Dabei werden Kurse basierend auf den 11 Kursen des Profils 23PB1 der Oberschule an der Ronzelenstraße verwendet. Um die Kursnummern eindeutig einem Jahrgang zuzuordnen, wird jedem Kursnamen ein Suffix hinzugefügt, das den entsprechenden Jahrgang angibt. Der Test umfasst 11 Kurse für die Einführungsphase (E-Phase), die Qualifikationsphase 1 (Q1-Phase) und die Qualifikationsphase 2 (Q2-Phase), sodass insgesamt 33 Kurse in der Tabelle dargestellt werden.\\\\
+Hinter der Jahrgangsstufe ist, abhängig von der Kursart, ein oder zwei Zahlen angegeben. Diese Zahlen repräsentieren den Wochentag-Index (Montag = 0, Freitag = 4). Jede Spalte enthält Schüler aus den entsprechenden Kursen. Die verwendeten Schülerlisten sind jedoch fiktiv und mit einem Suffix für die Jahrgangsstufe versehen, um jahrgangsübergreifende Konflikte zu vermeiden.\\\\
+Die zugehörige Excel-Tabelle mit den Daten finden Sie im Anhang (Abb. \ref{fig:studenList}).\\\\
+In der Webanwendung wird zunächst ein neues Projekt erstellt, in dem die erforderliche Datei hochgeladen wird. Das System extrahiert alle relevanten Daten selbstständig aus der Datei. Der Zeitraum für den Klausurenplan wird vom Nutzer festgelegt; beispielhaft wurde hier der Zeitraum vom 16.09.2024 bis zum 15.11.2024 gewählt.\\
+Sobald alle relevanten Daten bereitgestellt wurden, generiert die Anwendung den Klausurenplan. Dieser ist ebenfalls im Anhang zu finden (Abb. \ref{fig:klausurenplan}). Zusätzlich ist der Graph, der die Beziehungen zwischen den Kursen visualisiert, ebenfalls im Anhang dargestellt (Abb. \ref{fig:graph1}).\\\\
+Die folgenden Eigenschaften des vorliegenden Klausurenplans sind deutlich erkennbar: Jeder Kurs ist korrekt dem entsprechenden Jahrgang zugeordnet. Feiertage und Ferientage wurden dynamisch erkannt und berücksichtigt. Zudem ist ersichtlich, dass die Klausuren ausschließlich an den Tagen terminiert sind, an denen sie tatsächlich stattfinden können. Klausuren, die als 2x/Halbjahr (hier LKs) gekennzeichnet sind, wurden gezielt am Anfang und am Ende des Klausurenplans platziert.\\\\
+Weiterhin zeigt der Plan, dass Klausuren \acrshort{i. d. R.} in geeigneten Wochen angesetzt sind. Beispielsweise wurden in Kalenderwoche 43 drei Klausuren terminiert. Ein Blick auf die Schülerlisten zeigt jedoch, dass keine dieser Klausuren in direktem Konflikt zueinander steht, sodass sie optimal innerhalb einer Woche stattfinden können. Der Algorithmus nutzt den gesamten verfügbaren Zeitraum und minimiert dabei effizient die benötigten Zeitslots.

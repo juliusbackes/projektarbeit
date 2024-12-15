@@ -1,0 +1,72 @@
+\documentclass[tikz]{standalone}
+
+\tikzset{%
+  rows/.style={
+    row ##1/.append style={#2}
+  },
+  columns/.style={
+    column ##1/.append style={#2}
+  },
+  row 1/.style={fill=red!20} % Example of styling the first row
+}
+
+\makeatletter
+\tikzset{
+  left delimiter/.style 2 args={append after command={% overwriting original
+    \tikz@delimiter{south east}{south west}% second argument is optional
+    {every delimiter,every left delimiter,#2}{south}{north}{#1}{.}{\pgf@y}}}}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}[
+  >=Latex, node distance=2cm,
+  my matrix/.style={
+    draw, matrix of nodes,
+    nodes={
+      node family/text width/.expanded=%
+        \tikzmatrixname-\the\pgfmatrixcurrentcolumn,
+      node family/text width align=left,
+      inner xsep=+.5\tabcolsep, inner ysep=+0pt, align=left},
+    inner sep=.5\pgflinewidth,
+    font=\strut\ttfamily
+  }
+]
+
+\matrix[
+    my matrix, 
+    nodes={draw, minimum height=1cm, text width=3cm}, 
+    row 1/.style={nodes={fill=red!20}}
+] (m1) {
+  id    & userId     & name     & description   & examStartDate & examEndDate & graph \\
+  int8  & uuid       & string   & string        & timestampz    & timestampz  & jsonb \\
+};
+
+\matrix[
+    my matrix, 
+    below=of m1, 
+    nodes={draw, minimum height=1cm, text width=3cm}, 
+    row 1/.style={nodes={fill=red!20}},
+    column 9/.style={nodes={text width=5cm}}
+] (m2) {
+  id & name & projectId & is2xHJ & grade & studentCount & studentList & adjancencyList & possibleExamDates \\
+  int8 & string & int & boolean & int & int & string[] & string[] & int[] \\
+};
+
+\node[draw, align=center, text width=5cm, font=\ttfamily, above=4cm] (authid) {users.id};
+
+\node[above=1cm of m1, draw, align=center] (attrib) {Attribute};
+
+\foreach \col in {1,2,3,4,5,6,7} {
+    \draw[->] (attrib.south) -- (m1-1-\col.north);
+}
+
+\path[node distance=.25em, font=\bfseries] 
+  node[west above=of m1] {Projects}
+  node[west above=of m2] {Exams};
+
+\draw (m2-1-3.north) -- node[midway, right, xshift=0.2cm] {Primary Key} (m1-2-1.south);
+
+\draw (authid.south) -- (m1-1-2.north);
+
+\end{tikzpicture}
+\end{document}
