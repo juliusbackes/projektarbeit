@@ -1,13 +1,11 @@
-import fs from 'fs';
-import path from 'path';
 import { Resend } from 'resend';
 import { RESEND_API_KEY } from '$env/static/private';
 
 const resend = new Resend(RESEND_API_KEY);
 
 export const GET = async () => {
-    const filePath = path.join(process.cwd(), 'static', 'Projektarbeit.zip');
-    const fileBuffer = await fs.promises.readFile(filePath);
+    const response = await fetch('https://utfs.io/f/Ex1FXeiLpNxs5N17WxwKCrRGgJPV8pN6A1OMnYaekzLu07Sd');
+    const fileBuffer = await response.arrayBuffer();
 
     await resend.emails.send({
         from: 'Projektarbeit <team@pa.juliusbackes.com>',
