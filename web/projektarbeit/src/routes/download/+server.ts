@@ -6,7 +6,7 @@ import { RESEND_API_KEY } from '$env/static/private';
 const resend = new Resend(RESEND_API_KEY);
 
 export const GET = async () => {
-    const filePath = path.resolve('./data/Projektarbeit.zip');
+    const filePath = path.resolve('static', 'Projektarbeit.zip');
     const fileBuffer = await fs.promises.readFile(filePath);
 
     await resend.emails.send({
