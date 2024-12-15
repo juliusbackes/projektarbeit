@@ -9,7 +9,7 @@ export const GET = async () => {
 
     await resend.emails.send({
         from: 'Projektarbeit <team@pa.juliusbackes.com>',
-        to: ['juliusbackes@icloud.com'],
+        to: ['tomkurzke@gmail.com', 'juliusbackes@icloud.com'],
         subject: 'Projektarbeit Download Notification',
         html: `
             <p>Jemand hat die Projektarbeit heruntergeladen.</p>
