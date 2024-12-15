@@ -3,43 +3,44 @@
 Im vorliegenden Kapitel werden grundlegende Konzepte der Graphentheorie eingeführt. 
 Diese sind essenziell, um ein tiefes Verständnis von der Funktionsweise der finalen Anwendung zu entwickeln.\\\\
 Die Graphentheorie stellt einen Teilbereich der Mathematik dar, der sich mit der Untersuchung von Graphen befasst. 
-Die Graphentheorie stellt eine wesentliche Grundlage zur Erstellung und Analyse mathematischer Modelle dar und findet darüber hinaus Anwendung bei der Lösung von Optimierungsproblemen.
+Die Graphentheorie stellt eine wesentliche Grundlage zur Erstellung und Analyse mathematischer Modelle dar und findet darüber hinaus eine breite Anwendung bei der Lösung von Optimierungsproblemen.
 \subsection{Grundbegriffe}
-Ein Graph aus der Graphentheorie unterscheidet sich signifikant von einem "typischen" Graphen, wie man aus der Schulmathematik und aus der Analysis kennt.\\\\
-Ein graphentheoretischer Graph $G$ besteht aus einer Menge von Knoten (engl. vertices), die durch Kanten (engl. edges) miteinander verbunden sein können. 
+Ein Graph aus der Graphentheorie unterscheidet sich signifikant von einem \glqq typischen\grqq \; Graphen, wie man aus der Schulmathematik und aus der Analysis kennt.\\\\
+Ein graphentheoretischer Graph $G$ besteht aus einer Menge von Knoten (\acrshort{eng.} vertices), die durch Kanten (\acrshort{eng.} edges) miteinander verbunden sein können. 
 Diese Knoten können gar nicht oder mehrfach mit anderen Knoten verbunden sein. 
 Wenn ein Knoten mit sich selbst verbunden ist, spricht man von einer Schleife. \\\\
-Ein Graph $G$ wird formal als ein Paar $G = (V(G), E(G))$ definiert, wobei \(V(G)\) die Menge der Knoten darstellt, beispielsweise \(\{1, 8, 7\}\) oder \(\{A, B, C\}\), und \(E_G\) die Menge der Kanten ist, also Verbindungen zwischen jeweils zwei Knoten.
+Ein Graph $G$ wird formal als ein Paar $G = (V(G), E(G))$ definiert, wobei \(V(G)\) die Menge der Knoten darstellt, beispielsweise \(\{1, 8, 7\}\) oder \(\{A, B, C\}\), und \(E_G(G)\) die Menge der Kanten ist, also Verbindungen zwischen jeweils zwei Knoten.
 Für die Kantenmenge \(E(G)\) gilt: 
 \begin{equation*}
     E(G) = \{\{v_x, v_y\} \colon \; v_x, v_y \in V(G) \wedge v_x \neq v_y\}
 \end{equation*}
 Die Einschränkung $v_x\neq v_y$ ist optional.
 Sie gibt an, dass es keine Schleifen im Graphen geben darf. \parencite[2]{Diestel2017-bj}.
-In dieser Arbeit werden Schleifen nicht genutzt. Zwei Knoten $a$ und $b$ nennt man benachbart bzw. adjazent (engl. adjacent) wenn $\{a,b\} \in E(G)$ gilt. 
+In dieser Arbeit werden Schleifen nicht genutzt. Zwei Knoten $a$ und $b$ nennt man benachbart \acrshort{bzw.} adjazent (\acrshort{eng.} adjacent) wenn $\{a,b\} \in E(G)$ gilt. 
 Um die Darstellung zu vereinfachen, definieren wir $E(G) = \{\{A,B\},\{A,C\}\}$ als $E_G = \{AB, AC\}$ \parencite[3]{Diestel2017-bj}.
 \begin{figure}[H]
     \centering
     \input{docs/graphics/g1}
-    \caption[caption]{Ein einfacher ungerichteter Graph $G$ \\ mit $V(G)=\{A,B,C,D\}$ und $E(G)=\{{AB, AC}\}$ }
+    \caption[Einfacher ungerichteter Graph]{Ein einfacher ungerichteter Graph $G$ \\ mit $V(G)=\{A,B,C,D\}$ und $E(G)=\{{AB, AC}\}$ }
     \label{g1}
 \end{figure}
-\noindent Die Anzahl der Kanten an einem Knoten $v$ wird durch den Grad (eng. degree) des Knotens beschrieben. 
+\noindent Die Anzahl der Kanten an einem Knoten $v$ wird durch den Grad (\acrshort{eng.} degree) des Knotens beschrieben. 
 Ein Knoten, der mit $n$-vielen Knoten verbunden ist, hat den Grad $n$. Es gilt
 $$\deg_G(v) = |E(v)|$$
 Die Knoten werden in schwach verzweigte und stark verzweigte Knoten unterteilt. 
 Ein Knoten mit z.B. acht verbundenen Knoten ist stärker verzweigt als ein Knoten mit zwei verbundenen Knoten \parencite[5]{Diestel2017-bj}.\\\\
-Graphen lassen sich in zwei Arten unterscheiden: gerichtete Graphen und ungerichtete Graphen. Ein ungerichteter Graph zeichnet sich dadurch aus, dass die Kanten zwischen den Knoten keine Richtung aufweisen (vgl. Abb. 1). Im Unterschied dazu besteht die Kantemenge $E(G)$ eines gerichteten Graphen aus einer Menge von geordneten Paaren anstelle einer Menge von Mengen mit Knoten. Sie wird mit
+Graphen lassen sich in zwei Arten unterscheiden: gerichtete Graphen und ungerichtete Graphen. Ein ungerichteter Graph zeichnet sich dadurch aus, dass die Kanten zwischen den Knoten keine Richtung aufweisen (\acrshort{vgl.} Abb. 1). Im Unterschied dazu besteht die Kantemenge $E(G)$ eines gerichteten Graphen aus einer Menge von geordneten Paaren anstelle einer Menge von Mengen mit Knoten. Sie wird mit
 \begin{equation*}
     E(G) = \{(v_x, v_y) \colon v_x,v_y \in V(G) \wedge v_x \neq v_y\}
 \end{equation*}
-definiert. Die Kanten eines gerichteten Graphen werden i. d. R. mit einem Pfeil dargestellt \parencite[30]{Diestel2017-bj}.
+definiert. Die Kanten eines gerichteten Graphen werden \acrshort{i. d. R.} mit einem Pfeil dargestellt \parencite[30]{Diestel2017-bj}.
 \begin{figure}[H]
     \centering
     \input{docs/graphics/g2}
-    \caption[caption]{Ein einfacher gerichteter Graph\\ mit $V(G)=\{A,B,C,D\}$ und $E(G)=\{CA,CB,CD,DB\}$}
+    \caption[Gerichteter Graph]{Ein einfacher gerichteter Graph\\ mit $V(G)=\{A,B,C,D\}$ und $E(G)=\{CA,CB,CD,DB\}$}
+    \label{g2}
 \end{figure}
-\noindent Sei $N_G(v)$ die Menge aller adjazenten Knoten eines Knoten $v$ in einem Graphen $G$, auch Nachbarn (eng. neighbours) von $v$ genannt. \parencite[5]{Diestel2017-bj}
+\noindent Sei $N_G(v)$ die Menge aller adjazenten Knoten eines Knoten $v$ in einem Graphen $G$, auch Nachbarn (\acrshort{eng.} neighbours) von $v$ genannt. \parencite[5]{Diestel2017-bj}
 \begin{equation*}
     N_G(v) \subseteq V(G)
 \end{equation*}
@@ -48,12 +49,11 @@ definiert. Die Kanten eines gerichteten Graphen werden i. d. R. mit einem Pfeil 
 \end{equation*}
 
 \subsection{Graphenfärbung}
-Die Knotenfärbung (eng. Graph Coloring) stellt eine Methode zur Färbung von Knoten in einem Graphen $G$ dar. 
+Die Knotenfärbung (\acrshort{eng.} Graph Coloring) stellt eine Methode zur Färbung von Knoten in einem Graphen $G$ dar. 
 Es wird demnach gefordert, dass keine zwei adjazenten Knoten die gleiche Farbe aufweisen.
-Die Farben werden i. d. R. als Buchstaben oder Zahlen dargestellt, wobei sie Gruppen oder Zuständen zugeordnet werden.
-Ziel der Färbung ist es, die kleinstmögliche Anzahl von Farben zu bestimmen.
-Diese Anzahl wird als chromatische Zahl des Graphen bezeichnet.\\\\
-Des Weiteren findet die Färbung Anwendung in der Stundenplanerstellung sowie der Färbung von Karten, beispielsweise dem sogenannten Vier-Farben-Satz \parencite{LdM_2017_VFS}.
+Die Farben werden \acrshort{i. d. R.} als Buchstaben oder Zahlen dargestellt, wobei sie Gruppen oder Zuständen zugeordnet werden.
+Ziel der Färbung ist es, die kleinstmögliche Anzahl von Farben zu bestimmen, welche als chromatische Zahl des Graphen bezeichnet wird.\\\\
+Des Weiteren findet die Färbung Anwendung in der Stundenplanerstellung \parencite[1]{lewis2021guide} sowie der Färbung von Karten, beispielsweise dem sogenannten Vier-Farben-Satz \parencite[7-9]{lewis2021guide}.
 Ein weiteres Anwendungsgebiet stellt die Klausurenplanerstellung dar, wie sie auch in dieser Arbeit erfolgt.\\\\
 \newpage
 \noindent Mathematisch wird das Graph Coloring als Abbildung $c$ von der Menge $V(G)$ als Knoten auf eine Menge $C(G)$ als Farben für einen Graphen $G$ definiert \parencite[121]{Diestel2017-bj}.
@@ -71,8 +71,8 @@ Mit (1) wird gewährleistet, das zwei adjazente Knoten nicht mit derselben Farbe
     \vspace{-2cm}
     \caption{Gefärbter Graph $G$}
 \end{figure}
-\noindent Ein wichtiges Konzept in der Graphenfärbung ist der \textbf{Sättigungsgrad} (eng. degree of saturation). 
-Für einen gegebenen Knoten $v$ beschreibt der Sättigungsgrad $\text{sat}_G(v)$ die Anzahl der verschiedenen Farben, die in der Menge der Nachbarn vorkommen\parencite[39]{lewis2021guide}. Formal gilt: 
+\noindent Ein wichtiges Konzept in der Graphenfärbung ist der \textbf{Sättigungsgrad} (\acrshort{eng.} degree of saturation). 
+Für einen gegebenen Knoten $v$ beschreibt der Sättigungsgrad $\text{sat}_G(v)$ die Anzahl der verschiedenen Farben, die in der Menge der Nachbarn vorkommen \parencite[39]{lewis2021guide}. Formal gilt: 
 \begin{equation*}
     \text{sat}_G(v)=|\{C_G(w)\colon w \in N_G(v) \; \wedge \; w \notin U(G)\}|
 \end{equation*}

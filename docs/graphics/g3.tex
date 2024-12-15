@@ -5,21 +5,19 @@
 
 \begin{document}
 
-\usetikzlibrary {graphs}
+\usetikzlibrary{graphs}
 \tikz [nodes={draw, circle}]{
-  \node (x_1) at (0,0) {$x_1$};
-  \node (x_2) at (0,-1) {$x_2$};
-  \node (x_3) at (0,-2) {$x_3$};
-  \node (y_1) at (2,0) {$y_1$};
-  \node (y_2) at (2,-1) {$y_2$};
-  \node (y_3) at (2,-2) {$y_3$};
+  \node[fill=red!30] (x_1) at (0,0) {MAT};
+  \node[fill=blue!30] (x_2) at (1.5,-2) {INF};
+  \node[fill=green!30] (x_3) at (1.25,1.5) {GES};
+  \node[fill=yellow!30] (x_4) at (-2.5,-1.5) {PHY};
+  \node[fill=purple!30] (x_5) at (-2,1.5) {ENG};
 
-\filldraw[nearly transparent, red] (0,-1) ellipse (1.25cm and 2.5cm);
-
-\filldraw[nearly transparent, blue] (2,-1) ellipse (1.25cm and 2.5cm);
-
-  \graph { (x_1) -> {(y_1), (y_2), (y_3)}, (x_2) -> {(y_1), (y_2), (y_3)}, (x_3) -> {(y_1), (y_2), (y_3)}  };
-
+  \graph {
+    (x_1) -- {(x_3), (x_4), (x_5)},
+    (x_2) -- {(x_3), (x_4)},
+    (x_4) -- (x_5)
+  };
 }
 
 \end{document}
