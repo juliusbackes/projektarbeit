@@ -23,10 +23,10 @@
 						{...props}
 					>
 						<Avatar.Root class="h-8 w-8 rounded-lg">
-							<Avatar.Fallback class="rounded-lg">{user.user_metadata.full_name ? user.user_metadata.full_name.split(" ").map((name: string) => name[0]).join("") : user.email.split(".")[0]}</Avatar.Fallback>
+							<Avatar.Fallback class="rounded-lg">{user.user_metadata.display_name ? user.user_metadata.display_name.split(" ").map((name: string) => name[0]).join("") : user.email.split(".")[0]}</Avatar.Fallback>
 						</Avatar.Root>
 						<div class="grid flex-1 text-left text-sm leading-tight">
-							<span class="truncate font-semibold">{user.user_metadata.name ?? user.email}</span>
+							<span class="truncate font-semibold">{user.user_metadata.display_name ?? user.email}</span>
 							<span class="truncate text-xs">{user.email}</span>
 						</div>
 						<ChevronsUpDown class="ml-auto size-4" />
@@ -42,10 +42,10 @@
 				<DropdownMenu.Label class="p-0 font-normal">
 					<div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 						<Avatar.Root class="h-8 w-8 rounded-lg">
-                            <Avatar.Fallback class="rounded-lg">{user.user_metadata.full_name.split(" ").map((name: string) => name[0]).join("")}</Avatar.Fallback>
+                            <Avatar.Fallback class="rounded-lg">{user.user_metadata.display_name.split(" ").map((name: string) => name[0]).join("")}</Avatar.Fallback>
 						</Avatar.Root>
 						<div class="grid flex-1 text-left text-sm leading-tight">
-							<span class="truncate font-semibold">{user.user_metadata.name ?? user.email}</span>
+							<span class="truncate font-semibold">{user.user_metadata.display_name ?? user.email}</span>
 							<span class="truncate text-xs">{user.email}</span>
 						</div>
 					</div>
