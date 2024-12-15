@@ -1,4 +1,4 @@
-import { convertDayIndex, createColorToWeek, createWeekLoad, getCourseType } from "$lib/utils";
+import { convertDayIndex, createColorToWeek, createWeekLoad, getCourseType } from '$lib/utils';
 
 /**
  * @class Graph class
@@ -166,6 +166,7 @@ export class Graph {
 		let bestColor = validColors[0];
 		let bestScore = Infinity;
 
+		const is2xHJFirst = vertex.endsWith('$$1');
 		const is2xHJSecond = vertex.endsWith('$$2');
 
 		for (const color of validColors) {
@@ -176,11 +177,14 @@ export class Graph {
 			const conflicts = this.countAdjacentConflictsInWeek(vertex, week);
 
 			let score: number;
-			if (is2xHJSecond) {
+			if (is2xHJFirst) {
 				const WEEK_WEIGHT = 1000;
-				score = (weekLoad * 10) + conflicts - (week * WEEK_WEIGHT);
+				score = weekLoad * 10 + conflicts * 100 + week * WEEK_WEIGHT;
+			} else if (is2xHJSecond) {
+				const WEEK_WEIGHT = 1000;
+				score = weekLoad * 10 + conflicts * 100 - week * WEEK_WEIGHT;
 			} else {
-				score = (weekLoad * 10) + conflicts;
+				score = weekLoad * 10 + conflicts * 100;
 			}
 
 			if (score < bestScore) {
@@ -220,14 +224,14 @@ export class Graph {
 		this.weekLoad = createWeekLoad(this.colorToWeek);
 
 		const phases = [
-			() => this.getUncoloredVertices().filter(v => getCourseType(v) === 1),
-			() => this.getUncoloredVertices().filter(v => getCourseType(v) === 0),
-			() => this.getUncoloredVertices().filter(v => getCourseType(v) === 2)
+			() => this.getUncoloredVertices().filter((v) => getCourseType(v) === 1),
+			() => this.getUncoloredVertices().filter((v) => getCourseType(v) === 2),
+			() => this.getUncoloredVertices().filter((v) => getCourseType(v) === 0)
 		];
 
 		for (const getPhaseVertices of phases) {
 			let vertices = getPhaseVertices();
-			
+
 			while (vertices.length > 0) {
 				let chosenVertex: string | string[] = this.getMaxSaturationVertex(vertices);
 
