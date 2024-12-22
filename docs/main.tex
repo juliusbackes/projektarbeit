@@ -10,19 +10,63 @@
 \usepackage{hyphenat}
 \usepackage{pgfplots}
 \usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{booktabs}
 \usepackage{amssymb}
 \usepackage{mathtools}
+\usepackage{lmodern}
+\usepackage{acronym}
 \usepackage{titlesec}
+\usepackage{chngcntr}
 \usepackage{standalone}
-\usepackage{url}
+\usepackage[nottoc]{tocbibind}
 \usepackage{amsthm}
 \usepackage{csquotes}
 \usepackage{float}
 \usepackage{caption}
 \usepackage{etoolbox}
+\usepackage{longtable}
+\usepackage{xpatch,letltxmacro}
+\LetLtxMacro{\cminted}{\minted}
+\let\endcminted\endminted
+\xpretocmd{\cminted}{\RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}}{}{}
+\usepackage{url}
+\usepackage[hidelinks, colorlinks=true, urlcolor=blue, citecolor=black, linkcolor=black]{hyperref} 
+\usepackage{algorithm}
+\usepackage[acronym, nopostdot,nonumberlist,numberedsection]{glossaries}
+\usepackage{algpseudocode}
+\usepackage[outputdir=../]{minted}
 \captionsetup{singlelinecheck=false, justification=centering, font=small}
-\usepackage[backend=biber, style=apa]{biblatex}
+\usepackage[backend=biber, style=apa, sorting=nty]{biblatex}
+\setlength{\bibitemsep}{1em}
 \addbibresource{docs/sources.bib}
+
+\renewcommand{\glossarysection}[2][]{}
+
+\counterwithin{figure}{section}
+
+\DeclareLabeldate{
+  \field{date}
+  \field{year}
+  \field{eventdate}
+  \field{origdate}
+  \literal{o. D.}
+}
+
+\def\UrlFont{\ttfamily\color{blue}}
+\DeclareFieldFormat{url}{
+  -- URL \url{#1}}
+
+\makenoidxglossaries
+
+\newacronym{o. g.}{o. g.}{oben genannt(en)}
+\newacronym{bzw.}{bzw.}{beziehungsweise}
+\newacronym{eng.}{eng.}{englisch}
+\newacronym{S.}{S.}{Seite}
+\newacronym{vgl.}{vgl.}{vergleiche}
+\newacronym{o. D.}{o. D.}{ohne Datum}
+\newacronym{d. h.}{d. h.}{das heißt}
+\newacronym{i. d. R.}{i. d. R.}{in der Regel}
 
 \pgfplotsset{compat=1.18}
 
@@ -52,24 +96,61 @@
 \fancyhf{}
 \fancyhead[RO]{\nouppercase{\leftmark\hfill}}
 \fancyfoot[R]{\thepage}
+\setlength{\headheight}{14.49998pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \fancyfoot[R]{\thepage}
+}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries} 
+  {\thesection} 
+  {1em} % Abstand
+  {\thispagestyle{plain}}
+
 
 \begin{document}
+
 \pagestyle{fancy}
-\usetikzlibrary {arrows.meta,graphs,graphdrawing} 
+\usetikzlibrary {
+    arrows.meta,
+    graphs,
+    graphdrawing,
+    matrix,
+    ext.node-families,
+    ext.positioning-plus,
+    ext.paths.ortho
+} 
 \usegdlibrary {layered}
 
 \input{docs/titlepage}
+
+\pagenumbering{roman}
+
+\input{docs/chapters/overview}
 
 \newpage
 
 \tableofcontents
 
+\newpage
+
+\listoffigures
+\vspace{1cm}
+\noindent \textit{Hinweis: Alle Abbildungen wurden eigenständig mit dem \LaTeX-Paket TikZ oder Excel erstellt. Eine Quellenangabe ist daher nicht erforderlich.}
+\input{docs/chapters/07_abkürzungen}
 \input{docs/chapters/01_intro}
+\pagenumbering{arabic}
 \input{docs/chapters/02_basics}
 \input{docs/chapters/03_problem}
 \input{docs/chapters/04_entwicklung}
-\input{docs/chapters/05_mathe_analyse}
-\input{docs/chapters/06_validierung}
-\input{docs/chapters/07_summary}
+\input{docs/chapters/05_analyse}
+\input{docs/chapters/06_summary}
 \input{docs/chapters/08_sources}
+\input{docs/chapters/05_2_anhang}
+\input{docs/chapters/09_anteile}
+\input{docs/chapters/10_erklärung}
+
 \end{document}

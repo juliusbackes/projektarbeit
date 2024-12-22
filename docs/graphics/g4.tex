@@ -1,0 +1,21 @@
+\documentclass{standalone}
+
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.8}
+
+\begin{document}
+
+\usetikzlibrary{graphs}
+\tikz [nodes={draw, circle}]{
+  \node (x_1) at (0,0) {MAT};
+  \node (x_2) at (1.5,-2) {DEU};
+  \node (x_3) at (1.25,1.5) {ENG};
+  \node (x_4) at (-2.5,-1.5) {INF};
+  \node (x_5) at (-2,1.5) {PHY};
+
+  \graph {
+    (x_1) -- {(x_2), (x_5)},
+  };
+}
+
+\end{document}

@@ -1,12 +1,135 @@
 \newpage
 \section{Entwicklung der Web-Applikation}
+Die Entwicklung der Webanwendung verfolgt das Ziel, einen effizienten und automatisierten Prozess für die Klausurenplanung in der Oberstufe zu schaffen. In diesem Kapitel werden die Anforderungen definiert und die technische Umsetzung beschrieben. Die Webanwendung ist auf \url{https://pa.juliusbackes.com} zu finden. Zu Testzwecken können die Zugangsdaten \texttt{projektarbeit@juliusbackes.com} und \texttt{Schedulo2024} verwendet werden. Es besteht außerdem die Möglichkeit, eigene Konten zu erstellen.
 \subsection{Anforderungen und Spezifikationen}
+Für eine strukturierte Umsetzung müssen die funktionalen und nicht-funktionalen Anforderungen an die Anwendung definiert werden. Schlussendlich soll im Rahmen der technischen Möglichkeiten eine übersichtliche und benutzerfreundliche Oberfläche geschaffen werden. Eine frühzeitige Differenzierung der Anforderungen erleichtert im allgemeinen die spätere Umsetzung und strukturierte Evaluation.
 \subsubsection{Funktionale Anforderungen}
+Funktionale Anforderungen definieren die konkreten Funktionen und Aufgaben, die eine Anwendung erfüllen soll. Sie beschreiben, welche Leistungen das System erbringen muss, um die gewünschten Ziele zu erreichen \parencite{anforderungen}. Im Folgenden werden die funktionalen Anforderungen in Kernfunktionen und Benutzerfunktionen unterteilt.\\\\
+\textbf{Kernfunktionen}
+\begin{itemize}
+    \item Die Web-Applikation soll automatisiert einen Klausurenplan im Excel-Format erstellen, basierend auf den vom Benutzer übermittelten Daten.
+
+    \item Der Klausurenplan sollte die Anzahl der verschiedenen Klausurtage minimieren und dabei die folgenden Regeln berücksichtigen:
+    \begin{itemize}
+        \item Maximal drei Klausuren pro Schüler pro Woche.
+        \item Maximal eine Klausur pro Schüler und Tag.
+        \item Keine Klausuren an Feiertagen oder während der Schulferien.
+    \end{itemize}
+
+    \item Die Web-Anwendung sollte den Klausurenplan und die dazugehörigen Graphen visualisieren können.
+\end{itemize}
+\textbf{Benutzerfunktionen}\\\\
+Nachfolgend als \glqq User\grqq{} bezeichnet, wird eine Lehrkraft einer Schule verstanden, die mithilfe der Webanwendung einen Klausurenplan für die gesamte Oberstufe erstellt. Die Oberstufe umfasst hierbei die E-, Q1- und Q2-Phase.
+\begin{itemize}
+    \item Dem User soll die Möglichkeit gegeben werden, folgende Daten hochzuladen und auszuwählen:
+    
+    \begin{itemize}
+        \item Der User soll eine Kursliste im Excel-Format hochladen können. Diese soll alle Kurse mit ihren Schüler enthalten. Daraus soll für jeden Kurs eine Liste erstellt werden, welche Kurse nicht gleichzeitig mit dem Kurs stattfinden können.
+        
+        \item Der User sollte Kurse auswählen können, die zweimal pro Halbjahr eine Klausur schreiben.
+        
+        \item Der User sollte jedem Kurs mindestens einen oder mehrere mögliche Prüfungstage (Wochentage) zuzuweisen können.
+        
+        \item Der User sollte einen Zeitraum festlegen können, in dem alle Klausuren stattfinden sollen. Diesen Zeitraum nennen wir Klausurenphase.
+    \end{itemize}
+    
+    \item Alle \acrshort{o. g.} Daten sollten von dem Benutzer geändert werden können. 
+    
+    \item Es sollte möglich sein, die vom Nutzer erstellten Klausurenpläne dauerhaft einsehbar und abrufbar bereitzustellen. Hierfür bietet sich eine Strukturierung in verschiedene Projekte an.
+    \item Die Projekte sollten nur für den Ersteller zugänglich sein.
+\end{itemize}
 \subsubsection{Nicht-funktionale Anforderungen}
+Nichtfunktionale Anforderungen umfassen alle Anforderungen, die nicht die Funktion, sondern die Qualität des Endprodukts bestimmen \parencite{anforderungen}.
+\begin{itemize}
+    \item Die Web-App soll performant sein und auch bei vielen Kursen und Schülern genügend schnell einen Klausurenplan erstellen.
+    \item Das Design der Webanwendung sollte modern, minimalistisch und konsistent sein.
+    \item Auf die Benutzerfreundlichkeit ist zu achten. Funktionen sollten nicht versteckt, sondern leicht verständlich und intuitiv  sein.
+    \item Der Quellcode der Webanwendung sollte sinnvoll strukturiert, fehlerfrei und wiederverwendbar sein.
+    \item Moderne Web-Technologien sollen eingesetzt werden, um eine robuste und zukunftssichere Entwicklung zu gewährleisten.
+\end{itemize}
+\newpage
 \subsection{Systemarchitektur}
+Die Systemarchitektur umfasst alle wichtigen Technologien und Werkzeuge, die zur Implementierung der Webanwendung verwendet werden. Sie beschreibt die grundlegende Struktur der Anwendung, einschließlich der Trennung zwischen Frontend und Backend und deren Interaktion. Das Frontend ist für die Benutzeroberfläche zuständig, während das Backend die Datenverarbeitung und Logik übernimmt \parencite{mccartney-2024}. Die Kommunikation zwischen beiden Bereichen erfolgt über standardisierte Schnittstellen, sogenannte Application Programming Interfaces (APIs) \parencite{gazarov-2019}. Ziel der Architektur ist es, eine skalierbare, wartbare und performante Anwendung zu schaffen, die effizient weiterentwickelt werden kann.
 \subsubsection{Frontend-Design}
+Das Frontend-Design befasst sich mit der Benutzeroberfläche. Welche Werkzeuge werden verwendet, um dem Benutzer welche Funktionen auf welche Weise anzuzeigen? \parencite{mccartney-2024}\\\\
+Das Grundgerüst einer Webseite wird mithilfe der Hypertext Markup Language (HTML) erstellt. Elemente können durch Cascading Style Sheets (CSS) mit Attributen wie Farbe, Textgröße und Ähnlichem versehen werden. Die Logik für Animationen sowie die Interaktion mit der Webseite wird über die Programmiersprache JavaScript (JS) gesteuert \parencite{mdn-getting-started-web}. Obwohl der Name es vermuten lassen könnte, besteht kein Zusammenhang zwischen JavaScript und der Programmiersprache Java \parencite{geeksforgeeks-2024}.\\\\
+JavaScript wird \acrshort{i. d. R.} direkt im Browser ausgeführt. Es handelt sich um eine dynamisch typisierte Sprache, \acrshort{d. h.} Variablen und Funktionen können ähnlich wie in Python ohne explizite Typenangaben definiert werden \parencite{mdn-javascript}. Dies kann allerdings zu einfachen Fehlern führen. Um dem entgegenzuwirken, wird in modernen Webanwendungen häufig TypeScript verwendet. TypeScript ist eine Erweiterung von JavaScript, bei der Typen explizit angegeben werden müssen. Nach der Entwicklung wird TypeScript in reguläres JavaScript kompiliert \parencite{typescript-tutorial-2024}.
+\begin{minted}{javascript}
+let x = 42;
+x = "Hello, World!";
+\end{minted}
+In JavaScript würde der obige Code keinen Fehler verursachen, da die Variable \texttt{x} keinen festen Typ hat. In TypeScript hingegen würde bereits während der Entwicklung ein Fehler angezeigt werden, da die Variable \texttt{x} ursprünglich als \texttt{number} (Java-Äquivalent: \texttt{int} – ganzzahlige Zahl) deklariert wurde und daher nicht mit einem \texttt{string} (Zeichenfolge) überschrieben werden darf \parencite{typescript-tutorial-2024}.\\\\
+In der modernen Webentwicklung nutzt man sogenannte Frameworks. Das sind Software-Bibliotheken, die Entwicklern Werkzeuge, Strukturen und vorgefertigte Funktionen bereitstellen, um die Entwicklung von dynamischen Webanwendungen effizienter und einfacher zu gestalten. Sie bieten eine standardisierte Basis für häufig benötigte Aufgaben wie Routing, die Bereitstellung von Webservern und die Nutzung von Reaktivität \parencite{mdn-intro-to-cs-frameworks}.\\\\
+Bekannte Beispiele für Web-Frameworks sind React, Django, Angular und Svelte \parencite{mdn-intro-to-cs-frameworks}. Für dieses Projekt wird das quelloffene-web-framework Svelte verwendet, da es als modernes und robustes Framework bekannt ist. Im Vergleich zu vielen anderen Frameworks, die mit der Zeit zunehmend komplexer wurden, bietet Svelte einen einfachen und direkten Ansatz. Diese Komplexität bei anderen Frameworks entsteht häufig dadurch, dass neue Probleme durch wachsende Anforderungen und zusätzliche Funktionen gelöst werden mussten \parencite{svelte-rethinking}.\\\\
+Svelte verfolgt jedoch einen anderen Ansatz, indem es die meisten Aufgaben bereits während der Kompilierung löst. Dadurch wird weniger JavaScript im Browser ausgeführt, was die Performance verbessert und die Entwicklungsarbeit erleichtert. Die einfache Syntax und die starke Fokussierung auf Benutzerfreundlichkeit machen Svelte besonders attraktiv für moderne Webprojekte \parencite{svelte-rethinking}.
 \subsubsection{Backend-Design}
-\subsubsection{Technologie-Stack}
+Das Backend umfasst alle Prozesse, die im Hintergrund der Anwendung ablaufen. Es steuert die Logik für Benutzerfunktionen, verarbeitet Datenbankabfragen, regelt die Kommunikation zwischen Diensten und sorgt dafür, dass Funktionen wie Benutzerauthentifizierung reibungslos funktionieren \parencite{nam-le-thanh-web-designer-2023}.\\\\
+Das Backend der hier entwickelten Webanwendung soll vor allem zwei Hauptaufgaben erfüllen. Erstens die Authentifizierung: Dazu gehören die Speicherung von Benutzerdaten, die Verschlüsselung von Passwörtern und die Speicherung von sogenannten Authentifizierungstokens, die für die Kommunikation mit dem Backend benötigt werden. Zweitens die Speicherung aller anderen Daten. Außerdem müssen alle Kurse, Graphen und alle damit verbundenen Daten gespeichert werden.\\\\
+Dazu benötigt man eine Datenbank. In diesem Projekt wird eine SQL-Datenbank (Structured Query Language) verwendet, da es durch die feste Datenstruktur und die einfache Verwaltung von Beziehungen ideale Voraussetzungen für die sichere und einheitliche Speicherung komplexer Daten wie Kurse und Graphen bietet \parencite{aws-sql}.\\\\
+Für die andere Hauptaufgabe, die Authentifizierung, muss noch eine Lösung gefunden werden. Die Antwort heißt Firebase \acrshort{bzw.} Supabase. Firebase ist ein Backend-as-a-Service (Baas), das von Google entwickelt wurde. Es ist Cloud-basiert und hat viele wichtige Funktionen wie Datenbank, Authentifizierung und vieles mehr bereits integriert. Supabase ist eine quelloffene Kopie von Firebase \parencite{wilson-2022}. Unternehmen wie Mozilla, PwC, Johnson \& Johnson und 1Password verwenden Supabase \parencite{sb-companies}.
+\begin{figure}[H]
+    \centering
+    \scalebox{0.5}{\input{docs/graphics/tableDesign}}
+    \caption[Grober Tabellenaufbau in SQL]{Grober Tabellenaufbau der Datenbank in SQL}
+\end{figure}
+
+\noindent In dieser Arbeit wird eine Adjazenzliste verwendet, bei der jedem Knoten eine Liste aller adjazenten Knoten zugeordnet ist. Im Vergleich zur Adjazenzmatrix  ermöglicht sie schnellere Updates. Dies macht sie ideal für Graphen, wie sie in dieser Arbeit verwendet werden \parencite{geeksforgeeks-2021}.\\
+Damit sind alle technischen Vorraussetzungen geklärt. Die Benutzeroberfläche wird mit TypeScript und dem Framework Svelte entwickelt. Im Backend übernimmt Supabase sowohl die Datenbankverwaltung als auch die Benutzerauthentifizierung und bildet damit eine stabile und skalierbare Grundlage für die Anwendung.
+\newpage
 \subsection{Implementierung}
+In diesem Kapitel wird die praktische Umsetzung des Projektes beschrieben. Dabei wird zunächst auf die algorithmische Umsetzung eingegangen, die die Grundlage für die Funktionalität der Anwendung bildet. Anschließend wird auf das Design und die Funktionalität der Benutzeroberfläche eingegangen, um die Interaktion mit dem System zu veranschaulichen. 
+
 \subsubsection{Algorithmische Umsetzung}
+Der DSatur-Algorithmus (Degree of Saturation) wurde ausgewählt, da er einfach zu implementieren ist und eine ausreichende Leistung für reale Anwendungen wie die Klausurenplanung bietet. Durch die Priorisierung von Knoten mit den meisten unterschiedlich gefärbten Nachbarn minimiert er Konflikte effizient und ermöglicht eine gleichmäßige Verteilung, ohne die Komplexität unnötig zu erhöhen.
+\begin{algorithm}
+\caption{DSatur Algorithmus in Pseudocode}\label{alg:cap}
+\begin{algorithmic}
+\Require Graph $G = (V(G), E(G))$, Farben $C(G)$
+\State coloring $\gets$ $f: V(G) \rightarrow \varnothing$
+\While{$U(G)$ $\neq$ $\varnothing$}
+    \State chosenVertex $\gets$ $\arg \max \text{sat($U(G)$)}$
+    \If{(chosenVertex $=$ $\varnothing) \vee (\text{chosenVertex} \in \mathcal{P}(V(G))$}
+        \State chosenVertex $\gets$ $\arg \max \deg(U(G))$
+        
+        \If{chosenVertex = $\varnothing$}
+            \State chosenVertex $\gets$ getRandomVertex($U(G)$)
+        \EndIf
+    \EndIf
+    \State bestColor $\gets$ getBestAvailableColor(chosenVertex)
+    \State coloring.set(chosenVertex, bestColor)
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+Der DSatur-Algorithmus (Implementierung siehe Algorithm 1) arbeitet wie folgt: Gegeben sei ein Graph $G = (V(G), E(G))$ mit $C(G)$ als der Menge der verfügbaren Farben. Zunächst wählt der Algorithmus den ungefärbten Knoten mit dem höchsten Sättigungsgrad ($\arg \max \text{sat}(U(G)) $) aus. Falls mehrere Knoten denselben maximalen Sättigungsgrad besitzen, wird der Knoten mit dem höchsten Knotengrad ($\arg \max \deg(U(G))$) gewählt. Sollte es auch hier keinen eindeutig bestimmbaren Knoten geben, wird ein Knoten zufällig ausgewählt.\\\\
+Der ausgewählte Knoten wird mit der geeignetsten Farbe aus $C(G)$ eingefärbt, die noch nicht für seine Nachbarn verwendet wurde. Nach dem Einfärben aktualisiert der Algorithmus die Sättigungswerte aller Nachbarn des eingefärbten Knotens. Dieser Vorgang wird wiederholt, bis alle Knoten des Graphen eingefärbt sind.\\\\
+Anhand verschiedener Faktoren wird die am besten geeignete Farbe bzw. das am besten geeignete Datum ermittelt. Für jedes mögliche Datum wird ein Score berechnet. Dieser ergibt sich aus der Belegung der Woche, in die das Datum fällt und der Anzahl der adjazenten Knoten, die in der gleichen Woche liegen wie der einzufärbende Knoten. Der Score wird mit der folgenden Gewichtung berechnet: 
+\begin{center}
+\mintinline{javascript}{const score = weekLoad * 10 + conflicts * 100;}
+\footnote[1]{Da bei Kursen, die 2x pro Halbjahr Klausuren schreiben, eine zusätzliche Gewichtung verwendet wird, kann die Gleichung nicht zu \mintinline{javascript}{const score = weekLoad + conflicts * 10} vereinfacht werden.}
+\end{center}
+Je niedriger der Score, desto geeigneter ist das Datum. Für die Einfärbung wird die Farbe mit der niedrigsten Punktzahl gewählt. Die Belegung pro Woche zwischen benachbarten Knoten darf maximal 3 betragen, während die Gesamtbelegung höher sein darf. Das gewählte Vorgehen unterstützt die Regel von maximal 3 Klausuren pro Woche und Schüler, erlaubt aber in bestimmten Fällen mehr als 3 Klausuren pro Woche, wenn es nicht anders möglich ist.
 \subsubsection{Benutzeroberfläche}
+Die Benutzeroberfläche (UI) der Webanwendung spielt eine zentrale Rolle, um den Benutzern eine intuitive und angenehme Interaktion mit der Anwendung zu ermöglichen. Ziel ist es, eine klare, konsistente und benutzerfreundliche Oberfläche zu entwickeln, die sowohl funktional als auch ästhetisch ansprechend ist. Im Folgenden werden die wichtigsten Aspekte der Benutzeroberfläche beschrieben:\\\\
+Beim Design wurde besonderer Wert darauf gelegt, dass alle Funktionen intuitiv und ohne umfangreiche Einarbeitung genutzt werden können. Dabei wurde gezielt auf etablierte Design Patterns zurückgegriffen, um eine vertraute und leicht verständliche Bedienung zu gewährleisten. Wiederkehrende Elemente wie Buttons, Schriften und Farbschemata wurden konsequent und einheitlich gestaltet, um ein nahtloses und konsistentes Nutzererlebnis zu schaffen. Darüber hinaus ist das Design vollständig responsiv, so dass es sich automatisch und nahtlos an verschiedene Bildschirmgrößen und Geräte wie Smartphones, Tablets oder Desktop-Computer anpasst.\\\\
+Die Webanwendung ist unterteilt in sieben Hauptseiten. 
+\begin{enumerate}
+    \item Diese Seite zeigt alle Projekte an, die dem angemeldeten Benutzer zugeordnet sind.
+    \item Auf dieser Seite können Benutzer den Klausurenplan anzeigen und herunterladen.
+    \item Auf dieser Seite wird der Graph visualisiert, der die Konflikte der Klausuren darstellt.
+    \item Diese Seite ermöglicht es den Benutzern, allgemeine Einstellungen wie den Namen und die Beschreibung des Projekts anzupassen.
+    \item Auf dieser Seite können Benutzer die Kursliste (als Excel-Datei) hochladen, die für die Erstellung des Klausurenplans benötigt wird.
+    \item Diese Seite erlaubt die Bearbeitung der Kurs-Metadaten wie Jahrgang, 2x/Halbjahr-Einstellung und andere relevante Informationen.
+    \item Hier kann die Klausurenphase definiert werden, indem ein Zeitraum ausgewählt wird, in dem die Klausuren stattfinden sollen.
+\end{enumerate}
+Alle Seiten, außer \acrshort{S.} 1, sind visuell auf einer Ebene. Sie sind erreichbar über eine Seitenleiste. 
+
+\subsubsection{Corporate Design}
+Das Corporate Design verfolgt das Ziel, durch ein einheitliches Logo, eine charakteristische Produktfarbe und einen prägnanten Namen Einheitlichkeit, Wiedererkennung und Professionalität zu schaffen. Als Produktfarbe haben wir ein sattes Grün gewählt, das sich auf der gesamten Webanwendung wiederfindet.\\\\
+Bei der Gestaltung des Logos war es uns wichtig, einen Bezug zur Graphentheorie herzustellen und die gewählte Produktfarbe zu integrieren. Zudem sollte das Logo einen modernen und ansprechenden Stil haben.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\linewidth]{docs/graphics/favicon.png}
+    \caption{Web-App Logo}
+    \label{fig:logo}
+\end{figure}
+\noindent Der Name sollte jung und passend zum schulischen Kontext sein. Gleichzeitig war es uns wichtig, den Terminierungsprozess im Namen zu reflektieren. Daher haben wir das eng. Wort \textit{schedule} leicht abgewandelt und den Namen \glqq Schedulo\grqq{} gewählt.\\\\
