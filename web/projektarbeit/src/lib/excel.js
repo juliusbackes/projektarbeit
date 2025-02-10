@@ -1,6 +1,13 @@
 // @ts-nocheck
 import writeXlsxFile from 'write-excel-file';
-import { getWorkingDays, getCalendarWeek, getDatesBetween, fetchHolidays, getSchoolStartDate, getSchoolWeek } from './utils';
+import {
+	getWorkingDays,
+	getCalendarWeek,
+	getDatesBetween,
+	fetchHolidays,
+	getSchoolStartDate,
+	getSchoolWeek
+} from './utils';
 
 const HeaderRow = [
 	{
@@ -52,7 +59,7 @@ const HeaderRow = [
 const DATA_ROW_1 = [
 	{
 		type: String,
-        value: '15',
+		value: '15'
 	},
 	{
 		type: String,
@@ -72,7 +79,7 @@ const DATA_ROW_1 = [
 	},
 	{
 		type: String,
-		value: 'ZK',
+		value: 'ZK'
 	}
 ];
 
@@ -86,148 +93,156 @@ const columns = [
 		width: 10
 	},
 	{
-        width: 15,
-        wrap: true
+		width: 15,
+		wrap: true
 	},
 	{
 		width: 15,
-        wrap: true
+		wrap: true
 	},
 	{
 		width: 15,
-        wrap: true
+		wrap: true
 	},
 	{
 		width: 20,
-        wrap: true
+		wrap: true
 	}
 ];
 
 const createHolidayCell = (holidayName) => ({
-    type: String,
-    value: holidayName,
-    backgroundColor: '#feff66',
-    align: 'center',
-    span: 4,
-    borderColor: '#000000'
+	type: String,
+	value: holidayName,
+	backgroundColor: '#feff66',
+	align: 'center',
+	span: 4,
+	borderColor: '#000000'
 });
 
 const createEmptyCells = () => [
-    { type: String, value: '' },
-    { type: String, value: '' },
-    { type: String, value: '' },
-    { type: String, value: '' }
+	{ type: String, value: '' },
+	{ type: String, value: '' },
+	{ type: String, value: '' },
+	{ type: String, value: '' }
 ];
 
-const createWeekSummaryRow = (date, currentSchoolWeek) => ([
-    {
-        type: String,
-        value: (getCalendarWeek(date) + 1).toString(),
-        backgroundColor: '#53ffff',
-        color: '#000000',
-        borderColor: '#000000',
-        fontWeight: 'bold'
-    },
-    {
-        type: String,
-        value: currentSchoolWeek.toString(),
-        backgroundColor: '#53ffff',
-        color: '#000000',
-        borderColor: '#000000',
-        fontWeight: 'bold'
-    },
-    ...Array(4).fill({
-        type: String,
-        value: '',
-        backgroundColor: '#53ffff',
-        color: '#000000',
-        borderColor: '#000000'
-    })
-]);
+const createWeekSummaryRow = (date, currentSchoolWeek) => [
+	{
+		type: String,
+		value: (getCalendarWeek(date) + 1).toString(),
+		backgroundColor: '#53ffff',
+		color: '#000000',
+		borderColor: '#000000',
+		fontWeight: 'bold'
+	},
+	{
+		type: String,
+		value: currentSchoolWeek.toString(),
+		backgroundColor: '#53ffff',
+		color: '#000000',
+		borderColor: '#000000',
+		fontWeight: 'bold'
+	},
+	...Array(4).fill({
+		type: String,
+		value: '',
+		backgroundColor: '#53ffff',
+		color: '#000000',
+		borderColor: '#000000'
+	})
+];
 
 const isHolidayDate = (date, holiday) => {
-    const holidayStart = new Date(holiday.startDate);
-    const holidayEnd = new Date(holiday.endDate);
-    return date >= holidayStart && date <= holidayEnd;
+	const normalizeDate = (d) => {
+		const date = new Date(d);
+		return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+	};
+
+	const compareDate = normalizeDate(date);
+	const holidayStart = normalizeDate(holiday.startDate);
+	const holidayEnd = normalizeDate(holiday.endDate);
+
+	return compareDate >= holidayStart && compareDate <= holidayEnd;
 };
 
 const getHolidayName = (date, publicHolidays, schoolHolidays) => {
-    return publicHolidays.find(h => isHolidayDate(date, h))?.name?.[0]?.text || 
-           schoolHolidays.find(h => isHolidayDate(date, h))?.name?.[0]?.text || 
-           'Ferien';
+	return (
+		publicHolidays.find((h) => isHolidayDate(date, h))?.name?.[0]?.text ||
+		schoolHolidays.find((h) => isHolidayDate(date, h))?.name?.[0]?.text ||
+		'Ferien'
+	);
 };
 
 const createExamCells = (date, examSchedule, exams) => {
-    const cells = [
-        { type: String, value: undefined, backgroundColor: undefined },
-        { type: String, value: undefined, backgroundColor: undefined },
-        { type: String, value: undefined, backgroundColor: undefined },
-        { type: String, value: undefined, backgroundColor: undefined }
-    ];
+	const cells = [
+		{ type: String, value: undefined, backgroundColor: undefined },
+		{ type: String, value: undefined, backgroundColor: undefined },
+		{ type: String, value: undefined, backgroundColor: undefined },
+		{ type: String, value: undefined, backgroundColor: undefined }
+	];
 
-    for (const [examName, examDate] of examSchedule.entries()) {
-        if (examDate.toDateString() === date.toDateString()) {
+	for (const [examName, examDate] of examSchedule.entries()) {
+		if (examDate.toDateString() === date.toDateString()) {
+			const cleanedExamName = examName.replace(/\$\$(1|2)/g, '');
 
-            const cleanedExamName = examName.replace(/\$\$(1|2)/g, '');
+			const grade = exams.find((exam) => exam.name === cleanedExamName)?.grade;
 
-            const grade = exams.find(exam => exam.name === cleanedExamName)?.grade;
-            
-            const currentValue = cells[grade].value;
-            
-            cells[grade] = {
-                type: String,
-                value: currentValue ? currentValue + ', ' + cleanedExamName : cleanedExamName,
-                wrap: true
-            };
-        }
-    }
+			const currentValue = cells[grade].value;
 
-    return cells;
+			cells[grade] = {
+				type: String,
+				value: currentValue ? currentValue + ', ' + cleanedExamName : cleanedExamName,
+				wrap: true
+			};
+		}
+	}
+
+	return cells;
 };
 
 export const writeCalendarToFile = async (startDate, endDate, examSchedule, exams) => {
-    const dateRange = await getDatesBetween(startDate, endDate);
-    const workingDays = dateRange.filter(date => date.getDay() !== 0 && date.getDay() !== 6);
-    const { publicHolidays, schoolHolidays } = await fetchHolidays(startDate, endDate);
-    
-    const schoolStartDate = await getSchoolStartDate(startDate);
-    const schoolStartWeek = schoolStartDate ? getCalendarWeek(schoolStartDate) : 1;
-    
-    const data = [HeaderRow];
+	const dateRange = await getDatesBetween(startDate, endDate);
+	const workingDays = dateRange.filter((date) => date.getDay() !== 0 && date.getDay() !== 6);
+	const { publicHolidays, schoolHolidays } = await fetchHolidays(startDate, endDate);
 
-    for (const date of workingDays) {
-        const isPublicHoliday = publicHolidays.some(holiday => isHolidayDate(date, holiday));
-        const isSchoolHoliday = schoolHolidays.some(holiday => isHolidayDate(date, holiday));
-        
-        const row = [
-            {
-                type: String,
-                value: date.toLocaleString('de-DE', { weekday: 'short' }),
-            },
-            {
-                type: String,
-                value: date.toLocaleString('de-DE', { day: '2-digit', month: 'short' }),
-            }
-        ];
+	const schoolStartDate = await getSchoolStartDate(startDate);
+	const schoolStartWeek = schoolStartDate ? getCalendarWeek(schoolStartDate) : 1;
 
-        if (isPublicHoliday || isSchoolHoliday) {
-            const holidayName = getHolidayName(date, publicHolidays, schoolHolidays);
-            row.push(createHolidayCell(holidayName));
-        } else {
-            row.push(...createExamCells(date, examSchedule, exams));
-        }
+	const data = [HeaderRow];
 
-        data.push(row);
+	for (const date of workingDays) {
+		const isPublicHoliday = publicHolidays.some((holiday) => isHolidayDate(date, holiday));
+		const isSchoolHoliday = schoolHolidays.some((holiday) => isHolidayDate(date, holiday));
 
-        if (date.getDay() === 5) {
-            const currentWeek = getCalendarWeek(date);
-            const schoolWeek = getSchoolWeek(currentWeek, schoolStartWeek);
-            data.push(createWeekSummaryRow(date, schoolWeek));
-        }
-    }
-    
-    await writeXlsxFile(data, {
-        columns,
-        fileName: 'klausurenplan.xlsx'
-    });
+		const row = [
+			{
+				type: String,
+				value: date.toLocaleString('de-DE', { weekday: 'short' })
+			},
+			{
+				type: String,
+				value: date.toLocaleString('de-DE', { day: '2-digit', month: 'short' })
+			}
+		];
+
+		if (isPublicHoliday || isSchoolHoliday) {
+			const holidayName = getHolidayName(date, publicHolidays, schoolHolidays);
+			row.push(createHolidayCell(holidayName));
+		} else {
+			row.push(...createExamCells(date, examSchedule, exams));
+		}
+
+		data.push(row);
+
+		if (date.getDay() === 5) {
+			const currentWeek = getCalendarWeek(date);
+			const schoolWeek = getSchoolWeek(currentWeek, schoolStartWeek);
+			data.push(createWeekSummaryRow(date, schoolWeek));
+		}
+	}
+
+	await writeXlsxFile(data, {
+		columns,
+		fileName: 'klausurenplan.xlsx'
+	});
 };
